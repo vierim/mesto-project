@@ -1,0 +1,10 @@
+.page__section_size_l {
+  padding: 0;
+}
+
+@media screen and (min-width: 1280px) {
+  .page__section_size_l {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}

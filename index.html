@@ -6,11 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="./pages/index.css">
-  <link rel="stylesheet" href="./style.css">
 </head>
 <body class="page">
 
-  <header class="header page__section">
+  <header class="header page__section page__section_size_l">
     <img class="header__logo" src="./images/logo.svg" alt="">
     <div class="header__separator"></div>
   </header>
@@ -20,55 +19,55 @@
       <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="">
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
-        <div class="profile__edit-icon"></div>
+        <button class="profile__edit-button"></button>
         <p class="profile__subtitle">Исследователь океана</p>
       </div>
-      <form>
-        <input class="profile__add-button" type="button">
-      </form>
+      <button class="profile__add-button"></button>
     </section>
 
-    <section class="places page__section">
-      <ul class="cards">
+    <section class="cards page__section">
+      <ul class="cards__list">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-karachaevsk.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Карачаевск</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
-      </ul>
-      <ul class="cards">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-elbrus1.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Гора Эльбрус</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
-      </ul>
-      <ul class="cards">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-dombay1.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Домбай</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
-      </ul>
-      <ul class="cards">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-elbrus2.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Гора Эльбрус</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
-      </ul>
-      <ul class="cards">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-dombay2.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Домбай</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
-      </ul>
-      <ul class="cards">
         <li class="cards__item">
           <img class="cards__image" src="./images/places-karachaevsk.jpg" alt="">
-          <a class="cards__link" href=""></a>
-          <div class="cards__status"></div>
+          <div class="cards__desc">
+            <p class="cards__name">Карачаево-Черкессия</p>
+            <div class="cards__status"></div>
+          </div>
         </li>
       </ul>
     </section>

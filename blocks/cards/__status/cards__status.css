@@ -1,0 +1,15 @@
+.cards__status {
+  width: 22px;
+  height: 19px;
+  background-image: url(../../../images/disable-icon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: opacity 0.2s ease-in-out;
+  /* flex-basis: 40px; */
+  flex-shrink: 0;
+}
+
+.cards__status:hover {
+  opacity: .5;
+  cursor: pointer;
+}
