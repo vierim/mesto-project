@@ -2,6 +2,15 @@
   margin-top: 28px;
 }
 
+.header:after {
+  content: '';
+  width: 100%;
+  border-bottom: 1px solid #545454;
+  opacity: .7;
+  margin-top: 32px;
+  display: block;
+}
+
 @media screen and (min-width: 1280px) {
   .header {
     margin-top: 45px;
