@@ -21,7 +21,7 @@
   outline:none;
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 619px) {
   .popup__input-item {
     width: 358px;
   }

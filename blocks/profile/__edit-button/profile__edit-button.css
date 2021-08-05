@@ -17,13 +17,13 @@
   cursor: pointer;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 619px) {
   .profile__edit-button {
     margin-left: 18px;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 918px) {
   .profile__edit-button {
     width: 24px;
     height: 24px;

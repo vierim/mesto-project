@@ -18,15 +18,17 @@
   cursor: pointer;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 619px) {
   .profile__add-button {
-    width: 150px;
+    width: 120px;
     margin-left: auto;
+    background-size: 16px;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 918px) {
   .profile__add-button {
+    width: 150px;
     background-size: 22px;
   }
 }

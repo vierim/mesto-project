@@ -1,14 +1,19 @@
 .page__section {
-  max-width: 1280px;
+  max-width: 320px;
   padding: 0 19px;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 619px) {
   .page__section {
-    padding-left: 200px;
-    padding-right: 200px;
+    max-width: 619px;
+  }
+}
+
+@media screen and (min-width: 918px) {
+  .page__section {
+    max-width: 918px;
   }
 }

@@ -7,13 +7,13 @@
   font-weight: 500;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 619px) {
   .profile__title {
     text-align: left;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 918px) {
   .profile__title {
     font-size: 42px;
     line-height: 48px;

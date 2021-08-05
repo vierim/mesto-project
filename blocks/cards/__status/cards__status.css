@@ -5,7 +5,6 @@
   background-repeat: no-repeat;
   background-position: center;
   transition: opacity 0.2s ease-in-out;
-  /* flex-basis: 40px; */
   flex-shrink: 0;
 }
 

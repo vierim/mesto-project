@@ -7,7 +7,7 @@
   border-radius: 10px;
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 619px) {
   .popup__container {
     top: calc((100vh/2) - 165px);
     left: calc((100vw/2) - 215px);

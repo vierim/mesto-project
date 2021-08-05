@@ -2,7 +2,7 @@
   margin-top: 48px;
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 918px) {
   .footer__copyright {
     margin-top: 67px;
   }

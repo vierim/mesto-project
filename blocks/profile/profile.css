@@ -5,15 +5,10 @@
   align-items: center;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 619px) {
   .profile {
     flex-direction: row;
     justify-content: flex-start;
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  .profile {
     margin-top: 36px;
   }
 }
