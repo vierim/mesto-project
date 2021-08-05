@@ -1,0 +1,16 @@
+.popup__container {
+  position: absolute;
+  top: calc((100vh/2) - 161px);
+  left: calc((100vw/2) - 141px);
+  width: 282px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+@media screen and (min-width: 1280px) {
+  .popup__container {
+    top: calc((100vh/2) - 165px);
+    left: calc((100vw/2) - 215px);
+    width: 430px;
+  }
+}
