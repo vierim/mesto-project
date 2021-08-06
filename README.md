@@ -1,17 +1,27 @@
 # Проект: Место
 
+### Проект на Github Pages
+
+* [https://web77code.github.io/mesto-project](https://web77code.github.io/mesto-project/index.html)
+
 ### Обзор
 
-* Figma
-* Картинки
+* Описание работы
+* Применяемые технологии
+* Исходный макет в Figma
 
-**Figma**
+**Описание работы**
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+* Интерактивная страница, куда можно будет добавлять фотографии, удалять их и ставить лайки.
 
-**Картинки**
+**Применяемые технологии**
 
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
+* HTML5 & CSS3
+* Flexbox верстка
+* Grid layout
+* Media запросы
+* БЭМ nested
 
-Удачи!
+**Исходный макет в Figma**
+
+* [Ссылка на макет](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)

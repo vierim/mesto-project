@@ -6,66 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="./pages/index.css">
-  <link rel="stylesheet" href="./style.css">
 </head>
 <body class="page">
 
   <header class="header page__section page__section_size_l">
-    <img class="header__logo" src="./images/logo.svg" alt="Логотип Mesto">
+    <img class="header__logo" src="./images/logo.svg" alt="Логотип Mesto Russian">
   </header>
 
   <main>
+
     <section class="profile page__section">
-      <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="">
-      <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив Кусто</h1>
-        <button class="profile__edit-button"></button>
-        <p class="profile__subtitle">Исследователь океана</p>
-      </div>
+      <button class="profile__edit-button"></button>
+      <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Аватар пользователя - Жак-Ив Кусто">
+      <h1 class="profile__title">Жак-Ив Кусто</h1>
+      <p class="profile__subtitle">Исследователь океана</p>
       <button class="profile__add-button"></button>
     </section>
 
     <section class="cards page__section">
       <ul class="cards__list">
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-karachaevsk.jpg" alt="">
+          <img class="cards__image" src="./images/cards-moscow.jpg" alt="Фотография города Москва">
           <div class="cards__desc">
-            <p class="cards__name">Карачаевск</p>
+            <p class="cards__name">Москва</p>
             <div class="cards__status"></div>
           </div>
         </li>
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-elbrus1.jpg" alt="">
+          <img class="cards__image" src="./images/cards-zhukovsky.jpg" alt="Фотография города Жуковский">
           <div class="cards__desc">
-            <p class="cards__name">Гора Эльбрус</p>
+            <p class="cards__name">Жуковский</p>
             <div class="cards__status"></div>
           </div>
         </li>
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-dombay1.jpg" alt="">
+          <img class="cards__image" src="./images/cards-kolomna.jpg" alt="Фотография города Коломна">
           <div class="cards__desc">
-            <p class="cards__name">Домбай</p>
+            <p class="cards__name">Коломна</p>
             <div class="cards__status"></div>
           </div>
         </li>
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-elbrus2.jpg" alt="">
+          <img class="cards__image" src="./images/cards-konstantinovo.jpg" alt="Фотография села Константиново">
           <div class="cards__desc">
-            <p class="cards__name">Гора Эльбрус</p>
+            <p class="cards__name">Село Константиново</p>
             <div class="cards__status"></div>
           </div>
         </li>
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-dombay2.jpg" alt="">
+          <img class="cards__image" src="./images/cards-yaroslavl.jpg" alt="Фотография города Ярославль">
           <div class="cards__desc">
-            <p class="cards__name">Домбай</p>
+            <p class="cards__name">Ярославль</p>
             <div class="cards__status"></div>
           </div>
         </li>
         <li class="cards__item">
-          <img class="cards__image" src="./images/places-karachaevsk.jpg" alt="">
+          <img class="cards__image" src="./images/cards-ulyanovsk.jpg" alt="Фотография города Ульяновск">
           <div class="cards__desc">
-            <p class="cards__name">Карачаево-Черкессия</p>
+            <p class="cards__name">Ульяновск</p>
             <div class="cards__status"></div>
           </div>
         </li>
@@ -77,13 +75,13 @@
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
 
-  <section class="popup popup_opened">
+  <section class="popup">
     <div class="popup__container">
-      <img class="popup__close-icon" src="./images/close-icon.png" alt="Закрыть">
+      <img class="popup__close-icon" src="./images/close-icon.svg" alt="Закрыть">
       <h2 class="popup__header">Редактировать профиль</h2>
       <form class="popup__form">
-        <input type="text" class="popup__input-item" id="heading" name="heading" value="Жак-Ив Кусто" required>
-        <input type="text" class="popup__input-item" id="heading" name="heading" value="Исследователь океана" required>
+        <input type="text" class="popup__input-item" id="name" name="name" value="Жак-Ив Кусто" required>
+        <input type="text" class="popup__input-item" id="profession" name="profession" value="Исследователь океана" required>
         <button class="popup__button">Сохранить</button>
       </form>
     </div>

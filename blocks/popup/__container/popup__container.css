@@ -1,16 +1,15 @@
 .popup__container {
-  position: absolute;
-  top: calc((100vh/2) - 161px);
-  left: calc((100vw/2) - 141px);
+  position: relative;
   width: 282px;
   background-color: #ffffff;
   border-radius: 10px;
+  box-sizing: border-box;
+  padding: 25px 22px;
 }
 
 @media screen and (min-width: 619px) {
   .popup__container {
-    top: calc((100vh/2) - 165px);
-    left: calc((100vw/2) - 215px);
     width: 430px;
+    padding: 34px 36px 37px;
   }
 }

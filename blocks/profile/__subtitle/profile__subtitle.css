@@ -1,19 +1,23 @@
 .profile__subtitle {
-  margin: 14px 0 0;
-  text-align: center;
+  margin: 12px 0 0;
   font-size: 14px;
   line-height: 17px;
   font-weight: 400;
+  grid-area: subtitle;
 }
 
 @media screen and (min-width: 619px) {
   .profile__subtitle {
-    text-align: left;
+    margin-top: 8px;
+    margin-left: 20px;
+    justify-self: start;
+    align-self: start;
   }
 }
 
 @media screen and (min-width: 918px) {
   .profile__subtitle {
+    margin-left: 30px;
     font-size: 18px;
     line-height: 22px;
   }

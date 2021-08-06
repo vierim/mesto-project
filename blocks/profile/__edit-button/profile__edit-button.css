@@ -1,5 +1,4 @@
 .profile__edit-button {
-  margin-left: 10px;
   width: 18px;
   height: 18px;
   background-image: url(../../../images/edit-icon.svg);
@@ -8,8 +7,12 @@
   background-color: #000000;
   border: 1px solid #ffffff;
   background-size: 8px;
-  display: inline-block;
   transition: opacity 0.2s ease-in-out;
+  grid-column: 4/5;
+  grid-row: 2/3;
+  align-self: end;
+  justify-self: end;
+  margin: 0 17px 8px 0;
 }
 
 .profile__edit-button:hover {
@@ -19,7 +22,12 @@
 
 @media screen and (min-width: 619px) {
   .profile__edit-button {
-    margin-left: 18px;
+    grid-column: none;
+    grid-row: none;
+    align-self: end;
+    justify-self: start;
+    margin: 0 20px 7px 19px;
+    grid-area: edit-button;
   }
 }
 
@@ -28,5 +36,6 @@
     width: 24px;
     height: 24px;
     background-size: 10px;
+    margin-right: 30px;
   }
 }

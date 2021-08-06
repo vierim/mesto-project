@@ -7,12 +7,16 @@
   width: 100%;
   border-bottom: 1px solid #545454;
   opacity: .7;
-  margin-top: 32px;
+  margin-top: 28px;
   display: block;
 }
 
 @media screen and (min-width: 918px) {
   .header {
     margin-top: 45px;
+  }
+
+  .header:after {
+    margin-top: 36px;
   }
 }
