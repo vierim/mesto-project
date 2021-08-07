@@ -1,6 +1,7 @@
 .page {
   background-color: #000000;
   color: #ffffff;
+  min-width: 320px;
   font-family: 'Inter', Arial, sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

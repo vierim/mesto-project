@@ -1,10 +1,9 @@
 .cards__desc {
-  height: 79px;
+  min-height: 79px;
   padding: 0 21px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  border-radius: 0 0 10px 10px;
 }

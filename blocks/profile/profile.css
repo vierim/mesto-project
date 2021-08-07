@@ -19,6 +19,5 @@
     grid-template-areas:
       "avatar title edit-button add"
       "avatar subtitle subtitle add";
-    justify-items: center;
   }
 }

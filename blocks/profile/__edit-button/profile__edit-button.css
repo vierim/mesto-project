@@ -24,7 +24,6 @@
   .profile__edit-button {
     grid-column: none;
     grid-row: none;
-    align-self: end;
     justify-self: start;
     margin: 0 20px 7px 19px;
     grid-area: edit-button;

@@ -4,8 +4,11 @@
   background-image: url(../../../images/disable-icon.svg);
   background-repeat: no-repeat;
   background-position: center;
+  background-color: #ffffff;
   transition: opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  border: 0;
+  padding: 0;
 }
 
 .cards__status:hover {
