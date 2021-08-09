@@ -1,11 +1,11 @@
 .popup__input-item {
   width: 100%;
   border: 0;
-  height: 24px;
+  height: 30px;
   box-sizing: border-box;
-  padding: 13px 0 13px;
+  padding: 15px 0 17px;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
-  margin-top: 30px;
+  margin-top: 24px;
   font-size: 14px;
   line-height: 17px;
   font-weight: 400;
@@ -13,7 +13,7 @@
 }
 
 .popup__input-item:first-of-type {
-  margin-top: 75px;
+  margin-top: 70px;
 }
 
 .popup__input-item:focus {
