@@ -25,7 +25,7 @@
 
     <section class="cards page__section">
       <ul class="cards__list">
-        <li class="cards__item">
+        <!-- <li class="cards__item">
           <img class="cards__image" src="./images/cards-moscow.jpg" alt="Фотография города Москва">
           <div class="cards__desc">
             <h2 class="cards__name">Москва</h2>
@@ -66,7 +66,7 @@
             <h2 class="cards__name">Ульяновск</h2>
             <button class="cards__status" type="button" aria-label="Нравится"></button>
           </div>
-        </li>
+        </li> -->
       </ul>
     </section>
   </main>
@@ -86,6 +86,16 @@
       </form>
     </div>
   </div>
+
+  <template id="cards-template">
+    <li class="cards__item">
+      <img class="cards__image" src="" alt="">
+      <div class="cards__desc">
+        <h2 class="cards__name"></h2>
+        <button class="cards__status" type="button" aria-label="Нравится"></button>
+      </div>
+    </li>
+  </template>
 
   <!-- Подключаем скрипт для обработки действий пользователя -->
   <script src="./script.js"></script>
