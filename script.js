@@ -31,8 +31,8 @@ function displayPopupForm () {
 function formSubmitHandler (evt) {
   evt.preventDefault();
 
-  const nameInput = formElement.querySelectorAll('.popup__input-item')[0];
-  const jobInput = formElement.querySelectorAll('.popup__input-item')[1];
+  const nameInput = formElement.querySelector('#name');
+  const jobInput = formElement.querySelector('#profession');
 
   // Обработка исключений
   if (nameInput.value.length > 100) {
