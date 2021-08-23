@@ -17,8 +17,8 @@ function displayPopupForm () {
   // Если окно было закрыто, подгружаем в поля inout текущие данные с именем и профессией
   if(!popupWindow.classList.contains('popup_opened')) {
 
-    const nameInput = formElement.querySelectorAll('.popup__input-item')[0];
-    const jobInput = formElement.querySelectorAll('.popup__input-item')[1];
+    const nameInput = formElement.querySelector('#name');
+    const jobInput = formElement.querySelector('#profession');
 
     nameInput.value = profileName.textContent;
     jobInput.value = profileProfession.textContent;
@@ -34,17 +34,12 @@ function formSubmitHandler (evt) {
   const nameInput = formElement.querySelector('#name');
   const jobInput = formElement.querySelector('#profession');
 
-  // Обработка исключений
-  if (nameInput.value.length > 100) {
-    nameInput.value = '1';
-  } else if (jobInput.value.length > 200) {
-    jobInput.value = '2';
-  } else {
-    profileName.textContent = nameInput.value;
-    profileProfession.textContent = jobInput.value;
+  // Обработка исключений (реализовать позже).
 
-    displayPopupForm ();
-  }
+  profileName.textContent = nameInput.value;
+  profileProfession.textContent = jobInput.value;
+
+  displayPopupForm ();
 }
 
 // Навешиваем обработчики событий
