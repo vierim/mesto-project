@@ -38,7 +38,13 @@ const popupWindow = document.querySelector('.popup');
 const popupCloseButton = popupWindow.querySelector('.popup__close-button');
 const formElement = popupWindow.querySelector('.popup__form');
 
+// Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector('.cards__list');
+
+// Функция удаление карточки
+function removeCard (cardItem) {
+  console.log(cardItem.querySelector('.name').textContent);
+}
 
 // Функция добавления карточки в коллекцию
 function addCard (nameValue, linkValue) {
@@ -51,6 +57,11 @@ function addCard (nameValue, linkValue) {
 
   cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) {
     evt.target.classList.toggle('cards__status_active');
+  });
+
+  const removeButton = cardsItem.querySelector('.cards__delete-button');
+  removeButton.addEventListener('click', function(evt) {
+    evt.target.parentNode.remove();
   });
 
   cardsContainer.append(cardsItem);
