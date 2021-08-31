@@ -1,3 +1,4 @@
+// Базовый массив карточек пользователя (показываем при загрузки страницы)
 const initialCards = [
   {
     name: 'Архыз',
@@ -25,26 +26,30 @@ const initialCards = [
   }
   ];
 
-// Получаем объекты из секции profile
+
+// Получаем элементы страницы из секции profile
 const profileSection = document.querySelector('.profile');
 
 const editProfileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__title');
 const profileProfession = profileSection.querySelector('.profile__subtitle');
+const profileAddCartButton = profileSection.querySelector('.profile__add-button');
 
-// Получаем объекты из popup
-const popupWindow = document.querySelector('.popup');
+// Получаем элементы страницы из popup для редактирования профиля (имя, профессия)
+const editProfilePopup = document.querySelector('.popup__function_edit-profile');
 
-const popupCloseButton = popupWindow.querySelector('.popup__close-button');
-const formElement = popupWindow.querySelector('.popup__form');
+const editProfileCloseButton = editProfilePopup.querySelector('.popup__close-button');
+const editProfileForm = editProfilePopup.querySelector('.popup__form');
+
+// Получаем элементы страницы из popup для добавления карточки (места)
+const addCartPopup = document.querySelector('.popup__function_add-cart');
+
+const addCartCloseButton = addCartPopup.querySelector('.popup__close-button');
+const addCartForm = addCartPopup.querySelector('.popup__form');
 
 // Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector('.cards__list');
 
-// Функция удаление карточки
-function removeCard (cardItem) {
-  console.log(cardItem.querySelector('.name').textContent);
-}
 
 // Функция добавления карточки в коллекцию
 function addCard (nameValue, linkValue) {
@@ -53,6 +58,7 @@ function addCard (nameValue, linkValue) {
   const cardsItem = cardsTemplate.querySelector('.cards__item').cloneNode(true);
 
   cardsItem.querySelector('.cards__image').src = linkValue;
+  cardsItem.querySelector('.cards__image').alt = nameValue;
   cardsItem.querySelector('.cards__name').textContent = nameValue;
 
   cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) {
@@ -64,45 +70,79 @@ function addCard (nameValue, linkValue) {
     evt.target.parentNode.remove();
   });
 
-  cardsContainer.append(cardsItem);
+  cardsContainer.prepend(cardsItem);
 }
 
-// Функция открытия/закрытия попапа
-function displayPopupForm () {
+// Функция заполнения полей ввода в popup данными профиля (имя, профессия)
+function completeFormInputs (popupWindow) {
 
-  // Если окно было закрыто, подгружаем в поля inout текущие данные с именем и профессией
-  if(!popupWindow.classList.contains('popup_opened')) {
-
-    const nameInput = formElement.querySelector('#name');
-    const jobInput = formElement.querySelector('#profession');
-
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileProfession.textContent;
-  }
-
-  popupWindow.classList.toggle('popup_opened');
-}
-
-// Функция сохранения данных, введенных пользователем в поля в попапе
-function formSubmitHandler (evt) {
-
-  evt.preventDefault();
+  const formElement = popupWindow.querySelector('.popup__form');
 
   const nameInput = formElement.querySelector('#name');
   const jobInput = formElement.querySelector('#profession');
 
-  // Обработка исключений (реализовать позже).
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileProfession.textContent;
+}
+
+// Функция открытия/закрытия попапа
+function displayPopupForm (popupWindow) {
+  popupWindow.classList.toggle('popup_opened');
+}
+
+// Функция сохранения данных, введенных пользователем в поля в попапе редактирования профиля
+function editFormSubmitHandler (evt) {
+
+  evt.preventDefault();
+
+  const nameInput = editProfileForm.querySelector('#name');
+  const jobInput = editProfileForm.querySelector('#profession');
 
   profileName.textContent = nameInput.value;
   profileProfession.textContent = jobInput.value;
 
-  displayPopupForm ();
+  displayPopupForm (editProfilePopup);
 }
 
-// Навешиваем обработчики событий
-editProfileButton.addEventListener('click', displayPopupForm); // редактировать профиль
-popupCloseButton.addEventListener('click', displayPopupForm); // закрыть попап
-formElement.addEventListener('submit', formSubmitHandler); // сохранить изменения в попапе
+// Функция сохранения данных, введенных пользователем в поля в попапе для добавления карточки
+function addCartSubmitHandler (evt) {
+
+  evt.preventDefault();
+
+  const cartName = addCartForm.querySelector('#cart-name').value;
+  const cartLink = addCartForm.querySelector('#cart-link').value;
+
+  addCard (cartName, cartLink)
+
+  displayPopupForm (addCartPopup);
+}
+
+
+// Навешиваем обработчики событий на секцию profile и ее popup окна
+
+editProfileButton.addEventListener('click', () => { // редактировать профиль
+  displayPopupForm (editProfilePopup);
+  completeFormInputs (editProfilePopup);
+});
+
+editProfileCloseButton.addEventListener('click', () => { // закрыть попап редактирование профиля
+  displayPopupForm (editProfilePopup);
+});
+
+profileAddCartButton.addEventListener('click', () => { // добавить карточку
+  displayPopupForm (addCartPopup);
+});
+
+addCartCloseButton.addEventListener('click', () => { // закрыть попап добавления карточки
+  displayPopupForm (addCartPopup);
+});
+
+
+editProfileForm.addEventListener('submit', editFormSubmitHandler); // сохранить изменения в попапе
+addCartForm.addEventListener('submit', addCartSubmitHandler); // добавление карточки пользователем
+
+
+// Инициализация базовых карточек мест на странице (при загрузке)
 
 initialCards.forEach(function(item) {
   addCard (item.name, item.link)

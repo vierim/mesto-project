@@ -25,48 +25,7 @@
 
     <section class="cards page__section">
       <ul class="cards__list">
-        <!-- <li class="cards__item">
-          <img class="cards__image" src="./images/cards-moscow.jpg" alt="Фотография города Москва">
-          <div class="cards__desc">
-            <h2 class="cards__name">Москва</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__image" src="./images/cards-zhukovsky.jpg" alt="Фотография города Жуковский">
-          <div class="cards__desc">
-            <h2 class="cards__name">Жуковский</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__image" src="./images/cards-kolomna.jpg" alt="Фотография города Коломна">
-          <div class="cards__desc">
-            <h2 class="cards__name">Коломна</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__image" src="./images/cards-konstantinovo.jpg" alt="Фотография села Константиново">
-          <div class="cards__desc">
-            <h2 class="cards__name">Село Константиново</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__image" src="./images/cards-yaroslavl.jpg" alt="Фотография города Ярославль">
-          <div class="cards__desc">
-            <h2 class="cards__name">Ярославль</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__image" src="./images/cards-ulyanovsk.jpg" alt="Фотография города Ульяновск">
-          <div class="cards__desc">
-            <h2 class="cards__name">Ульяновск</h2>
-            <button class="cards__status" type="button" aria-label="Нравится"></button>
-          </div>
-        </li> -->
+        <!-- Заполняется при загрузке страницы -->
       </ul>
     </section>
   </main>
@@ -75,7 +34,7 @@
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div class="popup popup__function_edit-profile">
     <div class="popup__container">
       <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
       <h2 class="popup__header">Редактировать профиль</h2>
@@ -87,9 +46,21 @@
     </div>
   </div>
 
+  <div class="popup popup__function_add-cart">
+    <div class="popup__container">
+      <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+      <h2 class="popup__header">Новое место</h2>
+      <form class="popup__form" name="add-cart">
+        <input type="text" class="popup__input-item" id="cart-name" name="cart-name" placeholder="Название" value="" required>
+        <input type="text" class="popup__input-item" id="cart-link" name="cart-link" placeholder="Ссылка на картинку" value="" required>
+        <button class="popup__button" type="submit" aria-label="Создать">Создать</button>
+      </form>
+    </div>
+  </div>
+
   <template id="cards-template">
     <li class="cards__item">
-      <img class="cards__image" src="" alt="">
+      <img class="cards__image" src="" alt="" onerror="this.src='./images/logo.svg'">
       <button class="cards__delete-button" type="button" aria-label="Удалить"></button>
       <div class="cards__desc">
         <h2 class="cards__name"></h2>
