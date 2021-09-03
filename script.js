@@ -47,6 +47,9 @@ const addCartPopup = document.querySelector('.popup__function_add-cart');
 const addCartCloseButton = addCartPopup.querySelector('.popup__close-button');
 const addCartForm = addCartPopup.querySelector('.popup__form');
 
+const modalShowPhoto = document.querySelector('.popup__function_view-foto');
+const showPhotoCloseButton = modalShowPhoto.querySelector('.popup__close-button');
+
 // Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector('.cards__list');
 
@@ -60,6 +63,16 @@ function addCard (nameValue, linkValue) {
   cardsItem.querySelector('.cards__image').src = linkValue;
   cardsItem.querySelector('.cards__image').alt = nameValue;
   cardsItem.querySelector('.cards__name').textContent = nameValue;
+
+  cardsItem.querySelector('.cards__image').addEventListener('click', function(evt) {
+    const modalImageElement = modalShowPhoto.querySelector('.popup__image');
+    const modalTextElement = modalShowPhoto.querySelector('.popup__figcaption');
+
+    modalImageElement.src = evt.target.src;
+    modalTextElement.textContent = evt.target.alt;
+
+    displayPopupForm (modalShowPhoto);
+  });
 
   cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) {
     evt.target.classList.toggle('cards__status_active');
@@ -135,6 +148,10 @@ profileAddCartButton.addEventListener('click', () => { // добавить ка�
 
 addCartCloseButton.addEventListener('click', () => { // закрыть попап добавления карточки
   displayPopupForm (addCartPopup);
+});
+
+showPhotoCloseButton.addEventListener('click', () => { // закрыть попап с большой фотографией
+  displayPopupForm (modalShowPhoto);
 });
 
 
