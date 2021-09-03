@@ -47,6 +47,7 @@ const addCartPopup = document.querySelector('.popup__function_add-cart');
 const addCartCloseButton = addCartPopup.querySelector('.popup__close-button');
 const addCartForm = addCartPopup.querySelector('.popup__form');
 
+// Получаем ссылки на элементы модалки для просмотра увеличенных изображений
 const modalShowPhoto = document.querySelector('.popup__function_view-foto');
 const showPhotoCloseButton = modalShowPhoto.querySelector('.popup__close-button');
 
@@ -131,7 +132,7 @@ function addCartSubmitHandler (evt) {
 }
 
 
-// Навешиваем обработчики событий на секцию profile и ее popup окна
+// Навешиваем обработчики событий
 
 editProfileButton.addEventListener('click', () => { // редактировать профиль
   displayPopupForm (editProfilePopup);
