@@ -49,7 +49,10 @@ const addCartForm = addCartPopup.querySelector('.popup__form');
 
 // Получаем ссылки на элементы модалки для просмотра увеличенных изображений
 const modalShowPhoto = document.querySelector('.popup__function_view-foto');
+
 const showPhotoCloseButton = modalShowPhoto.querySelector('.popup__close-button');
+const modalImageElement = modalShowPhoto.querySelector('.popup__image');
+const modalTextElement = modalShowPhoto.querySelector('.popup__figcaption');
 
 // Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector('.cards__list');
@@ -69,10 +72,8 @@ function createCard (nameValue, linkValue) {
 
   // Навешиваем на карточку обработчики событий
   cardsItem.querySelector('.cards__image').addEventListener('click', function(evt) { //клик по изображению
-    const modalImageElement = modalShowPhoto.querySelector('.popup__image');
-    const modalTextElement = modalShowPhoto.querySelector('.popup__figcaption');
-
     modalImageElement.src = evt.target.src;
+    modalImageElement.alt = evt.target.alt;
     modalTextElement.textContent = evt.target.alt;
 
     showPopup (modalShowPhoto);
