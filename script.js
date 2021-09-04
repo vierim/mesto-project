@@ -72,7 +72,7 @@ function addCard (nameValue, linkValue) {
     modalImageElement.src = evt.target.src;
     modalTextElement.textContent = evt.target.alt;
 
-    displayPopupForm (modalShowPhoto);
+    showPopup (modalShowPhoto);
   });
 
   cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) {
@@ -99,9 +99,12 @@ function completeFormInputs (popupWindow) {
   jobInput.value = profileProfession.textContent;
 }
 
-// Функция открытия/закрытия попапа
-function displayPopupForm (popupWindow) {
-  popupWindow.classList.toggle('popup_opened');
+function showPopup (popupElement) {
+  popupElement.classList.add('popup_opened');
+}
+
+function hidePopup (popupElement) {
+  popupElement.classList.remove('popup_opened');
 }
 
 // Функция сохранения данных, введенных пользователем в поля в попапе редактирования профиля
@@ -115,7 +118,7 @@ function editFormSubmitHandler (evt) {
   profileName.textContent = nameInput.value;
   profileProfession.textContent = jobInput.value;
 
-  displayPopupForm (editProfilePopup);
+  hidePopup (editProfilePopup);
 }
 
 // Функция сохранения данных, введенных пользователем в поля в попапе для добавления карточки
@@ -128,31 +131,31 @@ function addCartSubmitHandler (evt) {
 
   addCard (cartName, cartLink)
 
-  displayPopupForm (addCartPopup);
+  hidePopup (addCartPopup);
 }
 
 
 // Навешиваем обработчики событий
 
 editProfileButton.addEventListener('click', () => { // редактировать профиль
-  displayPopupForm (editProfilePopup);
+  showPopup (editProfilePopup);
   completeFormInputs (editProfilePopup);
 });
 
 editProfileCloseButton.addEventListener('click', () => { // закрыть попап редактирование профиля
-  displayPopupForm (editProfilePopup);
+  hidePopup (editProfilePopup);
 });
 
 profileAddCartButton.addEventListener('click', () => { // добавить карточку
-  displayPopupForm (addCartPopup);
+  showPopup (addCartPopup);
 });
 
 addCartCloseButton.addEventListener('click', () => { // закрыть попап добавления карточки
-  displayPopupForm (addCartPopup);
+  hidePopup (addCartPopup);
 });
 
 showPhotoCloseButton.addEventListener('click', () => { // закрыть попап с большой фотографией
-  displayPopupForm (modalShowPhoto);
+  hidePopup (modalShowPhoto);
 });
 
 
