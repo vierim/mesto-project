@@ -55,17 +55,20 @@ const showPhotoCloseButton = modalShowPhoto.querySelector('.popup__close-button'
 const cardsContainer = document.querySelector('.cards__list');
 
 
-// Функция добавления карточки в коллекцию
-function addCard (nameValue, linkValue) {
+// Функция возвращает разметку новой карточки
+function createCard (nameValue, linkValue) {
 
+  // Получаем разметку шаблона карточки и клонируем ноду
   const cardsTemplate = document.querySelector('#cards-template').content;
   const cardsItem = cardsTemplate.querySelector('.cards__item').cloneNode(true);
 
+  //заполняем html-теги новой карточки
   cardsItem.querySelector('.cards__image').src = linkValue;
   cardsItem.querySelector('.cards__image').alt = nameValue;
   cardsItem.querySelector('.cards__name').textContent = nameValue;
 
-  cardsItem.querySelector('.cards__image').addEventListener('click', function(evt) {
+  // Навешиваем на карточку обработчики событий
+  cardsItem.querySelector('.cards__image').addEventListener('click', function(evt) { //клик по изображению
     const modalImageElement = modalShowPhoto.querySelector('.popup__image');
     const modalTextElement = modalShowPhoto.querySelector('.popup__figcaption');
 
@@ -75,16 +78,22 @@ function addCard (nameValue, linkValue) {
     showPopup (modalShowPhoto);
   });
 
-  cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) {
+  cardsItem.querySelector('.cards__status').addEventListener('click',function(evt) { //клик по иконке лайка
     evt.target.classList.toggle('cards__status_active');
   });
 
   const removeButton = cardsItem.querySelector('.cards__delete-button');
-  removeButton.addEventListener('click', function(evt) {
+  removeButton.addEventListener('click', function(evt) { //клик по иконке удаления карточки
     evt.target.parentNode.remove();
   });
 
-  cardsContainer.prepend(cardsItem);
+  // Возвращаем разметку созданной карточки
+  return cardsItem;
+}
+
+// Функция добавления карточки в коллекцию
+function addCard (container, cardElement) {
+  container.prepend(cardElement);
 }
 
 // Функция заполнения полей ввода в popup данными профиля (имя, профессия)
@@ -99,6 +108,7 @@ function completeFormInputs (popupWindow) {
   jobInput.value = profileProfession.textContent;
 }
 
+// Две функции для отображения и скрытия попап окна (добавление/удаление класса)
 function showPopup (popupElement) {
   popupElement.classList.add('popup_opened');
 }
@@ -129,7 +139,7 @@ function addCartSubmitHandler (evt) {
   const cartName = addCartForm.querySelector('#cart-name').value;
   const cartLink = addCartForm.querySelector('#cart-link').value;
 
-  addCard (cartName, cartLink)
+  addCard (cardsContainer, createCard(cartName, cartLink));
 
   hidePopup (addCartPopup);
 }
@@ -158,7 +168,6 @@ showPhotoCloseButton.addEventListener('click', () => { // закрыть поп�
   hidePopup (modalShowPhoto);
 });
 
-
 editProfileForm.addEventListener('submit', editFormSubmitHandler); // сохранить изменения в попапе
 addCartForm.addEventListener('submit', addCartSubmitHandler); // добавление карточки пользователем
 
@@ -166,5 +175,5 @@ addCartForm.addEventListener('submit', addCartSubmitHandler); // добавле�
 // Инициализация базовых карточек мест на странице (при загрузке)
 
 initialCards.forEach(function(item) {
-  addCard (item.name, item.link)
+  addCard (cardsContainer, createCard(item.name, item.link));
 });
