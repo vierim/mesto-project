@@ -109,6 +109,15 @@ function completeFormInputs (popupWindow) {
   jobInput.value = profileProfession.textContent;
 }
 
+// Фукнция очищает поля для ввода информации input в форме
+function clearInputFields (formElement) {
+  const inputElements = formElement.querySelectorAll('input');
+
+  inputElements.forEach((item) => {
+    item.value = '';
+  });
+}
+
 // Две функции для отображения и скрытия попап окна (добавление/удаление класса)
 function showPopup (popupElement) {
   popupElement.classList.add('popup_opened');
@@ -137,10 +146,13 @@ function addCartSubmitHandler (evt) {
 
   evt.preventDefault();
 
-  const cartName = addCartForm.querySelector('#cart-name').value;
-  const cartLink = addCartForm.querySelector('#cart-link').value;
+  const cartName = addCartForm.querySelector('#cart-name');
+  const cartLink = addCartForm.querySelector('#cart-link');
 
-  addCard (cardsContainer, createCard(cartName, cartLink));
+  addCard (cardsContainer, createCard(cartName.value, cartLink.value));
+
+  //очищаем поля формы (должны быть пустыми для добавления следующей карточки)
+  clearInputFields (addCartForm);
 
   hidePopup (addCartPopup);
 }
