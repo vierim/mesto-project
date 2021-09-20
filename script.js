@@ -152,7 +152,8 @@ function addCartSubmitHandler (evt) {
   addCard (cardsContainer, createCard(cartName.value, cartLink.value));
 
   //очищаем поля формы (должны быть пустыми для добавления следующей карточки)
-  clearInputFields (addCartForm);
+  //clearInputFields (addCartForm);
+  addCartForm.reset();
 
   hidePopup (addCartPopup);
 }
