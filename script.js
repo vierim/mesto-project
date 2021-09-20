@@ -148,6 +148,18 @@ function addCartSubmitHandler (evt) {
   hidePopup (addCartPopup);
 }
 
+// Функция для проверки клика по попап - вызывает функцию закрытие попапа при клике на кнопку закрытия или при клике на overlay
+function checkCloseElementClick (clickedElement) {
+  const isCloseButtonClicked = clickedElement.classList.contains('popup__close-button');
+  const isOverlayClicked = clickedElement.classList.contains('popup');
+
+  if(isOverlayClicked) {
+    hidePopup (clickedElement);
+  } else if (isCloseButtonClicked) {
+    hidePopup (clickedElement.parentNode.offsetParent);
+  }
+}
+
 
 // Навешиваем обработчики событий
 
@@ -156,20 +168,20 @@ editProfileButton.addEventListener('click', () => { // редактироват�
   completeFormInputs (editProfilePopup);
 });
 
-editProfileCloseButton.addEventListener('click', () => { // закрыть попап редактирование профиля
-  hidePopup (editProfilePopup);
-});
-
 profileAddCartButton.addEventListener('click', () => { // добавить карточку
   showPopup (addCartPopup);
 });
 
-addCartCloseButton.addEventListener('click', () => { // закрыть попап добавления карточки
-  hidePopup (addCartPopup);
+editProfilePopup.addEventListener('click', (event) => { // слушаем клики по попап редактирования профиля
+  checkCloseElementClick(event.target);
 });
 
-showPhotoCloseButton.addEventListener('click', () => { // закрыть попап с большой фотографией
-  hidePopup (modalShowPhoto);
+addCartPopup.addEventListener('click', (event) => { // слушаем клики по попап добавления карточки
+  checkCloseElementClick(event.target);
+});
+
+modalShowPhoto.addEventListener('click', (event) => { // слушаем клики по попап с большой фотографией
+  checkCloseElementClick(event.target);
 });
 
 editProfileForm.addEventListener('submit', editFormSubmitHandler); // сохранить изменения в попапе
