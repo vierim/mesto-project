@@ -35,6 +35,8 @@ const profileName = profileSection.querySelector('.profile__title');
 const profileProfession = profileSection.querySelector('.profile__subtitle');
 const profileAddCartButton = profileSection.querySelector('.profile__add-button');
 
+const popupElements = Array.from(document.querySelectorAll('.popup'));
+
 // Получаем элементы страницы из popup для редактирования профиля (имя, профессия)
 const editProfilePopup = document.querySelector('.popup__function_edit-profile');
 
@@ -149,17 +151,23 @@ function addCartSubmitHandler (evt) {
 }
 
 // Функция для проверки клика по попап - вызывает функцию закрытие попапа при клике на кнопку закрытия или при клике на overlay
-function checkCloseElementClick (clickedElement) {
-  const isCloseButtonClicked = clickedElement.classList.contains('popup__close-button');
-  const isOverlayClicked = clickedElement.classList.contains('popup');
+function closePopupHandler (evt) {
+  const isCloseButtonClicked = evt.target.classList.contains('popup__close-button');
+  const isOverlayClicked = evt.target.classList.contains('popup');
 
   if(isOverlayClicked) {
-    hidePopup (clickedElement);
+    hidePopup (evt.target);
   } else if (isCloseButtonClicked) {
-    hidePopup (clickedElement.parentNode.offsetParent);
+    hidePopup (evt.target.parentNode.offsetParent);
   }
 }
 
+function setEventListeners() {
+  // Добавляем слушатели для каждого попапа
+  popupElements.forEach(element => {
+    element.addEventListener('click', closePopupHandler);
+  });
+}
 
 // Навешиваем обработчики событий
 
@@ -172,21 +180,10 @@ profileAddCartButton.addEventListener('click', () => { // добавить ка�
   showPopup (addCartPopup);
 });
 
-editProfilePopup.addEventListener('click', (event) => { // слушаем клики по попап редактирования профиля
-  checkCloseElementClick(event.target);
-});
-
-addCartPopup.addEventListener('click', (event) => { // слушаем клики по попап добавления карточки
-  checkCloseElementClick(event.target);
-});
-
-modalShowPhoto.addEventListener('click', (event) => { // слушаем клики по попап с большой фотографией
-  checkCloseElementClick(event.target);
-});
-
 editProfileForm.addEventListener('submit', editFormSubmitHandler); // сохранить изменения в попапе
 addCartForm.addEventListener('submit', addCartSubmitHandler); // добавление карточки пользователем
 
+setEventListeners();
 
 // Инициализация базовых карточек мест на странице (при загрузке)
 
