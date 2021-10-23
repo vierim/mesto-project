@@ -27,6 +27,8 @@ const initialCards = [
   ];
 
 
+const pageElement = document.querySelector('.page');
+
 // Получаем элементы страницы из секции profile
 const profileSection = document.querySelector('.profile');
 
@@ -114,10 +116,16 @@ function completeFormInputs (popupWindow) {
 // Две функции для отображения и скрытия попап окна (добавление/удаление класса)
 function showPopup (popupElement) {
   popupElement.classList.add('popup_opened');
+
+  // Добавляем слушатель нажатия на клавиатуру на всю страницу
+  pageElement.addEventListener('keydown', closePopupHandler);
 }
 
 function hidePopup (popupElement) {
   popupElement.classList.remove('popup_opened');
+
+  // Удаляем слушатель нажатия на клавиатуру на всю страницу
+  pageElement.removeEventListener('keydown', closePopupHandler);
 }
 
 // Функция сохранения данных, введенных пользователем в поля в попапе редактирования профиля
@@ -154,16 +162,21 @@ function addCartSubmitHandler (evt) {
 function closePopupHandler (evt) {
   const isCloseButtonClicked = evt.target.classList.contains('popup__close-button');
   const isOverlayClicked = evt.target.classList.contains('popup');
+  const isEscapePressed = (evt.key && evt.key === 'Escape');
 
   if(isOverlayClicked) {
-    hidePopup (evt.target);
+    hidePopup(evt.target);
   } else if (isCloseButtonClicked) {
-    hidePopup (evt.target.parentNode.offsetParent);
+    hidePopup(evt.target.parentNode.offsetParent);
+  } else if (isEscapePressed) {
+    let openedPopupElement = document.querySelector('.popup_opened');
+    hidePopup(openedPopupElement);
   }
 }
 
 function setEventListeners() {
-  // Добавляем слушатели для каждого попапа
+
+  // Добавляем слушатели клика мышкой для каждого попапа
   popupElements.forEach(element => {
     element.addEventListener('click', closePopupHandler);
   });
