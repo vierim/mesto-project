@@ -32,6 +32,7 @@ const pageElement = document.querySelector('.page');
 // Получаем элементы страницы из секции profile
 const profileSection = document.querySelector('.profile');
 
+const editAvatarButton = profileSection.querySelector('.profile__edit-avatar');
 const editProfileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__title');
 const profileProfession = profileSection.querySelector('.profile__subtitle');
@@ -57,6 +58,9 @@ const modalShowPhoto = document.querySelector('.popup__function_view-foto');
 const showPhotoCloseButton = modalShowPhoto.querySelector('.popup__close-button');
 const modalImageElement = modalShowPhoto.querySelector('.popup__image');
 const modalTextElement = modalShowPhoto.querySelector('.popup__figcaption');
+
+// Получаем ссылки на элементы модалки для просмотра увеличенных изображений
+const modalEditAvatar = document.querySelector('.popup__function_edit-avatar');
 
 // Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector('.cards__list');
@@ -175,6 +179,10 @@ function closePopupHandler (evt) {
 }
 
 function setEventListeners() {
+
+  editAvatarButton.addEventListener('click', () => {
+    showPopup(modalEditAvatar);
+  });
 
   // Добавляем слушатели клика мышкой для каждого попапа
   popupElements.forEach(element => {
