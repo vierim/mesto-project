@@ -4,3 +4,8 @@
   color: #000000;
   border: 1px solid #000000;
 }
+
+.form__button_disabled:hover {
+  opacity: .2;
+  cursor: default;
+}
