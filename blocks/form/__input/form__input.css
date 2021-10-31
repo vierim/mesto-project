@@ -1,19 +1,14 @@
 .form__input {
   width: 100%;
   border: 0;
-  height: 30px;
+  height: 26px;
   box-sizing: border-box;
-  padding: 15px 0 17px;
+  padding: 0 0 11px;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
-  margin-top: 24px;
   font-size: 14px;
   line-height: 17px;
   font-weight: 400;
   color: #000000;
-}
-
-.form__input:first-of-type {
-  margin-top: 0;
 }
 
 .form__input:focus {
