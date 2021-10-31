@@ -9,6 +9,7 @@
   line-height: 17px;
   font-weight: 400;
   color: #000000;
+  transition: .3s;
 }
 
 .form__input:focus {
