@@ -5,12 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Фотоальбом пользователя Жак-Ив Кусто - Mesto-Russia</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="page">
 
   <header class="header page__section page__section_size_l">
-    <img class="header__logo" src="./images/logo.svg" alt="Логотип Mesto Russian">
+    <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto Russian">
   </header>
 
   <main>
@@ -18,7 +17,7 @@
     <section class="profile page__section">
       <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
       <div class="profile__edit-avatar"></div>
-      <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Аватар пользователя - Жак-Ив Кусто">
+      <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар пользователя - Жак-Ив Кусто">
       <h1 class="profile__title">Жак-Ив Кусто</h1>
       <p class="profile__subtitle">Исследователь океана</p>
       <button class="profile__add-button" type="button" aria-label="Добавить"></button>
@@ -104,7 +103,5 @@
     </li>
   </template>
 
-  <!-- Подключаем скрипт для обработки действий пользователя -->
-  <script type="module" src="./components/index.js"></script>
 </body>
 </html>

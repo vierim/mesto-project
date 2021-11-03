@@ -24,6 +24,9 @@
 * Grid layout
 * Media запросы
 * БЭМ nested
+* Webpack
+* Babel
+* PostCSS
 
 **Исходный макет в Figma**
 

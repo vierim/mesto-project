@@ -1,7 +1,9 @@
-import { config } from './config.js';
-import { setBasicListeners } from './listeners.js';
-import { initialCards } from './data.js';
-import { createCard, addCard } from './cards.js';
+import './index.css';
+
+import { config } from '../components/config.js';
+import { setBasicListeners } from '../components/listeners.js';
+import { initialCards } from '../components/data.js';
+import { createCard, addCard } from '../components/cards.js';
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
