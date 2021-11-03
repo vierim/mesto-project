@@ -59,7 +59,8 @@
       <h2 class="popup__header">Обновить аватар</h2>
       <form class="form popup__form" name="avatar-edit" novalidate>
         <label class="form__field">
-          <input type="text" class="form__input" id="name" name="name" placeholder="https://somewebsite.com/someimage.jpg" value="" required>
+          <input type="url" class="form__input" id="pic" name="pic" placeholder="https://somewebsite.com/someimage.jpg" value="" required>
+          <span class="form__error-msg" id="pic-error"></span>
         </label>
         <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
       </form>
@@ -72,10 +73,12 @@
       <h2 class="popup__header">Новое место</h2>
       <form class="form popup__form" name="add-cart" novalidate>
         <label class="form__field">
-          <input type="text" class="form__input" id="cart-name" name="cart-name" placeholder="Название" value="" required>
+          <input type="text" class="form__input" id="name" name="name" placeholder="Название" minlength="2" maxlength="30" value="" required>
+          <span class="form__error-msg" id="name-error"></span>
         </label>
         <label class="form__field">
-          <input type="url" class="form__input" id="cart-link" name="cart-link" placeholder="Ссылка на картинку" value="" required>
+          <input type="url" class="form__input" id="link" name="link" placeholder="Ссылка на картинку" value="" required>
+          <span class="form__error-msg" id="link-error"></span>
         </label>
         <button class="form__button" type="submit" aria-label="Создать">Создать</button>
       </form>
@@ -102,6 +105,6 @@
   </template>
 
   <!-- Подключаем скрипт для обработки действий пользователя -->
-  <script src="./script.js"></script>
+  <script type="module" src="./components/index.js"></script>
 </body>
 </html>
