@@ -2,12 +2,24 @@ import './index.css';
 
 import { config } from '../components/config.js';
 import { setBasicListeners } from '../components/listeners.js';
+import { enableValidation } from '../components/validate.js';
 import { initialCards } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
 setBasicListeners();
+
+// Активируем валидацию на все формы в проекте
+enableValidation({
+  formSelector: config.popup.formSelector,
+  inputSelector: config.form.inputSelector,
+  submitButtonSelector: config.form.buttonSelector,
+  inactiveButtonClass: config.form.inactiveButtonClass,
+  inputErrorClass: config.form.inputErrorClass,
+  errorClass: config.form.errorMsgVisibleClass,
+  errorMsgPrefix: config.form.errorMsgPrefix
+});
 
 // Получаем ссылку на контейнер, где хранятся все карточки мест
 const cardsContainer = document.querySelector(config.cards.containerSelector);

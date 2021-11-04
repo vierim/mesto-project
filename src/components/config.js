@@ -27,7 +27,7 @@ export const config = {
     inputErrorClass: 'form__input_error',
     errorMsgPrefix: 'error',
     errorMsgVisibleClass: 'form__error-msg_visible',
-    disabledButtonClass: 'form__button_disabled',
+    inactiveButtonClass: 'form__button_disabled',
     inputs: {
       nameIdent: '#name',
       aboutIdent: '#profession',

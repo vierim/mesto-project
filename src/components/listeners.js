@@ -1,7 +1,6 @@
 import { config } from './config.js';
 import { showPopup } from './modal.js';
 import { completeFormInputs, editFormSubmitHandler, addCartSubmitHandler } from './utils.js';
-import { enableValidation } from './validate.js';
 
 export function setBasicListeners() {
 
@@ -13,9 +12,7 @@ export function setBasicListeners() {
   editAvatarButton.addEventListener('click', () => {
 
     const editAvatarPopup = document.querySelector(config.popup.functionSelector.editAvatar);
-
     showPopup(editAvatarPopup);
-    enableValidation(editAvatarPopup);
   });
 
   // Нажатие на кнопку "Редактировать профиль" в секции profile
@@ -29,7 +26,6 @@ export function setBasicListeners() {
 
     showPopup(editProfilePopup);
     completeFormInputs(nameInputElement, jobInputElement);
-    enableValidation(editProfilePopup);
 
     formElement.addEventListener('submit', editFormSubmitHandler);
   });
@@ -41,7 +37,6 @@ export function setBasicListeners() {
     const formElement = addCartPopup.querySelector(config.popup.formSelector);
 
     showPopup(addCartPopup);
-    enableValidation(addCartPopup);
 
     formElement.addEventListener('submit', addCartSubmitHandler);
   });
