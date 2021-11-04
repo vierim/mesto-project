@@ -1,6 +1,7 @@
 import './index.css';
 
 import { config } from '../components/config.js';
+import { elements } from '../components/elements.js';
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
 import { initialCards } from '../components/data.js';
@@ -21,10 +22,7 @@ enableValidation({
   errorMsgPrefix: config.form.errorMsgPrefix
 });
 
-// Получаем ссылку на контейнер, где хранятся все карточки мест
-const cardsContainer = document.querySelector(config.cards.containerSelector);
-
 // Инициализация базовых карточек мест на странице (при загрузке)
 initialCards.forEach(function(item) {
-  addCard(cardsContainer, createCard(item.name, item.link));
+  addCard(elements.cardsContainer, createCard(item.name, item.link));
 });

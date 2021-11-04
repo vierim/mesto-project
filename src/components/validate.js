@@ -1,71 +1,69 @@
-// "Локальный" объект для хранения полученнего для валидации конфига
-let elements = {};
-
 const hasInvalidInput = inputList => {
-  return inputList.every(item => item.validity.valid);
+  return !inputList.every(item => item.validity.valid);
 }
 
-const toggleButtonActivity = (inputList, buttonElement) => {
-  if(!hasInvalidInput(inputList)) {
-    buttonElement.classList.add(elements.inactiveButtonClass);
+const toggleButtonActivity = (inputList, buttonElement, validityConfig) => {
+
+  if(hasInvalidInput(inputList)) {
+    buttonElement.classList.add(validityConfig.inactiveButtonClass);
     buttonElement.disabled = true;
   } else {
-    buttonElement.classList.remove(elements.inactiveButtonClass);
+    buttonElement.classList.remove(validityConfig.inactiveButtonClass);
     buttonElement.disabled = false;
   }
 }
 
-const hideErrorText = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-${elements.errorMsgPrefix}`);
+const hideErrorText = (formElement, inputElement, validityConfig) => {
 
-  inputElement.classList.remove(elements.inputErrorClass);
+  const errorElement = formElement.querySelector(`#${inputElement.name}-${validityConfig.errorMsgPrefix}`);
+
+  inputElement.classList.remove(validityConfig.inputErrorClass);
   errorElement.textContent = '';
-  errorElement.classList.remove(elements.errorClass);
+  errorElement.classList.remove(validityConfig.errorClass);
 }
 
-const showErrorText = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-${elements.errorMsgPrefix}`);
+const showErrorText = (formElement, inputElement, validityConfig) => {
 
-  inputElement.classList.add(elements.inputErrorClass);
+  const errorElement = formElement.querySelector(`#${inputElement.name}-${validityConfig.errorMsgPrefix}`);
+
+  inputElement.classList.add(validityConfig.inputErrorClass);
   errorElement.textContent = inputElement.validationMessage;
-  errorElement.classList.add(elements.errorClass);
+  errorElement.classList.add(validityConfig.errorClass);
 }
 
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, validityConfig) => {
+
   if(!inputElement.validity.valid) {
-    showErrorText(formElement, inputElement);
+    showErrorText(formElement, inputElement, validityConfig);
   } else {
-    hideErrorText(formElement, inputElement);
+    hideErrorText(formElement, inputElement, validityConfig);
   }
 }
 
-const setFormEventListeners = formElement => {
+// Навешиваем обработчики события input на все поля ввода в форме, переданной в качестве параметра
+const setFormEventListeners = (formElement, validityConfig) => {
 
-  const inputList = Array.from(formElement.querySelectorAll(elements.inputSelector));
-  const buttonElement = formElement.querySelector(elements.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(validityConfig.inputSelector));
+  const buttonElement = formElement.querySelector(validityConfig.submitButtonSelector);
 
   inputList.forEach(item => {
+
     item.addEventListener('input', () => {
-      checkInputValidity(formElement, item);
-      toggleButtonActivity(inputList, buttonElement);
+
+      checkInputValidity(formElement, item, validityConfig);
+      toggleButtonActivity(inputList, buttonElement, validityConfig);
     });
   });
 
-  toggleButtonActivity(inputList, buttonElement);
-}
-
-const composeLocalObject = validityConfig => {
-  elements = validityConfig;
+  toggleButtonActivity(inputList, buttonElement, validityConfig);
 }
 
 // Базовая функция активации валидации форм
-export const enableValidation = validityConfig => {
-  // Копируем ссылку на объект в "локальную" для данной логики переменную, чтобы не передавать объект параметром при вызове каждой функции
-  composeLocalObject(validityConfig);
+export const enableValidation = (validityConfig) => {
 
-  // Находим все формы в проекте (селектор в переданном объекте)
-  const forms = Array.from(document.querySelectorAll(elements.formSelector));
+  // Находим все формы в проекте
+  const forms = Array.from(document.querySelectorAll(validityConfig.formSelector));
 
   // Активируем валидацию для каждой найденной формы
-  forms.forEach(item => setFormEventListeners(item));
+  forms.forEach(item => setFormEventListeners(item, validityConfig));
 }
