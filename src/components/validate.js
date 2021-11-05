@@ -54,8 +54,6 @@ const setFormEventListeners = (formElement, validityConfig) => {
       toggleButtonActivity(inputList, buttonElement, validityConfig);
     });
   });
-
-  toggleButtonActivity(inputList, buttonElement, validityConfig);
 }
 
 // Базовая функция активации валидации форм

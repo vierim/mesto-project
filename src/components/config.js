@@ -1,5 +1,4 @@
 export const config = {
-  pageSelector: '.page',
   profile: {
     selector: '.profile',
     editAvatarSelector: '.profile__edit-avatar',
@@ -29,9 +28,9 @@ export const config = {
     errorMsgVisibleClass: 'form__error-msg_visible',
     inactiveButtonClass: 'form__button_disabled',
     inputs: {
-      nameIdent: '#name',
-      aboutIdent: '#profession',
-      linkIdent: '#link'
+      name: '#name',
+      about: '#profession',
+      link: '#link'
     }
   },
   cards: {
@@ -42,6 +41,7 @@ export const config = {
     likeButtonSelector: '.cards__status',
     deleteButtonSelector: '.cards__delete-button',
     hasLikedClass: 'cards__status_active',
-    templateId: '#cards-template'
+    placeholderClass: 'cards__image_inactive',
+    template: '#cards-template'
   }
 }

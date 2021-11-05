@@ -1,10 +1,8 @@
 import { config } from './config.js';
 
 export const elements = {
-  pageElement: document.querySelector(config.pageSelector),
-
-  cardsContainer: document.querySelector(config.cards.containerSelector), //контейнер, где хранятся все карточки мест
-  cardsTemplate: document.querySelector(config.cards.templateId), //шаблон карточки места
+  cardsContainer: document.querySelector(config.cards.containerSelector),
+  cardsTemplate: document.querySelector(config.cards.template),
 
   profileName: document.querySelector(config.profile.nameSelector),
   profileProfession: document.querySelector(config.profile.proffesionSelector),
@@ -20,4 +18,10 @@ export const elements = {
   modalShowPhoto: document.querySelector(config.popup.functionSelector.viewFoto),
   modalImageElement: document.querySelector(config.popup.imageSelector),
   modalTextElement: document.querySelector(config.popup.figcaptionSelector)
+}
+
+export const forms = {
+  editProfile: elements.editProfilePopup.querySelector(config.popup.formSelector),
+  addCart: elements.addCartPopup.querySelector(config.popup.formSelector),
+  editAvatar: elements.editAvatarPopup.querySelector(config.popup.formSelector)
 }

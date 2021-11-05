@@ -1,6 +1,14 @@
 import { config } from './config.js';
 import { elements } from './elements.js';
 
+export const disableSubmitButton = (popupElement) => {
+
+  const buttonElement = popupElement.querySelector(config.form.buttonSelector);
+
+  buttonElement.classList.add(config.form.inactiveButtonClass);
+  buttonElement.disabled = true;
+}
+
 const keyboardPopupHandler = (evt) => {
 
   const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);
@@ -30,7 +38,7 @@ export const showPopup = (popupElement) => {
   popupElement.addEventListener('click', clickPopupHandler);
 
   // Добавляем слушатель нажатия на клавиатуру на всю страницу
-  elements.pageElement.addEventListener('keydown', keyboardPopupHandler);
+  document.addEventListener('keydown', keyboardPopupHandler);
 }
 
 export const hidePopup = (popupElement) => {
@@ -38,7 +46,7 @@ export const hidePopup = (popupElement) => {
   popupElement.classList.remove(config.popup.openedClass);
 
   // Удаляем слушатель нажатия на клавиатуру на всю страницу
-  elements.pageElement.removeEventListener('keydown', keyboardPopupHandler);
+  document.removeEventListener('keydown', keyboardPopupHandler);
 }
 
 export const showImageModal = (img) => {
