@@ -1,56 +1,55 @@
 import { config } from './config.js';
+import { elements, forms } from './elements.js';
 import { hidePopup } from './modal.js';
 import { addCard, createCard } from './cards.js';
 
-// Получаем текущие значения полей в документе (нужны для 2 из 3 функций)
-const profileName = document.querySelector(config.profile.nameSelector);
-const profileProfession = document.querySelector(config.profile.proffesionSelector);
+// Функция для сохранения изменений на страницу
+const saveProfileChanges = (name, job) => {
 
-// Функция сохранения данных, введенных пользователем в поля в попапе редактирования профиля
-export const editFormSubmitHandler = (evt) => {
-
-  evt.preventDefault();
-
-  const editProfilePopup = document.querySelector(config.popup.functionSelector.editProfile);
-  const formElement = editProfilePopup.querySelector(config.popup.formSelector);
-
-  const nameInput = formElement.querySelector(config.form.inputs.nameIdent);
-  const jobInput = formElement.querySelector(config.form.inputs.aboutIdent);
-
-  profileName.textContent = nameInput.value;
-  profileProfession.textContent = jobInput.value;
-
-  formElement.removeEventListener('submit', editFormSubmitHandler);
-
-  hidePopup (editProfilePopup);
+  elements.profileName.textContent = name;
+  elements.profileProfession.textContent = job;
 }
 
-// Функция сохранения данных, введенных пользователем в поля в попапе для добавления карточки
-export const addCartSubmitHandler = (evt) => {
+// Событие submit на форме редактирования профиля
+export const editFormSubmitHandler = (evt) => {
 
+  const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
+  const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
+
+  // Отключаем базовую обработку события (submit в данном случае)
   evt.preventDefault();
 
-  const cardsContainer = document.querySelector(config.cards.containerSelector);
-  const addCartPopup = document.querySelector(config.popup.functionSelector.addCart);
-  const formElement = addCartPopup.querySelector(config.popup.formSelector);
+  // Сохраняем изменения на страницу
+  saveProfileChanges(nameInput.value, jobInput.value);
 
-  const cartName = formElement.querySelector(config.form.inputs.nameIdent);
-  const cartLink = formElement.querySelector(config.form.inputs.linkIdent);
+  // Закрываем попап
+  hidePopup (elements.editProfilePopup);
+}
 
-  addCard(cardsContainer, createCard(cartName.value, cartLink.value));
+// Событие submit на форме добавления карточки
+export const addCartSubmitHandler = (evt) => {
+
+  const titleInput = forms.addCart.querySelector(config.form.inputs.name);
+  const linkInput = forms.addCart.querySelector(config.form.inputs.link);
+
+  // Отключаем базовую обработку события (submit в данном случае)
+  evt.preventDefault();
+
+  // Добавляем карточку на страницу
+  addCard(elements.cardsContainer, createCard(titleInput.value, linkInput.value));
 
   //очищаем поля формы (должны быть пустыми для добавления следующей карточки)
-  formElement.reset();
-  formElement.removeEventListener('submit', addCartSubmitHandler);
+  forms.addCart.reset();
 
-  hidePopup (addCartPopup);
+  // Закрываем попап
+  hidePopup (elements.addCartPopup);
 }
 
 // Функция заполнения полей ввода в popup данными профиля (имя, профессия) при открытии модалки
 export const completeFormInputs = (name, job) => {
 
   // Вносим полученные значения в переменные (ссылки на элементы полей в показанной форме)
-  name.value = profileName.textContent;
-  job.value = profileProfession.textContent;
+  name.value = elements.profileName.textContent;
+  job.value = elements.profileProfession.textContent;
 }
 

@@ -1,61 +1,67 @@
-import { config } from './config.js';
-
 const hasInvalidInput = inputList => {
-  return inputList.every(item => item.validity.valid);
+  return !inputList.every(item => item.validity.valid);
 }
 
-const toggleButtonActivity = (inputList, buttonElement) => {
-  if(!hasInvalidInput(inputList)) {
-    buttonElement.classList.add(config.form.disabledButtonClass);
+const toggleButtonActivity = (inputList, buttonElement, validityConfig) => {
+
+  if(hasInvalidInput(inputList)) {
+    buttonElement.classList.add(validityConfig.inactiveButtonClass);
     buttonElement.disabled = true;
   } else {
-    buttonElement.classList.remove(config.form.disabledButtonClass);
+    buttonElement.classList.remove(validityConfig.inactiveButtonClass);
     buttonElement.disabled = false;
   }
 }
 
-const hideErrorText = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-${config.form.errorMsgPrefix}`);
+const hideErrorText = (formElement, inputElement, validityConfig) => {
 
-  inputElement.classList.remove(config.form.inputErrorClass);
+  const errorElement = formElement.querySelector(`#${inputElement.name}-${validityConfig.errorMsgPrefix}`);
+
+  inputElement.classList.remove(validityConfig.inputErrorClass);
   errorElement.textContent = '';
-  errorElement.classList.remove(config.form.errorMsgVisibleClass);
+  errorElement.classList.remove(validityConfig.errorClass);
 }
 
-const showErrorText = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-${config.form.errorMsgPrefix}`);
+const showErrorText = (formElement, inputElement, validityConfig) => {
 
-  inputElement.classList.add(config.form.inputErrorClass);
+  const errorElement = formElement.querySelector(`#${inputElement.name}-${validityConfig.errorMsgPrefix}`);
+
+  inputElement.classList.add(validityConfig.inputErrorClass);
   errorElement.textContent = inputElement.validationMessage;
-  errorElement.classList.add(config.form.errorMsgVisibleClass);
+  errorElement.classList.add(validityConfig.errorClass);
 }
 
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, validityConfig) => {
+
   if(!inputElement.validity.valid) {
-    showErrorText(formElement, inputElement);
+    showErrorText(formElement, inputElement, validityConfig);
   } else {
-    hideErrorText(formElement, inputElement);
+    hideErrorText(formElement, inputElement, validityConfig);
   }
 }
 
-const setFormEventListeners = formElement => {
+// Навешиваем обработчики события input на все поля ввода в форме, переданной в качестве параметра
+const setFormEventListeners = (formElement, validityConfig) => {
 
-  const inputList = Array.from(formElement.querySelectorAll(config.form.inputSelector));
-  const buttonElement = formElement.querySelector(config.form.buttonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(validityConfig.inputSelector));
+  const buttonElement = formElement.querySelector(validityConfig.submitButtonSelector);
 
   inputList.forEach(item => {
-    item.addEventListener('input', () => {
-      checkInputValidity(formElement, item);
 
-      toggleButtonActivity(inputList, buttonElement);
+    item.addEventListener('input', () => {
+
+      checkInputValidity(formElement, item, validityConfig);
+      toggleButtonActivity(inputList, buttonElement, validityConfig);
     });
   });
-
-  toggleButtonActivity(inputList, buttonElement);
 }
 
-export const enableValidation = popupElement => {
+// Базовая функция активации валидации форм
+export const enableValidation = (validityConfig) => {
 
-  const formElement = popupElement.querySelector(config.popup.formSelector);
-  setFormEventListeners(formElement);
+  // Находим все формы в проекте
+  const forms = Array.from(document.querySelectorAll(validityConfig.formSelector));
+
+  // Активируем валидацию для каждой найденной формы
+  forms.forEach(item => setFormEventListeners(item, validityConfig));
 }
