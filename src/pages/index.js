@@ -6,6 +6,7 @@ import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
 import { initialCards } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
+import { getUserInfo, getCards } from '../components/api.js';
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
@@ -26,3 +27,13 @@ enableValidation({
 initialCards.forEach(function(item) {
   addCard(elements.cardsContainer, createCard(item.name, item.link));
 });
+
+getUserInfo()
+  .then(data => {
+    console.log(data);
+  });
+
+getCards()
+  .then(data => {
+    console.log(data);
+  });
