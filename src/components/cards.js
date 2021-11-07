@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { userInfo } from '../components/data.js';
+import { userInfo } from '../pages/index.js';
 import { elements } from './elements.js';
 import { showImageModal } from './modal.js';
 import { deleteCard, addLike, removeLike } from './api.js';

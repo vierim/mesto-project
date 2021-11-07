@@ -4,10 +4,11 @@ import { config } from '../components/config.js';
 import { elements } from '../components/elements.js';
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
-import { userInfo } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
 import { getUserInfo, getCards } from '../components/api.js';
 import { renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
+
+export const userInfo = {};
 
 getUserInfo()
   .then((res) => {

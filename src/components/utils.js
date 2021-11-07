@@ -52,8 +52,8 @@ export const editFormSubmitHandler = (evt) => {
 
   // Сохраняем изменения на сервере
   changeUserInfo(nameInput.value, jobInput.value)
-    .then(() => {
-      renderUserInfo(nameInput.value, jobInput.value);
+    .then((res) => {
+      renderUserInfo(res.name, res.about);
     })
     .catch(err => showError(err))
     .finally(() => {
