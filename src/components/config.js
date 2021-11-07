@@ -5,6 +5,7 @@ export const config = {
     editButtonSelector: '.profile__edit-button',
     nameSelector: '.profile__title',
     proffesionSelector: '.profile__subtitle',
+    avatarSelector: '.profile__avatar',
     addCartSelector: '.profile__add-button'
   },
   popup: {
@@ -30,7 +31,8 @@ export const config = {
     inputs: {
       name: '#name',
       about: '#profession',
-      link: '#link'
+      link: '#link',
+      avatar: '#pic'
     }
   },
   cards: {
@@ -40,6 +42,7 @@ export const config = {
     nameSelector: '.cards__name',
     likeButtonSelector: '.cards__status',
     deleteButtonSelector: '.cards__delete-button',
+    deleteButtonVisibleClass: 'cards__delete-button_visible',
     hasLikedClass: 'cards__status_active',
     placeholderClass: 'cards__image_inactive',
     template: '#cards-template'

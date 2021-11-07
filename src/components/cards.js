@@ -1,6 +1,8 @@
 import { config } from './config.js';
+import { cardsList, userInfo } from '../components/data.js';
 import { elements } from './elements.js';
 import { showImageModal } from './modal.js';
+import { deleteCard } from './api.js';
 
 import placeHolder from '../images/placeholder.jpg';
 
@@ -12,7 +14,7 @@ const imageClickHandler = (evt) => {
 }
 
 // Функция добавления событий на отдельно взятую карточку места
-const setEventsToCard = (cardItem) => {
+const setEventsToCard = (cardItem, owner = false) => {
 
   const cardImage = cardItem.querySelector(config.cards.imageSelector);
   const cardLikeButton = cardItem.querySelector(config.cards.likeButtonSelector);
@@ -35,24 +37,32 @@ const setEventsToCard = (cardItem) => {
   });
 
   // Клик по иконке удаления карточки
-  cardRemoveButton.addEventListener('click', function(evt) {
-    evt.target.parentNode.remove();
-  });
+  if(owner) {
+    cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
+
+    cardRemoveButton.addEventListener('click', function(evt) {
+      deleteCard(evt.target.previousElementSibling.id)
+        .then(() => {
+          evt.target.parentNode.remove();
+        });
+    });
+  }
 }
 
 // Функция возвращает готовую разметку новой карточки
-export const createCard = (nameVal, linkVal) => {
+export const createCard = (cartItem) => {
 
   // Клонируем ноду с разметкой карточки
   const clonedCard = cardNodeContent.querySelector(config.cards.itemSelector).cloneNode(true);
 
   //заполняем html-теги новой карточки
-  clonedCard.querySelector(config.cards.imageSelector).src = linkVal;
-  clonedCard.querySelector(config.cards.imageSelector).alt = nameVal;
-  clonedCard.querySelector(config.cards.nameSelector).textContent = nameVal;
+  clonedCard.querySelector(config.cards.imageSelector).src = cartItem.link;
+  clonedCard.querySelector(config.cards.imageSelector).alt = cartItem.name;
+  clonedCard.querySelector(config.cards.imageSelector).id = cartItem.id;
+  clonedCard.querySelector(config.cards.nameSelector).textContent = cartItem.name;
 
   // Навешиваем на карточку обработчики событий
-  setEventsToCard(clonedCard);
+  setEventsToCard(clonedCard, (cartItem.owner === userInfo._id));
 
   // Возвращаем разметку созданной карточки
   return clonedCard;

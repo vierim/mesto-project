@@ -22,6 +22,7 @@
 @import url(../blocks/cards/__image/cards__image.css);
 @import url(../blocks/cards/__image/_inactive/cards__image_inactive.css);
 @import url(../blocks/cards/__delete-button/cards__delete-button.css);
+@import url(../blocks/cards/__delete-button/_visible/cards__delete-button_visible.css);
 @import url(../blocks/cards/__desc/cards__desc.css);
 @import url(../blocks/cards/__name/cards__name.css);
 @import url(../blocks/cards/__status/cards__status.css);

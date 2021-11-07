@@ -6,6 +6,7 @@ export const elements = {
 
   profileName: document.querySelector(config.profile.nameSelector),
   profileProfession: document.querySelector(config.profile.proffesionSelector),
+  avatarImage: document.querySelector(config.profile.avatarSelector),
 
   editAvatarButton: document.querySelector(config.profile.editAvatarSelector),
   editProfileButton: document.querySelector(config.profile.editButtonSelector),

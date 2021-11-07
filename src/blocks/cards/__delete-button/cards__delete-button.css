@@ -1,4 +1,5 @@
 .cards__delete-button {
+  display: none;
   background-image: url('../../../images/delete-icon.svg');
   background-repeat: no-repeat;
   background-position: center;

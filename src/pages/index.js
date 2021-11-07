@@ -4,9 +4,27 @@ import { config } from '../components/config.js';
 import { elements } from '../components/elements.js';
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
-import { initialCards } from '../components/data.js';
+import { cardsList, userInfo } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
-import { getUserInfo, getCards } from '../components/api.js';
+import { getCards } from '../components/api.js';
+import { loadUserInfo, renderUserInfo, renderUserAvatar } from '../components/user.js';
+
+loadUserInfo()
+  .then((res) => {
+    userInfo._id = res._id;
+    renderUserInfo(res.name, res.about);
+    renderUserAvatar(res.name, res.avatar);
+  });
+
+getCards()
+  .then(data => {
+    data.forEach((item, index) => {
+      addCard(elements.cardsContainer, createCard({
+        name: item.name, link: item.link, id: item._id, owner: item.owner._id
+      }));
+      cardsList[index] = item;
+    })
+  });
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
@@ -24,16 +42,9 @@ enableValidation({
 });
 
 // Инициализация базовых карточек мест на странице (при загрузке)
-initialCards.forEach(function(item) {
-  addCard(elements.cardsContainer, createCard(item.name, item.link));
-});
+// initialCards.forEach(function(item) {
+//   addCard(elements.cardsContainer, createCard(item.name, item.link));
+// });
 
-getUserInfo()
-  .then(data => {
-    console.log(data);
-  });
 
-getCards()
-  .then(data => {
-    console.log(data);
-  });
+

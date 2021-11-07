@@ -1,7 +1,7 @@
 import { config } from './config.js';
 import { elements, forms } from './elements.js';
 import { showPopup, disableSubmitButton } from './modal.js';
-import { completeFormInputs, editFormSubmitHandler, addCartSubmitHandler } from './utils.js';
+import { completeFormInputs, editFormSubmitHandler, addCartSubmitHandler, editAvatarSubmitHandler } from './utils.js';
 
 export function setBasicListeners() {
 
@@ -9,9 +9,9 @@ export function setBasicListeners() {
   const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
 
   // Нажатие на кнопку "Редактировать аватар" на самой картинке в секции profile
-  // elements.editAvatarButton.addEventListener('click', () => {
-  //  showPopup(elements.editAvatarPopup);
-  // });
+  elements.editAvatarButton.addEventListener('click', () => {
+   showPopup(elements.editAvatarPopup);
+  });
 
   // Нажатие на кнопку "Редактировать профиль" в секции profile
   elements.editProfileButton.addEventListener('click', () => {
@@ -28,4 +28,5 @@ export function setBasicListeners() {
   // События submit на все рабочие формы в проекте
   forms.editProfile.addEventListener('submit', editFormSubmitHandler);
   forms.addCart.addEventListener('submit', addCartSubmitHandler);
+  forms.editAvatar.addEventListener('submit', editAvatarSubmitHandler);
 }
