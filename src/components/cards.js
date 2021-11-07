@@ -1,13 +1,24 @@
 import { config } from './config.js';
-import { cardsList, userInfo } from '../components/data.js';
+import { userInfo } from '../components/data.js';
 import { elements } from './elements.js';
 import { showImageModal } from './modal.js';
-import { deleteCard } from './api.js';
+import { deleteCard, addLike, removeLike } from './api.js';
 
 import placeHolder from '../images/placeholder.jpg';
 
 // Получаем разметку шаблона карточки
 const cardNodeContent = elements.cardsTemplate.content;
+
+const updateLikesCount = (selector, count) => {
+  selector.textContent = count;
+}
+
+const deleteCardHandler = (evt) => {
+  deleteCard(evt.target.previousElementSibling.id)
+  .then(() => {
+    evt.target.parentNode.remove();
+  });
+}
 
 const imageClickHandler = (evt) => {
   showImageModal(evt.target);
@@ -18,6 +29,7 @@ const setEventsToCard = (cardItem, owner = false) => {
 
   const cardImage = cardItem.querySelector(config.cards.imageSelector);
   const cardLikeButton = cardItem.querySelector(config.cards.likeButtonSelector);
+  const cardLikesCount = cardItem.querySelector(config.cards.likesCountSelector);
   const cardRemoveButton = cardItem.querySelector(config.cards.deleteButtonSelector);
 
   // Клик по изображению
@@ -33,20 +45,42 @@ const setEventsToCard = (cardItem, owner = false) => {
 
   // Клик по иконке лайка
   cardLikeButton.addEventListener('click', function(evt) {
-    evt.target.classList.toggle(config.cards.hasLikedClass);
+    if(!evt.target.classList.contains(config.cards.hasLikedClass)) {
+      addLike(cardImage.id)
+        .then((res) => {
+          evt.target.classList.add(config.cards.hasLikedClass);
+          updateLikesCount(cardLikesCount, res.likes.length);
+        });
+    } else {
+      removeLike(cardImage.id)
+        .then((res) => {
+          evt.target.classList.remove(config.cards.hasLikedClass);
+          updateLikesCount(cardLikesCount, res.likes.length);
+        });
+    }
   });
 
-  // Клик по иконке удаления карточки
+  // Иконка удаления карточки
+  // Проверка на принадлежность карточки текущему пользователю
   if(owner) {
+    // Показываем иконку удаления
     cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
 
-    cardRemoveButton.addEventListener('click', function(evt) {
-      deleteCard(evt.target.previousElementSibling.id)
-        .then(() => {
-          evt.target.parentNode.remove();
-        });
-    });
+    // Навешиваем событие для удаления карточки
+    cardRemoveButton.addEventListener('click', deleteCardHandler);
   }
+}
+
+const hasMyLike = (usersList) => {
+  let res = false;
+
+  usersList.forEach(item => {
+    if(item._id === userInfo._id) {
+      res = true;
+    }
+  });
+
+  return res;
 }
 
 // Функция возвращает готовую разметку новой карточки
@@ -59,7 +93,13 @@ export const createCard = (cartItem) => {
   clonedCard.querySelector(config.cards.imageSelector).src = cartItem.link;
   clonedCard.querySelector(config.cards.imageSelector).alt = cartItem.name;
   clonedCard.querySelector(config.cards.imageSelector).id = cartItem.id;
+
   clonedCard.querySelector(config.cards.nameSelector).textContent = cartItem.name;
+
+  if(hasMyLike(cartItem.likes)) {
+    clonedCard.querySelector(config.cards.likeButtonSelector).classList.add(config.cards.hasLikedClass);
+  }
+  clonedCard.querySelector(config.cards.likesCountSelector).textContent = cartItem.likes.length;
 
   // Навешиваем на карточку обработчики событий
   setEventsToCard(clonedCard, (cartItem.owner === userInfo._id));

@@ -56,7 +56,8 @@ export const addCartSubmitHandler = (evt) => {
         name: res.name,
         link: res.link,
         id: res._id,
-        owner: res.owner._id
+        owner: res.owner._id,
+        likes: res.likes
       }));
     })
 

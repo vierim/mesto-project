@@ -17,7 +17,7 @@
     <section class="profile page__section">
       <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
       <div class="profile__edit-avatar"></div>
-      <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар пользователя - Жак-Ив Кусто">
+      <img class="profile__avatar" src="" alt="">
       <h1 class="profile__title"></h1>
       <p class="profile__subtitle"></p>
       <button class="profile__add-button" type="button" aria-label="Добавить"></button>
@@ -98,7 +98,10 @@
       <button class="cards__delete-button" type="button" aria-label="Удалить"></button>
       <div class="cards__desc">
         <h2 class="cards__name"></h2>
-        <button class="cards__status" type="button" aria-label="Нравится"></button>
+        <div class="cards__status-container">
+          <button class="cards__status" type="button" aria-label="Нравится"></button>
+          <p class="cards__likes">0</p>
+        </div>
       </div>
     </li>
   </template>

@@ -41,6 +41,7 @@ export const config = {
     imageSelector: '.cards__image',
     nameSelector: '.cards__name',
     likeButtonSelector: '.cards__status',
+    likesCountSelector: '.cards__likes',
     deleteButtonSelector: '.cards__delete-button',
     deleteButtonVisibleClass: 'cards__delete-button_visible',
     hasLikedClass: 'cards__status_active',

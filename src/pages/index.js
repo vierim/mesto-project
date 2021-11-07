@@ -4,7 +4,7 @@ import { config } from '../components/config.js';
 import { elements } from '../components/elements.js';
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
-import { cardsList, userInfo } from '../components/data.js';
+import { userInfo } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
 import { getCards } from '../components/api.js';
 import { loadUserInfo, renderUserInfo, renderUserAvatar } from '../components/user.js';
@@ -18,11 +18,14 @@ loadUserInfo()
 
 getCards()
   .then(data => {
-    data.forEach((item, index) => {
+    data.forEach((item) => {
       addCard(elements.cardsContainer, createCard({
-        name: item.name, link: item.link, id: item._id, owner: item.owner._id
+        name: item.name,
+        link: item.link,
+        id: item._id,
+        owner: item.owner._id,
+        likes: item.likes
       }));
-      cardsList[index] = item;
     })
   });
 
@@ -40,11 +43,3 @@ enableValidation({
   errorClass: config.form.errorMsgVisibleClass,
   errorMsgPrefix: config.form.errorMsgPrefix
 });
-
-// Инициализация базовых карточек мест на странице (при загрузке)
-// initialCards.forEach(function(item) {
-//   addCard(elements.cardsContainer, createCard(item.name, item.link));
-// });
-
-
-
