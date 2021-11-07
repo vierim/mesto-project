@@ -3,6 +3,7 @@ import { userInfo } from '../components/data.js';
 import { elements } from './elements.js';
 import { showImageModal } from './modal.js';
 import { deleteCard, addLike, removeLike } from './api.js';
+import { showError } from './utils.js';
 
 import placeHolder from '../images/placeholder.jpg';
 
@@ -17,7 +18,8 @@ const deleteCardHandler = (evt) => {
   deleteCard(evt.target.previousElementSibling.id)
   .then(() => {
     evt.target.parentNode.remove();
-  });
+  })
+  .catch(err => showError(err));
 }
 
 const imageClickHandler = (evt) => {
@@ -50,13 +52,15 @@ const setEventsToCard = (cardItem, owner = false) => {
         .then((res) => {
           evt.target.classList.add(config.cards.hasLikedClass);
           updateLikesCount(cardLikesCount, res.likes.length);
-        });
+        })
+        .catch(err => showError(err));
     } else {
       removeLike(cardImage.id)
         .then((res) => {
           evt.target.classList.remove(config.cards.hasLikedClass);
           updateLikesCount(cardLikesCount, res.likes.length);
-        });
+        })
+        .catch(err => showError(err));
     }
   });
 

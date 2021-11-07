@@ -6,15 +6,16 @@ import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
 import { userInfo } from '../components/data.js';
 import { createCard, addCard } from '../components/cards.js';
-import { getCards } from '../components/api.js';
-import { loadUserInfo, renderUserInfo, renderUserAvatar } from '../components/user.js';
+import { getUserInfo, getCards } from '../components/api.js';
+import { renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
 
-loadUserInfo()
+getUserInfo()
   .then((res) => {
     userInfo._id = res._id;
     renderUserInfo(res.name, res.about);
     renderUserAvatar(res.name, res.avatar);
-  });
+  })
+  .catch(err => showError(err));
 
 getCards()
   .then(data => {
@@ -27,7 +28,8 @@ getCards()
         likes: item.likes
       }));
     })
-  });
+  })
+  .catch(err => showError(err));
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)

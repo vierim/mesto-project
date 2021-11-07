@@ -1,9 +1,22 @@
 import { config } from './config.js';
-import { elements, forms } from './elements.js';
-import { hidePopup } from './modal.js';
+import { elements, forms, popupButtons } from './elements.js';
+import { hidePopup, setButtonState } from './modal.js';
 import { addCard, createCard } from './cards.js';
 import { changeUserInfo, editAvatar, postCard } from './api.js';
-import { renderUserInfo, renderUserAvatar } from './user.js';
+
+export const showError = (err) => {
+  console.log(`Возникли проблемы при работе с сервером: ${err}`);
+}
+
+export const renderUserInfo = (name, job) => {
+  elements.profileName.textContent = name;
+  elements.profileProfession.textContent = job;
+}
+
+export const renderUserAvatar = (name, avatar) => {
+  elements.avatarImage.src = avatar;
+  elements.avatarImage.alt = `Аватар пользователя ${name}`;
+}
 
 export const editAvatarSubmitHandler = (evt) => {
 
@@ -12,13 +25,18 @@ export const editAvatarSubmitHandler = (evt) => {
   // Отключаем базовую обработку события (submit в данном случае)
   evt.preventDefault();
 
+  setButtonState(popupButtons.editAvatar, true);
+
   editAvatar(avatarInput.value)
     .then((res) => {
       renderUserAvatar(res.name, res.avatar);
-    });
-
-  forms.editAvatar.reset();
-  hidePopup (elements.editAvatarPopup);
+    })
+    .catch(err => showError(err))
+    .finally(() => {
+      setButtonState(popupButtons.editAvatar, false);
+      hidePopup (elements.editAvatarPopup);
+      forms.editAvatar.reset();
+    })
 }
 
 // Событие submit на форме редактирования профиля
@@ -30,14 +48,18 @@ export const editFormSubmitHandler = (evt) => {
   // Отключаем базовую обработку события (submit в данном случае)
   evt.preventDefault();
 
-  // Сохраняем изменения на страницу
-  renderUserInfo(nameInput.value, jobInput.value);
+  setButtonState(popupButtons.editProfile, true);
 
   // Сохраняем изменения на сервере
-  changeUserInfo(nameInput.value, jobInput.value);
-
-  // Закрываем попап
-  hidePopup (elements.editProfilePopup);
+  changeUserInfo(nameInput.value, jobInput.value)
+    .then(() => {
+      renderUserInfo(nameInput.value, jobInput.value);
+    })
+    .catch(err => showError(err))
+    .finally(() => {
+      setButtonState(popupButtons.editProfile, false);
+      hidePopup (elements.editProfilePopup);
+    })
 }
 
 // Событие submit на форме добавления карточки
@@ -48,6 +70,8 @@ export const addCartSubmitHandler = (evt) => {
 
   // Отключаем базовую обработку события (submit в данном случае)
   evt.preventDefault();
+
+  setButtonState(popupButtons.addCart, true);
 
   postCard(titleInput.value, linkInput.value)
     .then((res) => {
@@ -60,12 +84,12 @@ export const addCartSubmitHandler = (evt) => {
         likes: res.likes
       }));
     })
-
-  //очищаем поля формы (должны быть пустыми для добавления следующей карточки)
-  forms.addCart.reset();
-
-  // Закрываем попап
-  hidePopup (elements.addCartPopup);
+    .catch(err => showError(err))
+    .finally(() => {
+      setButtonState(popupButtons.addCart, false);
+      hidePopup (elements.addCartPopup);
+      forms.addCart.reset();
+    })
 }
 
 // Функция заполнения полей ввода в popup данными профиля (имя, профессия) при открытии модалки

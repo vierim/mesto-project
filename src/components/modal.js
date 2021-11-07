@@ -9,6 +9,11 @@ export const disableSubmitButton = (popupElement) => {
   buttonElement.disabled = true;
 }
 
+export const setButtonState = (button, isSending) => {
+  button.disabled = isSending;
+  button.textContent = isSending ? 'Сохранение...' : 'Сохранить';
+}
+
 const keyboardPopupHandler = (evt) => {
 
   const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);

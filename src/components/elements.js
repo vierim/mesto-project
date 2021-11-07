@@ -26,3 +26,9 @@ export const forms = {
   addCart: elements.addCartPopup.querySelector(config.popup.formSelector),
   editAvatar: elements.editAvatarPopup.querySelector(config.popup.formSelector)
 }
+
+export const popupButtons = {
+  editProfile: forms.editProfile.querySelector(config.form.buttonSelector),
+  addCart: forms.addCart.querySelector(config.form.buttonSelector),
+  editAvatar: forms.editAvatar.querySelector(config.form.buttonSelector)
+}
