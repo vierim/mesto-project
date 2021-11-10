@@ -32,6 +32,10 @@ getCards()
   })
   .catch(err => showError(err));
 
+  // Promise.all([p1, p2, p3]).then(values => {
+  //   console.log(values);
+  // });
+
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
 setBasicListeners();

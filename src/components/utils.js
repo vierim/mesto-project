@@ -30,12 +30,12 @@ export const editAvatarSubmitHandler = (evt) => {
   editAvatar(avatarInput.value)
     .then((res) => {
       renderUserAvatar(res.name, res.avatar);
+      hidePopup (elements.editAvatarPopup);
+      forms.editAvatar.reset();
     })
     .catch(err => showError(err))
     .finally(() => {
       setButtonState(popupButtons.editAvatar, false);
-      hidePopup (elements.editAvatarPopup);
-      forms.editAvatar.reset();
     })
 }
 
@@ -54,11 +54,11 @@ export const editFormSubmitHandler = (evt) => {
   changeUserInfo(nameInput.value, jobInput.value)
     .then((res) => {
       renderUserInfo(res.name, res.about);
+      hidePopup (elements.editProfilePopup);
     })
     .catch(err => showError(err))
     .finally(() => {
       setButtonState(popupButtons.editProfile, false);
-      hidePopup (elements.editProfilePopup);
     })
 }
 
@@ -83,12 +83,12 @@ export const addCartSubmitHandler = (evt) => {
         owner: res.owner._id,
         likes: res.likes
       }));
+      hidePopup (elements.addCartPopup);
+      forms.addCart.reset();
     })
     .catch(err => showError(err))
     .finally(() => {
       setButtonState(popupButtons.addCart, false);
-      hidePopup (elements.addCartPopup);
-      forms.addCart.reset();
     })
 }
 

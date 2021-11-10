@@ -7,10 +7,17 @@ export function setBasicListeners() {
 
   const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
   const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
+  const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
 
   // Нажатие на кнопку "Редактировать аватар" на самой картинке в секции profile
   elements.editAvatarButton.addEventListener('click', () => {
    showPopup(elements.editAvatarPopup);
+
+   // Проверяем наличие данных в поле для адреса аватарки
+   // * Данные могут остаться в поле, если пользователь встретил ошибку при прошлой попытке смены аватарки
+   if(avatarInput.value.length === 0) {
+     disableSubmitButton(elements.editAvatarPopup);
+   }
   });
 
   // Нажатие на кнопку "Редактировать профиль" в секции profile

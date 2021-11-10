@@ -16,9 +16,9 @@ export const setButtonState = (button, isSending) => {
 
 const keyboardPopupHandler = (evt) => {
 
-  const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);
-
   if(evt.key && evt.key === 'Escape') {
+    const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);
+
     hidePopup(openedPopupElement);
   }
 }
@@ -28,10 +28,8 @@ const clickPopupHandler = (evt) => {
   const isCloseButtonClicked = evt.target.classList.contains('popup__close-button');
   const isOverlayClicked = evt.target.classList.contains('popup');
 
-  if(isOverlayClicked) {
-    hidePopup(evt.target);
-  } else if (isCloseButtonClicked) {
-    hidePopup(evt.target.parentNode.offsetParent);
+  if(isOverlayClicked || isCloseButtonClicked) {
+    hidePopup(evt.currentTarget);
   }
 }
 
@@ -50,7 +48,8 @@ export const hidePopup = (popupElement) => {
 
   popupElement.classList.remove(config.popup.openedClass);
 
-  // Удаляем слушатель нажатия на клавиатуру на всю страницу
+  // Удаляем слушатели при закрытии попап
+  popupElement.removeEventListener('click', clickPopupHandler);
   document.removeEventListener('keydown', keyboardPopupHandler);
 }
 
