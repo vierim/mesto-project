@@ -10,31 +10,26 @@ import { renderUserInfo, renderUserAvatar, showError } from '../components/utils
 
 export const userInfo = {};
 
-getUserInfo()
-  .then((res) => {
-    userInfo._id = res._id;
-    renderUserInfo(res.name, res.about);
-    renderUserAvatar(res.name, res.avatar);
-  })
-  .catch(err => showError(err));
+const userPromise = getUserInfo();
+const cardPromise = getCards();
 
-getCards()
-  .then(data => {
-    data.forEach((item) => {
+Promise.all([userPromise, cardPromise])
+  .then(res => {
+    userInfo._id = res[0]._id;
+    renderUserInfo(res[0].name, res[0].about);
+    renderUserAvatar(res[0].name, res[0].avatar);
+
+    res[1].forEach((item) => {
       addCard(elements.cardsContainer, createCard({
         name: item.name,
         link: item.link,
         id: item._id,
         owner: item.owner._id,
         likes: item.likes
-      }));
-    })
+      }))
+    });
   })
   .catch(err => showError(err));
-
-  // Promise.all([p1, p2, p3]).then(values => {
-  //   console.log(values);
-  // });
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)
