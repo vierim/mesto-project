@@ -7,7 +7,7 @@ import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
 import { createCard, addCard } from '../components/cards.js';
 import { getUserInfo, getCards } from '../components/api.js';
-import { showPreloader, hidePreloader, renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
+import { hidePreloader, renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
 
 // Объект для хранения данных о пользователе
 export const userInfo = {};
@@ -17,7 +17,7 @@ const cardPromise = getCards();
 
 Promise.all([userPromise, cardPromise])
   .then(res => {
-  
+
     userInfo._id = res[0]._id;
 
     renderUserInfo(res[0].name, res[0].about);
@@ -32,9 +32,8 @@ Promise.all([userPromise, cardPromise])
         likes: item.likes
       }))
     });
-
-    hidePreloader();
   })
+  .then(hidePreloader)
   .catch(err => showError(err));
 
 // Инициализация базовых слушателей на странице

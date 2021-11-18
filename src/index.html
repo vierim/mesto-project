@@ -12,10 +12,6 @@
     <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto Russian">
   </header>
 
-  <div class="preloader preloader_active">
-    <p>Загрузка данных...</p>
-  </div>
-
   <main>
 
     <section class="profile page__section">
@@ -94,6 +90,15 @@
       <img class="popup__image" src="" alt="">
       <p class="popup__figcaption"></p>
     </div>
+  </div>
+
+  <div class="preloader preloader_active">
+    <div class="preloader__container">
+      <div class="preloader__element"></div>
+      <div class="preloader__element"></div>
+      <div class="preloader__element"></div>
+    </div>
+    <p class="preloader__information">Loading...</p>
   </div>
 
 

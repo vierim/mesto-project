@@ -7,6 +7,9 @@
 
 @import url(../blocks/preloader/preloader.css);
 @import url(../blocks/preloader/_active/preloader_active.css);
+@import url(../blocks/preloader/__container/preloader__container.css);
+@import url(../blocks/preloader/__element/preloader__element.css);
+@import url(../blocks/preloader/__information/preloader__information.css);
 
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
