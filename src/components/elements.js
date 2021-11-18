@@ -1,6 +1,8 @@
 import { config } from './config.js';
 
 export const elements = {
+  preloaderElement: document.querySelector(config.preloader.selector),
+
   cardsContainer: document.querySelector(config.cards.containerSelector),
   cardsTemplate: document.querySelector(config.cards.template),
 

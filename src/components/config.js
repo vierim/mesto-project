@@ -47,5 +47,8 @@ export const config = {
     hasLikedClass: 'cards__status_active',
     placeholderClass: 'cards__image_inactive',
     template: '#cards-template'
+  },
+  preloader: {
+    selector: '.preloader'
   }
 }

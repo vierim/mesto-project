@@ -5,6 +5,9 @@
 @import url(../blocks/page/__section/page__section.css);
 @import url(../blocks/page/__section/_size/page__section_size_l.css);
 
+@import url(../blocks/preloader/preloader.css);
+@import url(../blocks/preloader/_active/preloader_active.css);
+
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 

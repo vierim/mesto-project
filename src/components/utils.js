@@ -4,6 +4,14 @@ import { hidePopup, setButtonState } from './modal.js';
 import { addCard, createCard } from './cards.js';
 import { changeUserInfo, editAvatar, postCard } from './api.js';
 
+export const showPreloader = () => {
+  elements.preloaderElement.classList.add('preloader_active');
+}
+
+export const hidePreloader = () => {
+  elements.preloaderElement.classList.remove('preloader_active');
+}
+
 export const showError = (err) => {
   console.log(`Возникли проблемы при работе с сервером: ${err}`);
 }

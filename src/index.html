@@ -12,6 +12,10 @@
     <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto Russian">
   </header>
 
+  <div class="preloader preloader_active">
+    <p>Загрузка данных...</p>
+  </div>
+
   <main>
 
     <section class="profile page__section">
@@ -91,6 +95,8 @@
       <p class="popup__figcaption"></p>
     </div>
   </div>
+
+
 
   <template id="cards-template">
     <li class="cards__item">

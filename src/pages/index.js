@@ -2,12 +2,14 @@ import './index.css';
 
 import { config } from '../components/config.js';
 import { elements } from '../components/elements.js';
+
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
 import { createCard, addCard } from '../components/cards.js';
 import { getUserInfo, getCards } from '../components/api.js';
-import { renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
+import { showPreloader, hidePreloader, renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
 
+// Объект для хранения данных о пользователе
 export const userInfo = {};
 
 const userPromise = getUserInfo();
@@ -15,7 +17,9 @@ const cardPromise = getCards();
 
 Promise.all([userPromise, cardPromise])
   .then(res => {
+  
     userInfo._id = res[0]._id;
+
     renderUserInfo(res[0].name, res[0].about);
     renderUserAvatar(res[0].name, res[0].avatar);
 
@@ -28,6 +32,8 @@ Promise.all([userPromise, cardPromise])
         likes: item.likes
       }))
     });
+
+    hidePreloader();
   })
   .catch(err => showError(err));
 
