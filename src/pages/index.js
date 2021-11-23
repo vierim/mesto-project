@@ -5,8 +5,10 @@ import { elements } from '../components/elements.js';
 
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
-import { createCard, addCard } from '../components/cards.js';
+// import { createCard, addCard } from '../components/cards.js';
+import { addCard, Card } from '../components/cards.js';
 import { getUserInfo, getCards } from '../components/api.js';
+import { showImageModal } from '../components/modal.js';
 import { hidePreloader, renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
 
 // Объект для хранения данных о пользователе
@@ -24,13 +26,17 @@ Promise.all([userPromise, cardPromise])
     renderUserAvatar(res[0].name, res[0].avatar);
 
     res[1].forEach((item) => {
-      addCard(elements.cardsContainer, createCard({
-        name: item.name,
-        link: item.link,
-        id: item._id,
-        owner: item.owner._id,
-        likes: item.likes
-      }))
+      const cardElement = new Card({
+        data: item,
+        handleCardClick: (element) => {
+          showImageModal(element);
+        }
+        },
+        { cardElement: config.cards.itemSelector, template: config.cards.template }
+      );
+
+      // В этом месте в будущем будет метод класса Section для рендера карточек на странице
+      addCard(elements.cardsContainer, cardElement.createCard());
     });
   })
   .then(hidePreloader)

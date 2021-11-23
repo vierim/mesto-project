@@ -1,7 +1,8 @@
 import { config } from './config.js';
 import { elements, forms, popupButtons } from './elements.js';
 import { hidePopup, setButtonState } from './modal.js';
-import { addCard, createCard } from './cards.js';
+// import { addCard, createCard } from './cards.js';
+import { addCard } from './cards.js';
 import { changeUserInfo, editAvatar, postCard } from './api.js';
 
 export const showPreloader = () => {
