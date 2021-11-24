@@ -2,7 +2,7 @@ import "./index.css";
 
 import { config } from "../components/config.js";
 import { elements, forms, inputs } from "../components/elements.js";
-import { disableSubmitButton } from "../components/modal.js";
+import { disableSubmitButton, showImageModal } from "../components/modal.js";
 
 import { setBasicListeners } from "../components/listeners.js";
 import { enableValidation } from "../components/validate.js";
@@ -17,6 +17,8 @@ import {
 
 import { Api } from "../components/Api.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import Section from '../components/Section';
+import Card from '../components/cards.js';
 
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -88,6 +90,7 @@ elements.addCartButton.addEventListener("click", () => {
   disableSubmitButton(elements.addCartPopup);
 });
 
+
 // Объект для хранения данных о пользователе
 export const userInfo = {};
 
@@ -101,18 +104,24 @@ Promise.all([userPromise, cardPromise])
     renderUserInfo(res[0]);
     renderUserAvatar(res[0]);
 
-    res[1].forEach((item) => {
-      addCard(
-        elements.cardsContainer,
-        createCard({
-          name: item.name,
-          link: item.link,
-          id: item._id,
-          owner: item.owner._id,
-          likes: item.likes,
-        })
-      );
-    });
+    const cardList = new Section({
+      items: res[1],
+      renderer: (item) => {
+
+        const card = new Card({
+          data: item,
+          handleCardClick: (element) => {
+            showImageModal(element);
+            // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+          }
+        }, config.cards.template);
+
+        const cardElement = card.createCard();
+        cardList.addItem(cardElement);
+      } // end of renderer
+    }, config.cards.containerSelector); // end of cardList
+
+    cardList.renderItems();
   })
   .then(hidePreloader)
   .catch((err) => showError(err));
