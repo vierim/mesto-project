@@ -3,6 +3,7 @@ export class Api {
     this.options = options;
     this.changeUserInfo = this.changeUserInfo.bind(this);
     this.editAvatar = this.editAvatar.bind(this);
+    this.postCard = this.postCard.bind(this);
   }
 
   _checkResponse(res) {
@@ -44,13 +45,13 @@ export class Api {
     }).then(this._checkResponse);
   }
 
-  postCard(title, url) {
+  postCard({ name, link }) {
     return fetch(`${this.options.baseUrl}/cards`, {
       method: "POST",
       headers: this.options.headers,
       body: JSON.stringify({
-        name: title,
-        link: url,
+        name,
+        link,
       }),
     }).then(this._checkResponse);
   }

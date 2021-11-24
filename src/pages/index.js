@@ -1,7 +1,8 @@
 import "./index.css";
 
 import { config } from "../components/config.js";
-import { elements } from "../components/elements.js";
+import { elements, forms } from "../components/elements.js";
+import { disableSubmitButton } from "../components/modal.js";
 
 import { setBasicListeners } from "../components/listeners.js";
 import { enableValidation } from "../components/validate.js";
@@ -36,7 +37,11 @@ const editProfilePopup = new PopupWithForm(
 
 elements.editProfileButton.addEventListener("click", () => {
   editProfilePopup.open();
-  // completeFormInputs(nameInput, jobInput);
+
+  const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
+  const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
+
+  completeFormInputs(nameInput, jobInput);
 });
 
 const avatarPopup = new PopupWithForm(
@@ -50,9 +55,37 @@ const avatarPopup = new PopupWithForm(
 
 elements.editAvatarButton.addEventListener("click", () => {
   avatarPopup.open();
-  // if (avatarInput.value.length === 0) {
-  //     disableSubmitButton(elements.editAvatarPopup);
-  //   }
+
+  const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
+
+  if (avatarInput.value.length === 0) {
+    disableSubmitButton(elements.editAvatarPopup);
+  }
+});
+
+const cardPopup = new PopupWithForm(
+  config.popup.functionSelector.addCart,
+  (body) =>
+    api
+      .postCard(body)
+      .then((res) => {
+        addCard(
+          elements.cardsContainer,
+          createCard({
+            name: res.name,
+            link: res.link,
+            id: res._id,
+            owner: res.owner._id,
+            likes: res.likes,
+          })
+        );
+      })
+      .catch((err) => showError(err))
+);
+
+elements.addCartButton.addEventListener("click", () => {
+  cardPopup.open();
+  disableSubmitButton(elements.addCartPopup);
 });
 
 // Объект для хранения данных о пользователе

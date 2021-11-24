@@ -3,14 +3,10 @@ import { elements, forms } from "./elements.js";
 import { showPopup, disableSubmitButton } from "./modal.js";
 import { completeFormInputs, addCartSubmitHandler } from "./utils.js";
 
-import { Popup } from "../components/Popup.js";
-
-const popup = new Popup(config.popup.selector);
-
 export function setBasicListeners() {
   const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
   const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
-  // const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
+  const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
 
   // Нажатие на кнопку "Редактировать аватар" на самой картинке в секции profile
   // elements.editAvatarButton.addEventListener("click", () => {
@@ -29,13 +25,13 @@ export function setBasicListeners() {
   //   completeFormInputs(nameInput, jobInput);
   // });
 
-  // Нажатие на кнопку "Добавить карточку" в секции profile
-  elements.addCartButton.addEventListener("click", () => {
-    popup.open(elements.addCartPopup);
-    disableSubmitButton(elements.addCartPopup);
-  });
+  //   // Нажатие на кнопку "Добавить карточку" в секции profile
+  //   elements.addCartButton.addEventListener("click", () => {
+  //     popup.open(elements.addCartPopup);
+  //     disableSubmitButton(elements.addCartPopup);
+  //   });
 
-  // События submit на все рабочие формы в проекте
-  forms.addCart.addEventListener("submit", addCartSubmitHandler);
-  forms.editAvatar.addEventListener("submit", editAvatarSubmitHandler);
+  //   // События submit на все рабочие формы в проекте
+  //   forms.addCart.addEventListener("submit", addCartSubmitHandler);
+  //   forms.editAvatar.addEventListener("submit", editAvatarSubmitHandler);
 }
