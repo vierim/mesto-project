@@ -1,12 +1,11 @@
 import './index.css';
 
 import { config } from '../components/config.js';
-import { elements } from '../components/elements.js';
 
 import { setBasicListeners } from '../components/listeners.js';
 import { enableValidation } from '../components/validate.js';
-// import { createCard, addCard } from '../components/cards.js';
-import { addCard, Card } from '../components/cards.js';
+import Section from '../components/Section';
+import Card from '../components/cards.js';
 import { getUserInfo, getCards } from '../components/api.js';
 import { showImageModal } from '../components/modal.js';
 import { hidePreloader, renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
@@ -25,19 +24,24 @@ Promise.all([userPromise, cardPromise])
     renderUserInfo(res[0].name, res[0].about);
     renderUserAvatar(res[0].name, res[0].avatar);
 
-    res[1].forEach((item) => {
-      const cardElement = new Card({
-        data: item,
-        handleCardClick: (element) => {
-          showImageModal(element);
-        }
-        },
-        { cardElement: config.cards.itemSelector, template: config.cards.template }
-      );
+    const cardList = new Section({
+      items: res[1],
+      renderer: (item) => {
 
-      // В этом месте в будущем будет метод класса Section для рендера карточек на странице
-      addCard(elements.cardsContainer, cardElement.createCard());
-    });
+        const card = new Card({
+          data: item,
+          handleCardClick: (element) => {
+            showImageModal(element);
+            // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+          }
+        }, config.cards.template);
+
+        const cardElement = card.createCard();
+        cardList.addItem(cardElement);
+      } // end of renderer
+    }, config.cards.containerSelector); // end of cardList
+
+    cardList.renderItems();
   })
   .then(hidePreloader)
   .catch(err => showError(err));

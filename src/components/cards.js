@@ -1,95 +1,134 @@
 import { config } from './config.js';
 import { userInfo } from '../pages/index.js';
-import { elements } from './elements.js';
-import { showImageModal } from './modal.js';
 import { deleteCard, addLike, removeLike } from './api.js';
 import { showError } from './utils.js';
 
 import placeHolder from '../images/placeholder.jpg';
 
-export class Card {
+export default class Card {
 
-  constructor({ data, handleCardClick }, selectors) {
+  constructor({ data, handleCardClick }, selector) {
     this._data = data;
     this._handleCardClick = handleCardClick;
-    this._selectors = selectors;
+    this._selector = selector;
+
+    this._handleErrorImageLoad = this._handleErrorImageLoad.bind(this);
+    this._handleLikeClick = this._handleLikeClick.bind(this);
+    this._handleDeleteCard = this._handleDeleteCard.bind(this);
   }
 
   // метод получает html разметку шаблона карточки из документа (все селекторы берет в конструкторе класса)
   _getElement() {
     return document
-      .querySelector(this._selectors.template)
+      .querySelector(this._selector)
       .content
-      .querySelector(this._selectors.cardElement)
+      .querySelector(config.cards.itemSelector)
       .cloneNode(true);
   }
 
-  // Метод для добавления слушателей событий на возвращаемую карточку
+  _updateLikesCount(count) {
+    this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
+    this._cardLikesCount.textContent = count;
+  }
+
+  _handleErrorImageLoad() {
+
+    this._cardImage.src = placeHolder;
+    this._cardImage.classList.add(config.cards.placeholderClass);
+    //cardImage.removeEventListener('click', imageClickHandler);
+  }
+
+  _handleLikeClick(evt) {
+
+    if(!evt.target.classList.contains(config.cards.hasLikedClass)) {
+      addLike(this._data._id)
+        .then((res) => {
+          evt.target.classList.add(config.cards.hasLikedClass);
+          this._updateLikesCount(res.likes.length);
+        })
+        .catch(err => showError(err));
+    } else {
+      removeLike(this._data._id)
+        .then((res) => {
+          evt.target.classList.remove(config.cards.hasLikedClass);
+          this._updateLikesCount(res.likes.length);
+        })
+        .catch(err => showError(err));
+    }
+  }
+
+  _handleDeleteCard() {
+    deleteCard(this._data._id)
+    .then(() => {
+      // Тут нужен какой-то рендер!
+    })
+    .catch(err => showError(err));
+  }
+
+  // Метод для добавления слушателей событий на карточку
   _setEventListeners() {
 
     this._cardImage = this._cardElement.querySelector(config.cards.imageSelector);
-    //const cardLikeButton = cardItem.querySelector(config.cards.likeButtonSelector);
-    //const cardLikesCount = cardItem.querySelector(config.cards.likesCountSelector);
-    //const cardRemoveButton = cardItem.querySelector(config.cards.deleteButtonSelector);
+    this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
 
-    // Клик по изображению
+    this._cardRemoveButton = this._cardElement.querySelector(config.cards.deleteButtonSelector);
+
+    // Клик по изображению (url картинки уходит в callback функцию, так как используется другой класс)
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this._cardImage);
     });
 
     // Обработка ошибки загрузки изображения
-    // cardImage.addEventListener('error', () => {
-
-    //   cardImage.src = placeHolder;
-    //   cardImage.classList.add(config.cards.placeholderClass);
-    //   cardImage.removeEventListener('click', imageClickHandler);
-    // });
+    this._cardImage.addEventListener('error', this._handleErrorImageLoad);
 
     // Клик по иконке лайка
-    // cardLikeButton.addEventListener('click', function(evt) {
-    //   if(!evt.target.classList.contains(config.cards.hasLikedClass)) {
-    //     addLike(cardImage.id)
-    //       .then((res) => {
-    //         evt.target.classList.add(config.cards.hasLikedClass);
-    //         updateLikesCount(cardLikesCount, res.likes.length);
-    //       })
-    //       .catch(err => showError(err));
-    //   } else {
-    //     removeLike(cardImage.id)
-    //       .then((res) => {
-    //         evt.target.classList.remove(config.cards.hasLikedClass);
-    //         updateLikesCount(cardLikesCount, res.likes.length);
-    //       })
-    //       .catch(err => showError(err));
-    //   }
-    // });
+    this._cardLikeButton.addEventListener('click', this._handleLikeClick);
 
     // Иконка удаления карточки
     // Проверка на принадлежность карточки текущему пользователю
-    // if(owner) {
-    //   // Показываем иконку удаления
-    //   cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
+    if(this._data.owner._id === userInfo._id) {
+      // Показываем иконку удаления
+      this._cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
 
-    //   // Навешиваем событие для удаления карточки
-    //   cardRemoveButton.addEventListener('click', deleteCardHandler);
-    // }
+      // Навешиваем событие для удаления карточки
+      this._cardRemoveButton.addEventListener('click', this._handleDeleteCard);
+    }
   }
 
-  createCard() {
-    // Клонируем ноду с разметкой карточки
-    this._cardElement = this._getElement();
+  _hasMyLike() {
+    let res = false;
 
+    this._data.likes.forEach(item => {
+      if(item._id === userInfo._id) {
+        res = true;
+      }
+    });
+
+    return res;
+  }
+
+  _generate() {
     //заполняем html-теги новой карточки
     this._cardElement.querySelector(config.cards.imageSelector).src = this._data.link;
     this._cardElement.querySelector(config.cards.imageSelector).alt = this._data.name;
     this._cardElement.querySelector(config.cards.imageSelector).id = this._data.id;
-
     this._cardElement.querySelector(config.cards.nameSelector).textContent = this._data.name;
 
-    //if(hasMyLike(cartItem.likes)) {
-    //  clonedCard.querySelector(config.cards.likeButtonSelector).classList.add(config.cards.hasLikedClass);
-    //}
-    //clonedCard.querySelector(config.cards.likesCountSelector).textContent = cartItem.likes.length;
+    // Отмечаем карточку лайком, если id текущего пользователя есть в массиве всех лайков
+    if(this._hasMyLike()) {
+      this._cardElement.querySelector(config.cards.likeButtonSelector).classList.add(config.cards.hasLikedClass);
+    }
+
+    this._cardElement.querySelector(config.cards.likesCountSelector).textContent = this._data.likes.length;
+  }
+
+  // Публичный метод, который возвращает готовую карточку со всеми слушателями (ее уже можно отправлять на рендер в DOM)
+  createCard() {
+    // Клонируем ноду с разметкой карточки
+    this._cardElement = this._getElement();
+
+    // Добавляем в склонированный шаблон карточки данные, полученные при создании экземпляра класса
+    this._generate();
 
     // Навешиваем на карточку обработчики событий
     this._setEventListeners();
@@ -97,114 +136,4 @@ export class Card {
     // Возвращаем разметку созданной карточки
     return this._cardElement;
   }
-}
-
-// // Получаем разметку шаблона карточки
-// const cardNodeContent = elements.cardsTemplate.content;
-
-// const updateLikesCount = (selector, count) => {
-//   selector.textContent = count;
-// }
-
-// const deleteCardHandler = (evt) => {
-//   deleteCard(evt.target.previousElementSibling.id)
-//   .then(() => {
-//     evt.target.parentNode.remove();
-//   })
-//   .catch(err => showError(err));
-// }
-
-// const imageClickHandler = (evt) => {
-//   showImageModal(evt.target);
-// }
-
-// // Функция добавления событий на отдельно взятую карточку места
-// const setEventsToCard = (cardItem, owner = false) => {
-
-//   const cardImage = cardItem.querySelector(config.cards.imageSelector);
-//   const cardLikeButton = cardItem.querySelector(config.cards.likeButtonSelector);
-//   const cardLikesCount = cardItem.querySelector(config.cards.likesCountSelector);
-//   const cardRemoveButton = cardItem.querySelector(config.cards.deleteButtonSelector);
-
-//   // Клик по изображению
-//   cardImage.addEventListener('click', imageClickHandler);
-
-//   // Обработка ошибки загрузки изображения
-//   cardImage.addEventListener('error', () => {
-
-//     cardImage.src = placeHolder;
-//     cardImage.classList.add(config.cards.placeholderClass);
-//     cardImage.removeEventListener('click', imageClickHandler);
-//   });
-
-//   // Клик по иконке лайка
-//   cardLikeButton.addEventListener('click', function(evt) {
-//     if(!evt.target.classList.contains(config.cards.hasLikedClass)) {
-//       addLike(cardImage.id)
-//         .then((res) => {
-//           evt.target.classList.add(config.cards.hasLikedClass);
-//           updateLikesCount(cardLikesCount, res.likes.length);
-//         })
-//         .catch(err => showError(err));
-//     } else {
-//       removeLike(cardImage.id)
-//         .then((res) => {
-//           evt.target.classList.remove(config.cards.hasLikedClass);
-//           updateLikesCount(cardLikesCount, res.likes.length);
-//         })
-//         .catch(err => showError(err));
-//     }
-//   });
-
-//   // Иконка удаления карточки
-//   // Проверка на принадлежность карточки текущему пользователю
-//   if(owner) {
-//     // Показываем иконку удаления
-//     cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
-
-//     // Навешиваем событие для удаления карточки
-//     cardRemoveButton.addEventListener('click', deleteCardHandler);
-//   }
-// }
-
-// const hasMyLike = (usersList) => {
-//   let res = false;
-
-//   usersList.forEach(item => {
-//     if(item._id === userInfo._id) {
-//       res = true;
-//     }
-//   });
-
-//   return res;
-// }
-
-// // Функция возвращает готовую разметку новой карточки
-// export const createCard = (cartItem) => {
-
-//   // Клонируем ноду с разметкой карточки
-//   const clonedCard = cardNodeContent.querySelector(config.cards.itemSelector).cloneNode(true);
-
-//   //заполняем html-теги новой карточки
-//   clonedCard.querySelector(config.cards.imageSelector).src = cartItem.link;
-//   clonedCard.querySelector(config.cards.imageSelector).alt = cartItem.name;
-//   clonedCard.querySelector(config.cards.imageSelector).id = cartItem.id;
-
-//   clonedCard.querySelector(config.cards.nameSelector).textContent = cartItem.name;
-
-//   if(hasMyLike(cartItem.likes)) {
-//     clonedCard.querySelector(config.cards.likeButtonSelector).classList.add(config.cards.hasLikedClass);
-//   }
-//   clonedCard.querySelector(config.cards.likesCountSelector).textContent = cartItem.likes.length;
-
-//   // Навешиваем на карточку обработчики событий
-//   setEventsToCard(clonedCard, (cartItem.owner === userInfo._id));
-
-//   // Возвращаем разметку созданной карточки
-//   return clonedCard;
-// }
-
-// Функция добавления карточки в коллекцию на странице
-export const addCard = (container, cardElement) => {
-  container.prepend(cardElement);
 }

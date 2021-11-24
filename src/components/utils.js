@@ -1,9 +1,9 @@
 import { config } from './config.js';
 import { elements, forms, popupButtons } from './elements.js';
 import { hidePopup, setButtonState } from './modal.js';
-// import { addCard, createCard } from './cards.js';
-import { addCard } from './cards.js';
 import { changeUserInfo, editAvatar, postCard } from './api.js';
+
+import Card from '../components/cards.js';
 
 export const showPreloader = () => {
   elements.preloaderElement.classList.add('preloader_active');
@@ -85,14 +85,26 @@ export const addCartSubmitHandler = (evt) => {
   postCard(titleInput.value, linkInput.value)
     .then((res) => {
       // Добавляем карточку на страницу
-      addCard(elements.cardsContainer, createCard({
-        name: res.name,
-        link: res.link,
-        id: res._id,
-        owner: res.owner._id,
-        likes: res.likes
-      }));
-      hidePopup (elements.addCartPopup);
+      // addCard(elements.cardsContainer, createCard({
+      //   name: res.name,
+      //   link: res.link,
+      //   id: res._id,
+      //   owner: res.owner._id,
+      //   likes: res.likes
+      // }));
+
+      const card = new Card({
+        data: res,
+        handleCardClick: (element) => {
+          showImageModal(element);
+          // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+        }
+      }, config.cards.template);
+
+      const cardElement = card.createCard();
+      cardList.addItem(cardElement);
+
+      hidePopup(elements.addCartPopup);
       forms.addCart.reset();
     })
     .catch(err => showError(err))
