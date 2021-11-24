@@ -1,9 +1,9 @@
 import { config } from './config.js';
 import { elements, forms, popupButtons } from './elements.js';
 import { hidePopup, setButtonState } from './modal.js';
-import { changeUserInfo, editAvatar, postCard } from './api.js';
+// import { changeUserInfo, editAvatar, postCard } from './api.js';
 
-import Card from '../components/cards.js';
+import Card from './Cards.js';
 
 export const showPreloader = () => {
   elements.preloaderElement.classList.add("preloader_active");

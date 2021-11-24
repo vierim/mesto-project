@@ -6,7 +6,7 @@ import { disableSubmitButton, showImageModal } from "../components/modal.js";
 
 import { setBasicListeners } from "../components/listeners.js";
 import { enableValidation } from "../components/validate.js";
-import { createCard, addCard } from "../components/cards.js";
+// import { createCard, addCard } from "../components/Cards.js";
 import {
   hidePreloader,
   renderUserInfo,
@@ -18,15 +18,51 @@ import {
 import { Api } from "../components/Api.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import Section from '../components/Section';
-import Card from '../components/cards.js';
+import Card from '../components/Cards.js';
 
-const api = new Api({
+export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
   headers: {
     authorization: "27fae40c-b0f9-46c9-bf33-d2f2bfaeebe1",
     "Content-Type": "application/json",
   },
 });
+
+// Объект для хранения данных о пользователе
+export const userInfo = {};
+
+const userPromise = api.getUserInfo();
+const cardPromise = api.getCards();
+
+Promise.all([userPromise, cardPromise])
+  .then((res) => {
+    userInfo._id = res[0]._id;
+
+    renderUserInfo(res[0]);
+    renderUserAvatar(res[0]);
+
+    const cardList = new Section({
+
+      items: res[1],
+      renderer: (item) => {
+
+        const card = new Card({
+          data: item,
+          handleCardClick: (element) => {
+            showImageModal(element);
+            // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+          }
+        }, config.cards.template);
+
+        const cardElement = card.createCard();
+        cardList.addItem(cardElement);
+      } // end of renderer
+    }, config.cards.containerSelector); // end of cardList
+
+    cardList.renderItems();
+  })
+  .then(hidePreloader)
+  .catch((err) => showError(err));
 
 const editProfilePopup = new PopupWithForm(
   config.popup.functionSelector.editProfile,
@@ -71,16 +107,17 @@ const cardPopup = new PopupWithForm(
     api
       .postCard(body)
       .then((res) => {
-        addCard(
-          elements.cardsContainer,
-          createCard({
-            name: res.name,
-            link: res.link,
-            id: res._id,
-            owner: res.owner._id,
-            likes: res.likes,
-          })
-        );
+        const card = new Card({
+          data: res,
+          handleCardClick: (element) => {
+            showImageModal(element);
+            // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+          }
+        }, config.cards.template);
+
+        const cardElement = card.createCard();
+
+        cardList.addItem(cardElement);
       })
       .catch((err) => showError(err))
 );
@@ -91,40 +128,7 @@ elements.addCartButton.addEventListener("click", () => {
 });
 
 
-// Объект для хранения данных о пользователе
-export const userInfo = {};
 
-const userPromise = api.getUserInfo();
-const cardPromise = api.getCards();
-
-Promise.all([userPromise, cardPromise])
-  .then((res) => {
-    userInfo._id = res[0]._id;
-
-    renderUserInfo(res[0]);
-    renderUserAvatar(res[0]);
-
-    const cardList = new Section({
-      items: res[1],
-      renderer: (item) => {
-
-        const card = new Card({
-          data: item,
-          handleCardClick: (element) => {
-            showImageModal(element);
-            // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
-          }
-        }, config.cards.template);
-
-        const cardElement = card.createCard();
-        cardList.addItem(cardElement);
-      } // end of renderer
-    }, config.cards.containerSelector); // end of cardList
-
-    cardList.renderItems();
-  })
-  .then(hidePreloader)
-  .catch((err) => showError(err));
 
 // Инициализация базовых слушателей на странице
 // (для видимого функционала, без слушателей на отдельных карточках)

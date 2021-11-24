@@ -4,19 +4,9 @@ import { elements } from "./elements.js";
 import { showImageModal } from "./modal.js";
 import { showError } from "./utils.js";
 
-import { deleteCard } from './api.js';
-
 import placeHolder from "../images/placeholder.jpg";
 
-import { Api } from "../components/Api.js";
-
-const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
-  headers: {
-    authorization: "27fae40c-b0f9-46c9-bf33-d2f2bfaeebe1",
-    "Content-Type": "application/json",
-  },
-});
+import { api } from "../pages/index.js";
 
 export default class Card {
 
@@ -54,7 +44,7 @@ export default class Card {
   _handleLikeClick(evt) {
 
     if(!evt.target.classList.contains(config.cards.hasLikedClass)) {
-      addLike(this._data._id)
+      api.addLike(this._data._id)
         .then((res) => {
           evt.target.classList.add(config.cards.hasLikedClass);
           this._updateLikesCount(res.likes.length);
@@ -70,10 +60,11 @@ export default class Card {
     }
   }
 
-  _handleDeleteCard() {
-    deleteCard(this._data._id)
+  _handleDeleteCard(evt) {
+    api.deleteCard(this._data._id)
     .then(() => {
       // Тут нужен какой-то рендер!
+      evt.target.parentNode.remove();
     })
     .catch(err => showError(err));
   }
