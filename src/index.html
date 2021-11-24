@@ -1,121 +1,204 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Фотоальбом пользователя Жак-Ив Кусто - Mesto-Russia</title>
-</head>
-<body class="page">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фотоальбом пользователя Жак-Ив Кусто - Mesto-Russia</title>
+  </head>
+  <body class="page">
+    <header class="header page__section page__section_size_l">
+      <img
+        class="header__logo"
+        src="<%=require('./images/logo.svg')%>"
+        alt="Логотип Mesto Russian"
+      />
+    </header>
 
-  <header class="header page__section page__section_size_l">
-    <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto Russian">
-  </header>
+    <main>
+      <section class="profile page__section">
+        <button
+          class="profile__edit-button"
+          type="button"
+          aria-label="Редактировать профиль"
+        ></button>
+        <div class="profile__edit-avatar"></div>
+        <img class="profile__avatar" src="" alt="" />
+        <h1 class="profile__title"></h1>
+        <p class="profile__subtitle"></p>
+        <button
+          class="profile__add-button"
+          type="button"
+          aria-label="Добавить"
+        ></button>
+      </section>
 
-  <main>
+      <section class="cards page__section">
+        <ul class="cards__list">
+          <!-- Заполняется при загрузке страницы -->
+        </ul>
+      </section>
+    </main>
 
-    <section class="profile page__section">
-      <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
-      <div class="profile__edit-avatar"></div>
-      <img class="profile__avatar" src="" alt="">
-      <h1 class="profile__title"></h1>
-      <p class="profile__subtitle"></p>
-      <button class="profile__add-button" type="button" aria-label="Добавить"></button>
-    </section>
+    <footer class="footer page__section">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
 
-    <section class="cards page__section">
-      <ul class="cards__list">
-        <!-- Заполняется при загрузке страницы -->
-      </ul>
-    </section>
-  </main>
-
-  <footer class="footer page__section">
-    <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
-  </footer>
-
-  <div class="popup popup__function_edit-profile">
-    <div class="popup__container">
-      <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-      <h2 class="popup__header">Редактировать профиль</h2>
-      <form class="form popup__form" name="profile-edit" novalidate>
-        <label class="form__field">
-          <input type="text" class="form__input" id="name" name="name" placeholder="Введите ваше имя" value="" minlength="2" maxlength="40" required>
-          <span class="form__error-msg" id="name-error"></span>
-        </label>
-        <label class="form__field">
-          <input type="text" class="form__input" id="profession" name="profession" placeholder="Введите вашу профессию" value="" minlength="2" maxlength="200" required>
-          <span class="form__error-msg" id="profession-error"></span>
-        </label>
-        <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup popup__function_edit-avatar">
-    <div class="popup__container">
-      <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-      <h2 class="popup__header">Обновить аватар</h2>
-      <form class="form popup__form" name="avatar-edit" novalidate>
-        <label class="form__field">
-          <input type="url" class="form__input" id="pic" name="pic" placeholder="https://somewebsite.com/someimage.jpg" value="" required>
-          <span class="form__error-msg" id="pic-error"></span>
-        </label>
-        <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup popup__function_add-cart">
-    <div class="popup__container">
-      <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-      <h2 class="popup__header">Новое место</h2>
-      <form class="form popup__form" name="add-cart" novalidate>
-        <label class="form__field">
-          <input type="text" class="form__input" id="name" name="name" placeholder="Название" minlength="2" maxlength="30" value="" required>
-          <span class="form__error-msg" id="name-error"></span>
-        </label>
-        <label class="form__field">
-          <input type="url" class="form__input" id="link" name="link" placeholder="Ссылка на картинку" value="" required>
-          <span class="form__error-msg" id="link-error"></span>
-        </label>
-        <button class="form__button" type="submit" aria-label="Создать">Создать</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup popup__function_view-foto">
-    <div class="popup__container popup_size_big">
-      <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-      <img class="popup__image" src="" alt="">
-      <p class="popup__figcaption"></p>
-    </div>
-  </div>
-
-  <div class="preloader preloader_active">
-    <div class="preloader__container">
-      <div class="preloader__element"></div>
-      <div class="preloader__element"></div>
-      <div class="preloader__element"></div>
-    </div>
-    <p class="preloader__information">Loading...</p>
-  </div>
-
-
-
-  <template id="cards-template">
-    <li class="cards__item">
-      <img class="cards__image" id="" src="" alt="">
-      <button class="cards__delete-button" type="button" aria-label="Удалить"></button>
-      <div class="cards__desc">
-        <h2 class="cards__name"></h2>
-        <div class="cards__status-container">
-          <button class="cards__status" type="button" aria-label="Нравится"></button>
-          <p class="cards__likes">0</p>
-        </div>
+    <div class="popup popup__function_edit-profile">
+      <div class="popup__container">
+        <button
+          class="popup__close-button"
+          type="button"
+          aria-label="Закрыть"
+        ></button>
+        <h2 class="popup__header">Редактировать профиль</h2>
+        <form class="form popup__form" name="profile-edit" novalidate>
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input"
+              id="name"
+              name="name"
+              placeholder="Введите ваше имя"
+              value=""
+              minlength="2"
+              maxlength="40"
+              required
+            />
+            <span class="form__error-msg" id="name-error"></span>
+          </label>
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input"
+              id="profession"
+              name="about"
+              placeholder="Введите вашу профессию"
+              value=""
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="form__error-msg" id="about-error"></span>
+          </label>
+          <button class="form__button" type="submit" aria-label="Сохранить">
+            Сохранить
+          </button>
+        </form>
       </div>
-    </li>
-  </template>
+    </div>
 
-</body>
+    <div class="popup popup__function_edit-avatar">
+      <div class="popup__container">
+        <button
+          class="popup__close-button"
+          type="button"
+          aria-label="Закрыть"
+        ></button>
+        <h2 class="popup__header">Обновить аватар</h2>
+        <form class="form popup__form" name="avatar-edit" novalidate>
+          <label class="form__field">
+            <input
+              type="url"
+              class="form__input"
+              id="pic"
+              name="avatar"
+              placeholder="https://somewebsite.com/someimage.jpg"
+              value=""
+              required
+            />
+            <span class="form__error-msg" id="avatar-error"></span>
+          </label>
+          <button class="form__button" type="submit" aria-label="Сохранить">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup__function_add-cart">
+      <div class="popup__container">
+        <button
+          class="popup__close-button"
+          type="button"
+          aria-label="Закрыть"
+        ></button>
+        <h2 class="popup__header">Новое место</h2>
+        <form class="form popup__form" name="add-cart" novalidate>
+          <label class="form__field">
+            <input
+              type="text"
+              class="form__input"
+              id="name"
+              name="name"
+              placeholder="Название"
+              minlength="2"
+              maxlength="30"
+              value=""
+              required
+            />
+            <span class="form__error-msg" id="name-error"></span>
+          </label>
+          <label class="form__field">
+            <input
+              type="url"
+              class="form__input"
+              id="link"
+              name="link"
+              placeholder="Ссылка на картинку"
+              value=""
+              required
+            />
+            <span class="form__error-msg" id="link-error"></span>
+          </label>
+          <button class="form__button" type="submit" aria-label="Создать">
+            Создать
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup__function_view-foto">
+      <div class="popup__container popup_size_big">
+        <button
+          class="popup__close-button"
+          type="button"
+          aria-label="Закрыть"
+        ></button>
+        <img class="popup__image" src="" alt="" />
+        <p class="popup__figcaption"></p>
+      </div>
+    </div>
+
+    <div class="preloader preloader_active">
+      <div class="preloader__container">
+        <div class="preloader__element"></div>
+        <div class="preloader__element"></div>
+        <div class="preloader__element"></div>
+      </div>
+      <p class="preloader__information">Loading...</p>
+    </div>
+
+    <template id="cards-template">
+      <li class="cards__item">
+        <img class="cards__image" id="" src="" alt="" />
+        <button
+          class="cards__delete-button"
+          type="button"
+          aria-label="Удалить"
+        ></button>
+        <div class="cards__desc">
+          <h2 class="cards__name"></h2>
+          <div class="cards__status-container">
+            <button
+              class="cards__status"
+              type="button"
+              aria-label="Нравится"
+            ></button>
+            <p class="cards__likes">0</p>
+          </div>
+        </div>
+      </li>
+    </template>
+  </body>
 </html>

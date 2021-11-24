@@ -1,6 +1,8 @@
 export class Api {
   constructor(options) {
     this.options = options;
+    this.changeUserInfo = this.changeUserInfo.bind(this);
+    this.editAvatar = this.editAvatar.bind(this);
   }
 
   _checkResponse(res) {
@@ -15,23 +17,23 @@ export class Api {
     }).then(this._checkResponse);
   }
 
-  changeUserInfo(name, job) {
+  changeUserInfo({ name, about }) {
     return fetch(`${this.options.baseUrl}/users/me`, {
       method: "PATCH",
       headers: this.options.headers,
       body: JSON.stringify({
-        name: name,
-        about: job,
+        name,
+        about,
       }),
     }).then(this._checkResponse);
   }
 
-  editAvatar(pic) {
+  editAvatar({ avatar }) {
     return fetch(`${this.options.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this.options.headers,
       body: JSON.stringify({
-        avatar: pic,
+        avatar,
       }),
     }).then(this._checkResponse);
   }

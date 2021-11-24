@@ -28,58 +28,14 @@ export const showError = (err) => {
   console.log(`Возникли проблемы при работе с сервером: ${err}`);
 };
 
-export const renderUserInfo = (name, job) => {
+export const renderUserInfo = ({ name, about }) => {
   elements.profileName.textContent = name;
-  elements.profileProfession.textContent = job;
+  elements.profileProfession.textContent = about;
 };
 
-export const renderUserAvatar = (name, avatar) => {
+export const renderUserAvatar = ({ name, avatar }) => {
   elements.avatarImage.src = avatar;
   elements.avatarImage.alt = `Аватар пользователя ${name}`;
-};
-
-export const editAvatarSubmitHandler = (evt) => {
-  const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
-
-  // Отключаем базовую обработку события (submit в данном случае)
-  evt.preventDefault();
-
-  setButtonState(popupButtons.editAvatar, true);
-
-  api
-    .editAvatar(avatarInput.value)
-    .then((res) => {
-      renderUserAvatar(res.name, res.avatar);
-      popup.close(elements.editAvatarPopup);
-      forms.editAvatar.reset();
-    })
-    .catch((err) => showError(err))
-    .finally(() => {
-      setButtonState(popupButtons.editAvatar, false);
-    });
-};
-
-// Событие submit на форме редактирования профиля
-export const editFormSubmitHandler = (evt) => {
-  const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
-  const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
-
-  // Отключаем базовую обработку события (submit в данном случае)
-  evt.preventDefault();
-
-  setButtonState(popupButtons.editProfile, true);
-
-  // Сохраняем изменения на сервере
-  api
-    .changeUserInfo(nameInput.value, jobInput.value)
-    .then((res) => {
-      renderUserInfo(res.name, res.about);
-      popup.close(elements.editProfilePopup);
-    })
-    .catch((err) => showError(err))
-    .finally(() => {
-      setButtonState(popupButtons.editProfile, false);
-    });
 };
 
 // Событие submit на форме добавления карточки
