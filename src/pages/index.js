@@ -1,7 +1,7 @@
 import "./index.css";
 
 import { config } from "../components/config.js";
-import { elements, forms } from "../components/elements.js";
+import { elements, forms, inputs } from "../components/elements.js";
 import { disableSubmitButton } from "../components/modal.js";
 
 import { setBasicListeners } from "../components/listeners.js";
@@ -38,8 +38,8 @@ const editProfilePopup = new PopupWithForm(
 elements.editProfileButton.addEventListener("click", () => {
   editProfilePopup.open();
 
-  const nameInput = forms.editProfile.querySelector(config.form.inputs.name);
-  const jobInput = forms.editProfile.querySelector(config.form.inputs.about);
+  const nameInput = inputs.inputProfileName;
+  const jobInput = inputs.inputProfileAbout;
 
   completeFormInputs(nameInput, jobInput);
 });
@@ -56,7 +56,7 @@ const avatarPopup = new PopupWithForm(
 elements.editAvatarButton.addEventListener("click", () => {
   avatarPopup.open();
 
-  const avatarInput = forms.editAvatar.querySelector(config.form.inputs.avatar);
+  const avatarInput = inputs.inputAvatar;
 
   if (avatarInput.value.length === 0) {
     disableSubmitButton(elements.editAvatarPopup);
