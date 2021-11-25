@@ -18,6 +18,11 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 import Section from "../components/Section";
 import Card from "../components/Cards.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { PopupWithImage } from "../components/PopupWithImage";
+
+// Добавила CardList в глобальную область видимости,
+// чтобы он был доступен в экземпляре класса CardPopup
+let cardList;
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -43,16 +48,21 @@ Promise.all([user.getUserInfo(), api.getCards()])
   .then((res) => {
     userInfo._id = res[0]._id;
 
-    const cardList = new Section(
+    //
+    cardList = new Section(
       {
         items: res[1],
         renderer: (item) => {
           const card = new Card(
             {
               data: item,
-              handleCardClick: (element) => {
-                showImageModal(element);
-                // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+              handleCardClick: () => {
+                const imagePopup = new PopupWithImage(
+                  config.popup.functionSelector.viewFoto,
+                  item
+                );
+
+                imagePopup.open();
               },
             },
             config.cards.template
@@ -93,9 +103,13 @@ const cardPopup = new PopupWithForm(
         const card = new Card(
           {
             data: res,
-            handleCardClick: (element) => {
-              showImageModal(element);
-              // здесь вместо showImageModal будет использоваться экземпляр класса Popup или один из его производных
+            handleCardClick: () => {
+              const imagePopup = new PopupWithImage(
+                config.popup.functionSelector.viewFoto,
+                res
+              );
+
+              imagePopup.open();
             },
           },
           config.cards.template
