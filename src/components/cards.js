@@ -1,5 +1,5 @@
 import { config } from "./config.js";
-import { userInfo } from "../pages/index.js";
+// import { userInfo } from "../pages/index.js";
 import { showError } from "./utils.js";
 
 import placeHolder from "../images/placeholder.jpg";
@@ -7,10 +7,12 @@ import placeHolder from "../images/placeholder.jpg";
 import { api } from "../pages/index.js";
 
 export default class Card {
-  constructor({ data, handleCardClick }, selector) {
+  constructor({ data, handleCardClick, userId }, selector) {
     this._data = data;
     this._handleCardClick = handleCardClick;
     this._selector = selector;
+    // Дабавляем и передаем наш UserId
+    this._userId = userId;
 
     this._handleErrorImageLoad = this._handleErrorImageLoad.bind(this);
     this._handleLikeClick = this._handleLikeClick.bind(this);
@@ -94,7 +96,7 @@ export default class Card {
 
     // Иконка удаления карточки
     // Проверка на принадлежность карточки текущему пользователю
-    if (this._data.owner._id === userInfo._id) {
+    if (this._data.owner._id === this._userId) {
       // Показываем иконку удаления
       this._cardRemoveButton.classList.add(
         config.cards.deleteButtonVisibleClass
@@ -109,7 +111,7 @@ export default class Card {
     let res = false;
 
     this._data.likes.forEach((item) => {
-      if (item._id === userInfo._id) {
+      if (item._id === this._userId) {
         res = true;
       }
     });

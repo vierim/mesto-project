@@ -42,12 +42,13 @@ const user = new UserInfo(
 );
 
 // Объект для хранения данных о пользователе
-export const userInfo = {};
+// export const userInfo = {};
 
 Promise.all([user.getUserInfo(), api.getCards()])
   .then((res) => {
-    userInfo._id = res[0]._id;
-
+    // userInfo._id = res[0]._id;
+    // Получаем наш Id
+    const userId = user.getUserInfo()._id;
     //
     cardList = new Section(
       {
@@ -56,6 +57,7 @@ Promise.all([user.getUserInfo(), api.getCards()])
           const card = new Card(
             {
               data: item,
+              userId,
               handleCardClick: () => {
                 const imagePopup = new PopupWithImage(
                   config.popup.functionSelector.viewFoto,
@@ -100,9 +102,12 @@ const cardPopup = new PopupWithForm(
     api
       .postCard(body)
       .then((res) => {
+        // Получаем наш Id
+        const userId = user.getUserInfo()._id;
         const card = new Card(
           {
             data: res,
+            userId,
             handleCardClick: () => {
               const imagePopup = new PopupWithImage(
                 config.popup.functionSelector.viewFoto,
