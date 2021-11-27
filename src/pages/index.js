@@ -52,7 +52,11 @@ const user = new UserInfo(
 
 const editProfilePopup = new PopupWithForm(
   config.popup.functionSelector.editProfile,
-  (body) => user.setUserInfo(body)
+  (body) =>
+    api
+      .changeUserInfo(body)
+      .then((res) => user.setUserInfo(res))
+      .catch((err) => showError(err))
 );
 
 const avatarPopup = new PopupWithForm(
@@ -126,9 +130,9 @@ editAvatarValidity.enableValidation();
 const addCartValidity = new FormValidator(validationConfig, forms.addCart);
 addCartValidity.enableValidation();
 
-Promise.all([user.getUserInfo(), api.getCards()])
+Promise.all([api..getUserInfo(), api.getCards()])
   .then((res) => {
-
+    user.setUserInfo(res[0]);
     const userId = user.getUserInfo()._id;
 
     cardList = new Section(
