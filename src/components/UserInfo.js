@@ -2,9 +2,9 @@ import { showError } from "./utils.js";
 
 export class UserInfo {
   constructor({ nameSelector, aboutSelector, avatarSelector }, api) {
-    this.nameSelector = document.querySelector(nameSelector);
-    this.aboutSelector = document.querySelector(aboutSelector);
-    this.avatarSelector = document.querySelector(avatarSelector);
+    this._nameSelector = document.querySelector(nameSelector);
+    this._aboutSelector = document.querySelector(aboutSelector);
+    this._avatarSelector = document.querySelector(avatarSelector);
     this._api = api;
     this.user = null;
   }
@@ -38,12 +38,13 @@ export class UserInfo {
   }
 
   _renderUserInfo({ name, about }) {
-    this.nameSelector.textContent = name;
-    this.aboutSelector.textContent = about;
+    this._nameSelector.textContent = name;
+    this._aboutSelector.textContent = about;
+    document.title = name;
   }
 
   renderUserAvatar = ({ name, avatar }) => {
-    this.avatarSelector.src = avatar;
-    this.avatarSelector.alt = `Аватар пользователя ${name}`;
+    this._avatarSelector.src = avatar;
+    this._avatarSelector.alt = `Аватар пользователя ${name}`;
   };
 }
