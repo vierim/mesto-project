@@ -20,12 +20,13 @@ export class UserInfo {
   }
 
   _renderUserInfo({ name, about }) {
-    this.nameSelector.textContent = name;
-    this.aboutSelector.textContent = about;
+    this._nameSelector.textContent = name;
+    this._aboutSelector.textContent = about;
+    document.title = name;
   }
 
   renderUserAvatar = ({ name, avatar }) => {
-    this.avatarSelector.src = avatar;
-    this.avatarSelector.alt = `Аватар пользователя ${name}`;
+    this._avatarSelector.src = avatar;
+    this._avatarSelector.alt = `Аватар пользователя ${name}`;
   };
 }
