@@ -2,23 +2,23 @@ import "./index.css";
 
 import { config } from "../components/config.js";
 import { elements, inputs } from "../components/elements.js";
-import { disableSubmitButton, showImageModal } from "../components/modal.js";
+import { disableSubmitButton } from "../components/modal.js";
 
-import { setBasicListeners } from "../components/listeners.js";
 import { enableValidation } from "../components/validate.js";
-// import { createCard, addCard } from "../components/Cards.js";
+
 import {
   hidePreloader,
   showError,
   completeFormInputs,
+  setModalImageParam,
 } from "../components/utils.js";
 
 import { Api } from "../components/Api.js";
-import { PopupWithForm } from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section";
 import Card from "../components/Cards.js";
-import { UserInfo } from "../components/UserInfo.js";
-import { PopupWithImage } from "../components/PopupWithImage";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage";
 
 // Добавила CardList в глобальную область видимости,
 // чтобы он был доступен в экземпляре класса CardPopup
@@ -41,47 +41,6 @@ const user = new UserInfo(
   api
 );
 
-// Объект для хранения данных о пользователе
-// export const userInfo = {};
-
-Promise.all([user.getUserInfo(), api.getCards()])
-  .then((res) => {
-    // userInfo._id = res[0]._id;
-    // Получаем наш Id
-    const userId = user.getUserInfo()._id;
-    //
-    cardList = new Section(
-      {
-        items: res[1],
-        renderer: (item) => {
-          const card = new Card(
-            {
-              data: item,
-              userId,
-              handleCardClick: () => {
-                const imagePopup = new PopupWithImage(
-                  config.popup.functionSelector.viewFoto,
-                  item
-                );
-
-                imagePopup.open();
-              },
-            },
-            config.cards.template
-          );
-
-          const cardElement = card.createCard();
-          cardList.addItem(cardElement);
-        }, // end of renderer
-      },
-      config.cards.containerSelector
-    ); // end of cardList
-
-    cardList.renderItems();
-  })
-  .then(hidePreloader)
-  .catch((err) => showError(err));
-
 const editProfilePopup = new PopupWithForm(
   config.popup.functionSelector.editProfile,
   (body) => user.setUserInfo(body)
@@ -96,6 +55,10 @@ const avatarPopup = new PopupWithForm(
       .catch((err) => showError(err))
 );
 
+const imagePopup = new PopupWithImage(
+  config.popup.functionSelector.viewFoto
+);
+
 const cardPopup = new PopupWithForm(
   config.popup.functionSelector.addCart,
   (body) =>
@@ -108,12 +71,8 @@ const cardPopup = new PopupWithForm(
           {
             data: res,
             userId,
-            handleCardClick: () => {
-              const imagePopup = new PopupWithImage(
-                config.popup.functionSelector.viewFoto,
-                res
-              );
-
+            handleCardClick: (item) => {
+              setModalImageParam(item.link, item.name);
               imagePopup.open();
             },
           },
@@ -149,10 +108,6 @@ elements.addCartButton.addEventListener("click", () => {
   disableSubmitButton(elements.addCartPopup);
 });
 
-// Инициализация базовых слушателей на странице
-// (для видимого функционала, без слушателей на отдельных карточках)
-setBasicListeners();
-
 // Активируем валидацию на все формы в проекте
 enableValidation({
   formSelector: config.popup.formSelector,
@@ -163,3 +118,36 @@ enableValidation({
   errorClass: config.form.errorMsgVisibleClass,
   errorMsgPrefix: config.form.errorMsgPrefix,
 });
+
+Promise.all([user.getUserInfo(), api.getCards()])
+  .then((res) => {
+
+    const userId = user.getUserInfo()._id;
+
+    cardList = new Section(
+      {
+        items: res[1],
+        renderer: (item) => {
+          const card = new Card(
+            {
+              data: item,
+              userId,
+              handleCardClick: (item) => {
+                setModalImageParam(item.link, item.name);
+                imagePopup.open();
+              },
+            },
+            config.cards.template
+          );
+
+          const cardElement = card.createCard();
+          cardList.addItem(cardElement);
+        }, // end of renderer
+      },
+      config.cards.containerSelector
+    ); // end of cardList
+
+    cardList.renderItems();
+  })
+  .then(hidePreloader)
+  .catch((err) => showError(err));

@@ -1,7 +1,7 @@
 import { config } from "./config.js";
-import { Popup } from "./Popup.js";
+import Popup from "./Popup.js";
 
-export class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor(selector, submitFormHandler) {
     super(selector);
     this._form = this.popupElement.querySelector(config.popup.formSelector);
