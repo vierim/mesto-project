@@ -39,11 +39,14 @@ const user = new UserInfo(
 // Объект для хранения данных о пользователе
 export const userInfo = {};
 
-Promise.all([user.getUserInfo(), api.getCards()])
+Promise.all([api.getUserInfo(), api.getCards()])
   .then((res) => {
-    userInfo._id = res[0]._id;
-
-    const cardList = new Section(
+    user.setUserInfo(res[0]);
+    // userInfo._id = res[0]._id;
+    // Получаем наш Id
+    const userId = user.getUserInfo()._id;
+    //
+    cardList = new Section(
       {
         items: res[1],
         renderer: (item) => {
@@ -72,7 +75,11 @@ Promise.all([user.getUserInfo(), api.getCards()])
 
 const editProfilePopup = new PopupWithForm(
   config.popup.functionSelector.editProfile,
-  (body) => user.setUserInfo(body)
+  (body) =>
+    api
+      .changeUserInfo(body)
+      .then((res) => user.setUserInfo(res))
+      .catch((err) => showError(err))
 );
 
 const avatarPopup = new PopupWithForm(
