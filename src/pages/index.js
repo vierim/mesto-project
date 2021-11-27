@@ -1,10 +1,8 @@
 import "./index.css";
 
 import { config } from "../components/config.js";
-import { elements, inputs } from "../components/elements.js";
+import { elements, inputs, forms } from "../components/elements.js";
 import { disableSubmitButton } from "../components/modal.js";
-
-import { enableValidation } from "../components/validate.js";
 
 import {
   hidePreloader,
@@ -18,11 +16,22 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section";
 import Card from "../components/Cards.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithImage from "../components/PopupWithImage";
+import PopupWithImage from "../components/PopupWithImage.js";
+import FormValidator from "../components/FormValidator.js";
 
 // Добавила CardList в глобальную область видимости,
 // чтобы он был доступен в экземпляре класса CardPopup
 let cardList;
+
+const validationConfig = {
+  formSelector: config.popup.formSelector,
+  inputSelector: config.form.inputSelector,
+  submitButtonSelector: config.form.buttonSelector,
+  inactiveButtonClass: config.form.inactiveButtonClass,
+  inputErrorClass: config.form.inputErrorClass,
+  errorClass: config.form.errorMsgVisibleClass,
+  errorMsgPrefix: config.form.errorMsgPrefix,
+}
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -108,16 +117,14 @@ elements.addCartButton.addEventListener("click", () => {
   disableSubmitButton(elements.addCartPopup);
 });
 
-// Активируем валидацию на все формы в проекте
-enableValidation({
-  formSelector: config.popup.formSelector,
-  inputSelector: config.form.inputSelector,
-  submitButtonSelector: config.form.buttonSelector,
-  inactiveButtonClass: config.form.inactiveButtonClass,
-  inputErrorClass: config.form.inputErrorClass,
-  errorClass: config.form.errorMsgVisibleClass,
-  errorMsgPrefix: config.form.errorMsgPrefix,
-});
+const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
+editProfileValidity.enableValidation();
+
+const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
+editAvatarValidity.enableValidation();
+
+const addCartValidity = new FormValidator(validationConfig, forms.addCart);
+addCartValidity.enableValidation();
 
 Promise.all([user.getUserInfo(), api.getCards()])
   .then((res) => {
