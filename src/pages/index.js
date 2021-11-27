@@ -130,7 +130,7 @@ editAvatarValidity.enableValidation();
 const addCartValidity = new FormValidator(validationConfig, forms.addCart);
 addCartValidity.enableValidation();
 
-Promise.all([api..getUserInfo(), api.getCards()])
+Promise.all([api.getUserInfo(), api.getCards()])
   .then((res) => {
     user.setUserInfo(res[0]);
     const userId = user.getUserInfo()._id;

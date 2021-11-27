@@ -1,6 +1,4 @@
-import { showError } from "./utils.js";
-
-export class UserInfo {
+export default class UserInfo {
   constructor({ nameSelector, aboutSelector, avatarSelector }) {
     this._nameSelector = document.querySelector(nameSelector);
     this._aboutSelector = document.querySelector(aboutSelector);
