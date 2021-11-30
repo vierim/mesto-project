@@ -19,8 +19,6 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { FormValidator } from "../components/FormValidator.js";
 
-// Добавила CardList в глобальную область видимости,
-// чтобы он был доступен в экземпляре класса CardPopup
 let cardList;
 
 const validationConfig = {
@@ -31,7 +29,7 @@ const validationConfig = {
   inputErrorClass: config.form.inputErrorClass,
   errorClass: config.form.errorMsgVisibleClass,
   errorMsgPrefix: config.form.errorMsgPrefix,
-}
+};
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -68,9 +66,7 @@ const avatarPopup = new PopupWithForm(
       .catch((err) => showError(err))
 );
 
-const imagePopup = new PopupWithImage(
-  config.popup.functionSelector.viewPhoto
-);
+const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
 
 const cardPopup = new PopupWithForm(
   config.popup.functionSelector.addCard,
@@ -121,10 +117,16 @@ elements.addCardButton.addEventListener("click", () => {
   disableSubmitButton(elements.addCardPopup);
 });
 
-const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
+const editProfileValidity = new FormValidator(
+  validationConfig,
+  forms.editProfile
+);
 editProfileValidity.enableValidation();
 
-const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
+const editAvatarValidity = new FormValidator(
+  validationConfig,
+  forms.editAvatar
+);
 editAvatarValidity.enableValidation();
 
 const addCardValidity = new FormValidator(validationConfig, forms.addCard);
