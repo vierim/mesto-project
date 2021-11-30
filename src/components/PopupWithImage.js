@@ -1,23 +1,19 @@
 import { Popup } from "./Popup.js";
+import { elements } from "./elements.js";
 
 export class PopupWithImage extends Popup {
-  constructor(selector, card) {
+  constructor(selector) {
     super(selector);
-    this._image = this.popupElement.querySelector(imageSelector);
-    this._text = this.popupElement.querySelector(figcaptionSelector);
-
-    this._card = card;
   }
 
   open() {
     super.open();
-
-    this._showImageModal();
   }
 
-  _showImageModal() {
-    this._image.src = this._card.link;
-    this._image.alt = this._card.name;
-    this._text.textContent = this._card.name;
+  close() {
+    super.close();
+
+    elements.modalImageElement.src = '';
+    elements.modalTextElement.textContent = '';
   }
 }

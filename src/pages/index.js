@@ -1,28 +1,37 @@
 import "./index.css";
 
 import { config } from "../components/config.js";
-import { elements, inputs } from "../components/elements.js";
-import { disableSubmitButton, showImageModal } from "../components/modal.js";
+import { elements, inputs, forms } from "../components/elements.js";
+import { disableSubmitButton } from "../components/modal.js";
 
-import { setBasicListeners } from "../components/listeners.js";
-import { enableValidation } from "../components/validate.js";
-// import { createCard, addCard } from "../components/Cards.js";
 import {
   hidePreloader,
   showError,
   completeFormInputs,
+  setModalImageParam,
 } from "../components/utils.js";
 
 import { Api } from "../components/Api.js";
-import { PopupWithForm } from "../components/PopupWithForm.js";
-import Section from "../components/Section";
-import Card from "../components/Cards.js";
 import { UserInfo } from "../components/UserInfo.js";
-import { PopupWithImage } from "../components/PopupWithImage";
+import { Section } from "../components/Section.js";
+import { Card } from "../components/Cards.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { FormValidator } from "../components/FormValidator.js";
 
 // Добавила CardList в глобальную область видимости,
 // чтобы он был доступен в экземпляре класса CardPopup
 let cardList;
+
+const validationConfig = {
+  formSelector: config.popup.formSelector,
+  inputSelector: config.form.inputSelector,
+  submitButtonSelector: config.form.buttonSelector,
+  inactiveButtonClass: config.form.inactiveButtonClass,
+  inputErrorClass: config.form.inputErrorClass,
+  errorClass: config.form.errorMsgVisibleClass,
+  errorMsgPrefix: config.form.errorMsgPrefix,
+}
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -40,48 +49,6 @@ const user = new UserInfo(
   },
   api
 );
-
-// Объект для хранения данных о пользователе
-// export const userInfo = {};
-
-Promise.all([api.getUserInfo(), api.getCards()])
-  .then((res) => {
-    user.setUserInfo(res[0]);
-    // userInfo._id = res[0]._id;
-    // Получаем наш Id
-    const userId = user.getUserInfo()._id;
-    //
-    cardList = new Section(
-      {
-        items: res[1],
-        renderer: (item) => {
-          const card = new Card(
-            {
-              data: item,
-              userId,
-              handleCardClick: () => {
-                const imagePopup = new PopupWithImage(
-                  config.popup.functionSelector.viewFoto,
-                  item
-                );
-
-                imagePopup.open();
-              },
-            },
-            config.cards.template
-          );
-
-          const cardElement = card.createCard();
-          cardList.addItem(cardElement);
-        }, // end of renderer
-      },
-      config.cards.containerSelector
-    ); // end of cardList
-
-    cardList.renderItems();
-  })
-  .then(hidePreloader)
-  .catch((err) => showError(err));
 
 const editProfilePopup = new PopupWithForm(
   config.popup.functionSelector.editProfile,
@@ -101,8 +68,12 @@ const avatarPopup = new PopupWithForm(
       .catch((err) => showError(err))
 );
 
+const imagePopup = new PopupWithImage(
+  config.popup.functionSelector.viewPhoto
+);
+
 const cardPopup = new PopupWithForm(
-  config.popup.functionSelector.addCart,
+  config.popup.functionSelector.addCard,
   (body) =>
     api
       .postCard(body)
@@ -113,12 +84,8 @@ const cardPopup = new PopupWithForm(
           {
             data: res,
             userId,
-            handleCardClick: () => {
-              const imagePopup = new PopupWithImage(
-                config.popup.functionSelector.viewFoto,
-                res
-              );
-
+            handleCardClick: (item) => {
+              setModalImageParam(item.link, item.name);
               imagePopup.open();
             },
           },
@@ -149,22 +116,49 @@ elements.editAvatarButton.addEventListener("click", () => {
   }
 });
 
-elements.addCartButton.addEventListener("click", () => {
+elements.addCardButton.addEventListener("click", () => {
   cardPopup.open();
-  disableSubmitButton(elements.addCartPopup);
+  disableSubmitButton(elements.addCardPopup);
 });
 
-// Инициализация базовых слушателей на странице
-// (для видимого функционала, без слушателей на отдельных карточках)
-setBasicListeners();
+const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
+editProfileValidity.enableValidation();
 
-// Активируем валидацию на все формы в проекте
-enableValidation({
-  formSelector: config.popup.formSelector,
-  inputSelector: config.form.inputSelector,
-  submitButtonSelector: config.form.buttonSelector,
-  inactiveButtonClass: config.form.inactiveButtonClass,
-  inputErrorClass: config.form.inputErrorClass,
-  errorClass: config.form.errorMsgVisibleClass,
-  errorMsgPrefix: config.form.errorMsgPrefix,
-});
+const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
+editAvatarValidity.enableValidation();
+
+const addCardValidity = new FormValidator(validationConfig, forms.addCard);
+addCardValidity.enableValidation();
+
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then((res) => {
+    user.setUserInfo(res[0]);
+    const userId = user.getUserInfo()._id;
+
+    cardList = new Section(
+      {
+        items: res[1],
+        renderer: (item) => {
+          const card = new Card(
+            {
+              data: item,
+              userId,
+              handleCardClick: (item) => {
+                setModalImageParam(item.link, item.name);
+                imagePopup.open();
+              },
+            },
+            config.cards.template
+          );
+
+          const cardElement = card.createCard();
+          cardList.addItem(cardElement);
+        }, // end of renderer
+      },
+      config.cards.containerSelector
+    ); // end of cardList
+
+    cardList.renderItems();
+  })
+  .then(hidePreloader)
+  .catch((err) => showError(err));
