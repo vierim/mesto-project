@@ -1,12 +1,11 @@
 import { config } from "./config.js";
-// import { userInfo } from "../pages/index.js";
 import { showError } from "./utils.js";
 
 import placeHolder from "../images/placeholder.jpg";
 
 import { api } from "../pages/index.js";
 
-export default class Card {
+export class Card {
   constructor({ data, handleCardClick, userId }, selector) {
     this._data = data;
     this._handleCardClick = handleCardClick;
@@ -14,12 +13,12 @@ export default class Card {
     // Дабавляем и передаем наш UserId
     this._userId = userId;
 
+    this._handleImageClick = this._handleImageClick.bind(this);
     this._handleErrorImageLoad = this._handleErrorImageLoad.bind(this);
     this._handleLikeClick = this._handleLikeClick.bind(this);
     this._handleDeleteCard = this._handleDeleteCard.bind(this);
   }
 
-  // метод получает html разметку шаблона карточки из документа (все селекторы берет в конструкторе класса)
   _getElement() {
     return document
       .querySelector(this._selector)
@@ -32,12 +31,6 @@ export default class Card {
       config.cards.likesCountSelector
     );
     this._cardLikesCount.textContent = count;
-  }
-
-  _handleErrorImageLoad() {
-    this._cardImage.src = placeHolder;
-    this._cardImage.classList.add(config.cards.placeholderClass);
-    //cardImage.removeEventListener('click', imageClickHandler);
   }
 
   _handleLikeClick(evt) {
@@ -58,6 +51,16 @@ export default class Card {
         })
         .catch((err) => showError(err));
     }
+  }
+
+  _handleImageClick() {
+    this._handleCardClick(this._data);
+  }
+
+  _handleErrorImageLoad() {
+    this._cardImage.src = placeHolder;
+    this._cardImage.classList.add(config.cards.placeholderClass);
+    this._cardImage.removeEventListener("click", this._handleImageClick);
   }
 
   _handleDeleteCard(evt) {
@@ -91,26 +94,17 @@ export default class Card {
       config.cards.deleteButtonSelector
     );
 
-    // Клик по изображению (url картинки уходит в callback функцию, так как используется другой класс)
-    this._cardImage.addEventListener("click", () => {
-      this._handleCardClick();
-    });
-
-    // Обработка ошибки загрузки изображения
+    this._cardImage.addEventListener("click", this._handleImageClick);
     this._cardImage.addEventListener("error", this._handleErrorImageLoad);
 
     // Клик по иконке лайка
     this._cardLikeButton.addEventListener("click", this._handleLikeClick);
 
     // Иконка удаления карточки
-    // Проверка на принадлежность карточки текущему пользователю
     if (this._data.owner._id === this._userId) {
-      // Показываем иконку удаления
       this._cardRemoveButton.classList.add(
         config.cards.deleteButtonVisibleClass
       );
-
-      // Навешиваем событие для удаления карточки
       this._cardRemoveButton.addEventListener("click", this._handleDeleteCard);
     }
   }
@@ -150,18 +144,12 @@ export default class Card {
     ).textContent = this._data.likes.length;
   }
 
-  // Публичный метод, который возвращает готовую карточку со всеми слушателями (ее уже можно отправлять на рендер в DOM)
   createCard() {
-    // Клонируем ноду с разметкой карточки
     this._cardElement = this._getElement();
 
-    // Добавляем в склонированный шаблон карточки данные, полученные при создании экземпляра класса
     this._generate();
-
-    // Навешиваем на карточку обработчики событий
     this._setEventListeners();
 
-    // Возвращаем разметку созданной карточки
     return this._cardElement;
   }
 }

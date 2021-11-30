@@ -12,8 +12,12 @@ export const showError = (err) => {
   console.error(`Возникли проблемы при работе с сервером: ${err}`);
 };
 
-// Функция заполнения полей ввода в popup данными профиля (имя, профессия) при открытии модалки
 export const completeFormInputs = (name, about) => {
   inputs.inputProfileName.value = name;
   inputs.inputProfileAbout.value = about;
+};
+
+export const setModalImageParam = (src, figcaption) => {
+  elements.modalImageElement.src = src;
+  elements.modalTextElement.textContent = figcaption;
 };
