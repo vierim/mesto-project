@@ -8,7 +8,6 @@ import {
   hidePreloader,
   showError,
   completeFormInputs,
-  setModalImageParam,
 } from "../components/utils.js";
 
 import { Api } from "../components/Api.js";
@@ -80,9 +79,8 @@ const cardPopup = new PopupWithForm(
           {
             data: res,
             userId,
-            handleCardClick: (item) => {
-              setModalImageParam(item.link, item.name);
-              imagePopup.open();
+            handleCardClick: (res) => {
+              imagePopup.open(res);
             },
           },
           config.cards.template
@@ -146,8 +144,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
               data: item,
               userId,
               handleCardClick: (item) => {
-                setModalImageParam(item.link, item.name);
-                imagePopup.open();
+                imagePopup.open(item);
               },
             },
             config.cards.template

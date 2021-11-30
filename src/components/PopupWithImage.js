@@ -1,19 +1,21 @@
 import { Popup } from "./Popup.js";
-import { elements } from "./elements.js";
+import { config } from "./config.js";
 
 export class PopupWithImage extends Popup {
   constructor(selector) {
     super(selector);
+
+    this._image = this.popupElement.querySelector(config.popup.imageSelector);
+    this._text = this.popupElement.querySelector(
+      config.popup.figcaptionSelector
+    );
   }
 
-  open() {
+  open(item) {
     super.open();
-  }
 
-  close() {
-    super.close();
-
-    elements.modalImageElement.src = '';
-    elements.modalTextElement.textContent = '';
+    this._image.src = item.link;
+    this._image.alt = item.name;
+    this._text.textContent = item.name;
   }
 }
