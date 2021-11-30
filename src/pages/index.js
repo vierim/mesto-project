@@ -8,7 +8,6 @@ import {
   hidePreloader,
   showError,
   completeFormInputs,
-  setModalImageParam,
 } from "../components/utils.js";
 
 import { Api } from "../components/Api.js";
@@ -19,8 +18,6 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { FormValidator } from "../components/FormValidator.js";
 
-// Добавила CardList в глобальную область видимости,
-// чтобы он был доступен в экземпляре класса CardPopup
 let cardList;
 
 const validationConfig = {
@@ -31,7 +28,7 @@ const validationConfig = {
   inputErrorClass: config.form.inputErrorClass,
   errorClass: config.form.errorMsgVisibleClass,
   errorMsgPrefix: config.form.errorMsgPrefix,
-}
+};
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -68,9 +65,7 @@ const avatarPopup = new PopupWithForm(
       .catch((err) => showError(err))
 );
 
-const imagePopup = new PopupWithImage(
-  config.popup.functionSelector.viewPhoto
-);
+const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
 
 const cardPopup = new PopupWithForm(
   config.popup.functionSelector.addCard,
@@ -84,9 +79,8 @@ const cardPopup = new PopupWithForm(
           {
             data: res,
             userId,
-            handleCardClick: (item) => {
-              setModalImageParam(item.link, item.name);
-              imagePopup.open();
+            handleCardClick: (res) => {
+              imagePopup.open(res);
             },
           },
           config.cards.template
@@ -121,10 +115,16 @@ elements.addCardButton.addEventListener("click", () => {
   disableSubmitButton(elements.addCardPopup);
 });
 
-const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
+const editProfileValidity = new FormValidator(
+  validationConfig,
+  forms.editProfile
+);
 editProfileValidity.enableValidation();
 
-const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
+const editAvatarValidity = new FormValidator(
+  validationConfig,
+  forms.editAvatar
+);
 editAvatarValidity.enableValidation();
 
 const addCardValidity = new FormValidator(validationConfig, forms.addCard);
@@ -144,8 +144,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
               data: item,
               userId,
               handleCardClick: (item) => {
-                setModalImageParam(item.link, item.name);
-                imagePopup.open();
+                imagePopup.open(item);
               },
             },
             config.cards.template
