@@ -61,13 +61,21 @@ export default class Card {
   }
 
   _handleDeleteCard(evt) {
-    api
-      .deleteCard(this._data._id)
-      .then(() => {
-        // Тут нужен какой-то рендер!
-        evt.target.parentNode.remove();
-      })
-      .catch((err) => showError(err));
+    // Start
+
+    const id = e.currentTarget.closest(".cards__item").id;
+
+    config.popup.functionSelector.confirmation.dataset.removeCardId = id;
+
+    openPopup(popupCardRemove);
+
+    // api
+    //   .deleteCard(this._data._id)
+    //   .then(() => {
+    //     // Тут нужен какой-то рендер!
+    //     evt.target.parentNode.remove();
+    //   })
+    //   .catch((err) => showError(err));
   }
 
   // Метод для добавления слушателей событий на карточку

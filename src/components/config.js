@@ -11,6 +11,7 @@ export const config = {
   popup: {
     selector: ".popup",
     formSelector: ".popup__form",
+    buttonSelector: ".popup__button",
     imageSelector: ".popup__image",
     figcaptionSelector: ".popup__figcaption",
     functionSelector: {
@@ -18,6 +19,7 @@ export const config = {
       addCart: ".popup__function_add-cart",
       viewFoto: ".popup__function_view-foto",
       editAvatar: ".popup__function_edit-avatar",
+      confirmation: ".popup_function_confirmation",
     },
     popupClass: "popup",
     closePopupBtnClass: "popup__close-button",
