@@ -73,7 +73,7 @@ const imagePopup = new PopupWithImage(
 );
 
 const cardPopup = new PopupWithForm(
-  config.popup.functionSelector.addCart,
+  config.popup.functionSelector.addCard,
   (body) =>
     api
       .postCard(body)
@@ -116,9 +116,9 @@ elements.editAvatarButton.addEventListener("click", () => {
   }
 });
 
-elements.addCartButton.addEventListener("click", () => {
+elements.addCardButton.addEventListener("click", () => {
   cardPopup.open();
-  disableSubmitButton(elements.addCartPopup);
+  disableSubmitButton(elements.addCardPopup);
 });
 
 const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
@@ -127,8 +127,8 @@ editProfileValidity.enableValidation();
 const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
 editAvatarValidity.enableValidation();
 
-const addCartValidity = new FormValidator(validationConfig, forms.addCart);
-addCartValidity.enableValidation();
+const addCardValidity = new FormValidator(validationConfig, forms.addCard);
+addCardValidity.enableValidation();
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then((res) => {

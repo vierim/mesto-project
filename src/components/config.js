@@ -6,7 +6,7 @@ export const config = {
     nameSelector: ".profile__title",
     proffesionSelector: ".profile__subtitle",
     avatarSelector: ".profile__avatar",
-    addCartSelector: ".profile__add-button",
+    addCardSelector: ".profile__add-button",
   },
   popup: {
     selector: ".popup",
@@ -15,7 +15,7 @@ export const config = {
     figcaptionSelector: ".popup__figcaption",
     functionSelector: {
       editProfile: ".popup__function_edit-profile",
-      addCart: ".popup__function_add-cart",
+      addCard: ".popup__function_add-card",
       viewFoto: ".popup__function_view-foto",
       editAvatar: ".popup__function_edit-avatar",
     },
