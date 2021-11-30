@@ -69,7 +69,7 @@ const avatarPopup = new PopupWithForm(
 );
 
 const imagePopup = new PopupWithImage(
-  config.popup.functionSelector.viewFoto
+  config.popup.functionSelector.viewPhoto
 );
 
 const cardPopup = new PopupWithForm(

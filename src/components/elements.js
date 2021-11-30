@@ -23,7 +23,7 @@ export const elements = {
   addCardPopup: document.querySelector(config.popup.functionSelector.addCard),
 
   modalShowPhoto: document.querySelector(
-    config.popup.functionSelector.viewFoto
+    config.popup.functionSelector.viewPhoto
   ),
   modalImageElement: document.querySelector(config.popup.imageSelector),
   modalTextElement: document.querySelector(config.popup.figcaptionSelector),

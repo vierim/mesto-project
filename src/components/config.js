@@ -16,7 +16,7 @@ export const config = {
     functionSelector: {
       editProfile: ".popup__function_edit-profile",
       addCard: ".popup__function_add-card",
-      viewFoto: ".popup__function_view-foto",
+      viewPhoto: ".popup__function_view-photo",
       editAvatar: ".popup__function_edit-avatar",
     },
     popupClass: "popup",
