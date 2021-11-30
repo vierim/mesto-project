@@ -5,7 +5,7 @@ import placeHolder from "../images/placeholder.jpg";
 
 import { api } from "../pages/index.js";
 
-export default class Card {
+export class Card {
   constructor({ data, handleCardClick, userId }, selector) {
     this._data = data;
     this._handleCardClick = handleCardClick;

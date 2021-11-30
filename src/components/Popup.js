@@ -1,6 +1,6 @@
 import { config } from "./config.js";
 
-export default class Popup {
+export class Popup {
   constructor(selector) {
     this.popupElement = document.querySelector(selector);
     this._clickPopupHandler = this._clickPopupHandler.bind(this);

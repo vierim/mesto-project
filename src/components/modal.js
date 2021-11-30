@@ -1,9 +1,4 @@
 import { config } from "./config.js";
-import { elements } from "./elements.js";
-
-import Popup from "../components/Popup.js";
-
-const popup = new Popup(config.popup.selector);
 
 export const disableSubmitButton = (popupElement) => {
   const buttonElement = popupElement.querySelector(config.form.buttonSelector);

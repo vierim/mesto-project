@@ -12,12 +12,12 @@ import {
 } from "../components/utils.js";
 
 import { Api } from "../components/Api.js";
-import UserInfo from "../components/UserInfo.js";
-import Section from "../components/Section";
-import Card from "../components/Cards.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import FormValidator from "../components/FormValidator.js";
+import { UserInfo } from "../components/UserInfo.js";
+import { Section } from "../components/Section.js";
+import { Card } from "../components/Cards.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { FormValidator } from "../components/FormValidator.js";
 
 // Добавила CardList в глобальную область видимости,
 // чтобы он был доступен в экземпляре класса CardPopup
