@@ -26,6 +26,7 @@ export const config = {
   form: {
     inputSelector: ".form__input",
     buttonSelector: ".form__button",
+    errorMsgSelector: ".form__error-msg",
     inputErrorClass: "form__input_error",
     errorMsgPrefix: "error",
     errorMsgVisibleClass: "form__error-msg_visible",
