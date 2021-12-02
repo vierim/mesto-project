@@ -62,7 +62,7 @@ const avatarPopup = new PopupWithForm(
     api
       .editAvatar(body)
       .then((res) => user.renderUserAvatar(res))
-      .catch((err) => showError(err))
+      // .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -152,10 +152,10 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
           const cardElement = card.createCard();
           cardList.addItem(cardElement);
-        }, // end of renderer
+        },
       },
       config.cards.containerSelector
-    ); // end of cardList
+    );
 
     cardList.renderItems();
   })
