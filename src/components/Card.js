@@ -1,8 +1,7 @@
 import { config } from "./config.js";
 import { showError } from "./utils.js";
-import placeHolder from "../images/placeholder.jpg";
 import { api } from "../pages/index.js";
-import { elements } from "./elements.js";
+import placeHolder from "../images/placeholder.jpg";
 export class Card {
   constructor(
     { data, handleCardClick, handleDeleteButtonClicked, userId },
@@ -31,7 +30,7 @@ export class Card {
       config.cards.likesCountSelector
     );
 
-    this._cardLikesCount.textContent = count > 0 ? count : '';
+    this._cardLikesCount.textContent = count > 0 ? count : "";
   }
 
   _handleLikeClick(evt) {
@@ -121,12 +120,11 @@ export class Card {
         .classList.add(config.cards.hasLikedClass);
     }
 
-    if(this._data.likes.length > 0) {
+    if (this._data.likes.length > 0) {
       this._cardElement.querySelector(
         config.cards.likesCountSelector
       ).textContent = this._data.likes.length;
     }
-
   }
 
   createCard() {

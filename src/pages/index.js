@@ -13,7 +13,7 @@ import {
 import { Api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Section } from "../components/Section.js";
-import { Card } from "../components/Cards.js";
+import { Card } from "../components/Card.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { FormValidator } from "../components/FormValidator.js";
@@ -59,11 +59,8 @@ const editProfilePopup = new PopupWithForm(
 
 const avatarPopup = new PopupWithForm(
   config.popup.functionSelector.editAvatar,
-  (body) =>
-    api
-      .editAvatar(body)
-      .then((res) => user.renderUserAvatar(res))
-      // .catch((err) => showError(err, forms.editAvatar))
+  (body) => api.editAvatar(body).then((res) => user.renderUserAvatar(res))
+  // .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
