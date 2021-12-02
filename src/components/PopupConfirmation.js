@@ -2,40 +2,33 @@ import { config } from "./config.js";
 import { Popup } from "./Popup.js";
 
 export class PopupConfirmation extends Popup {
-  constructor(selector, submitFormHandler) {
+  constructor(selector, submitConfirmHandler) {
     super(selector);
+    this._cardId = "";
     this._submitButton = this.popupElement.querySelector(
       config.popup.buttonSelector
     );
-    this._submitFormHandler = submitFormHandler;
+    this._submitConfirmHandler = submitConfirmHandler;
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  _handleSubmit(evt) {
-    evt.preventDefault();
+  open(cardId) {
+    super.open();
 
-    const id = this.popupElement.querySelector(
-      config.popup.functionSelector.confirmation
-    ).dataset.removeCardId;
+    this._cardId = cardId;
+  }
 
-    this._submitFormHandler(body)
-      .then(() => this.close())
-      .finally(() => {
-        this._setButtonState(false);
-      });
+  _handleSubmit() {
+    this._submitConfirmHandler(this._cardId).then(() => this.close());
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._submitButton.addEventListener("submit", this._handleSubmit);
+    this._submitButton.addEventListener("click", this._handleSubmit);
   }
 
   removeEventListeners() {
     super.removeEventListeners();
-    this._submitButton.removeEventListener("submit", this._handleSubmit);
-  }
-
-  close() {
-    super.close();
+    this._submitButton.removeEventListener("click", this._handleSubmit);
   }
 }

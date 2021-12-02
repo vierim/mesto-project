@@ -1,3 +1,4 @@
+import { config } from "./config.js";
 import { elements, inputs } from "./elements.js";
 
 export const showPreloader = () => {
@@ -15,4 +16,11 @@ export const showError = (err) => {
 export const completeFormInputs = (name, about) => {
   inputs.inputProfileName.value = name;
   inputs.inputProfileAbout.value = about;
+};
+
+export const disableSubmitButton = (popupElement) => {
+  const buttonElement = popupElement.querySelector(config.form.buttonSelector);
+
+  buttonElement.classList.add(config.form.inactiveButtonClass);
+  buttonElement.disabled = true;
 };

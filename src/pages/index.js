@@ -2,7 +2,7 @@ import "./index.css";
 
 import { config } from "../components/config.js";
 import { elements, inputs, forms } from "../components/elements.js";
-import { disableSubmitButton } from "../components/modal.js";
+import { disableSubmitButton } from "../components/utils.js";
 
 import {
   hidePreloader,
@@ -17,6 +17,7 @@ import { Card } from "../components/Cards.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { FormValidator } from "../components/FormValidator.js";
+import { PopupConfirmation } from "../components/PopupConfirmation";
 
 let cardList;
 
@@ -73,7 +74,6 @@ const cardPopup = new PopupWithForm(
     api
       .postCard(body)
       .then((res) => {
-        // Получаем наш Id
         const userId = user.getUserInfo()._id;
         const card = new Card(
           {
@@ -81,6 +81,9 @@ const cardPopup = new PopupWithForm(
             userId,
             handleCardClick: (res) => {
               imagePopup.open(res);
+            },
+            handleDeleteButtonClicked: () => {
+              confirmationPopup.open(res._id);
             },
           },
           config.cards.template
@@ -93,27 +96,19 @@ const cardPopup = new PopupWithForm(
       .catch((err) => showError(err))
 );
 
-elements.editProfileButton.addEventListener("click", () => {
-  editProfilePopup.open();
-  const { name, about } = user.getUserInfo();
+const confirmationPopup = new PopupConfirmation(
+  config.popup.functionSelector.confirmation,
+  (cardId) => {
+    return api
+      .deleteCard(cardId)
+      .then(() => {
+        const card = document.getElementById(cardId);
 
-  completeFormInputs(name, about);
-});
-
-elements.editAvatarButton.addEventListener("click", () => {
-  avatarPopup.open();
-
-  const avatarInput = inputs.inputAvatar;
-
-  if (avatarInput.value.length === 0) {
-    disableSubmitButton(elements.editAvatarPopup);
+        card.remove();
+      })
+      .catch((err) => showError(err));
   }
-});
-
-elements.addCardButton.addEventListener("click", () => {
-  cardPopup.open();
-  disableSubmitButton(elements.addCardPopup);
-});
+);
 
 const editProfileValidity = new FormValidator(
   validationConfig,
@@ -146,6 +141,9 @@ Promise.all([api.getUserInfo(), api.getCards()])
               handleCardClick: (item) => {
                 imagePopup.open(item);
               },
+              handleDeleteButtonClicked: () => {
+                confirmationPopup.open(item._id);
+              },
             },
             config.cards.template
           );
@@ -161,3 +159,25 @@ Promise.all([api.getUserInfo(), api.getCards()])
   })
   .then(hidePreloader)
   .catch((err) => showError(err));
+
+elements.editProfileButton.addEventListener("click", () => {
+  editProfilePopup.open();
+  const { name, about } = user.getUserInfo();
+
+  completeFormInputs(name, about);
+});
+
+elements.editAvatarButton.addEventListener("click", () => {
+  avatarPopup.open();
+
+  const avatarInput = inputs.inputAvatar;
+
+  if (avatarInput.value.length === 0) {
+    disableSubmitButton(elements.editAvatarPopup);
+  }
+});
+
+elements.addCardButton.addEventListener("click", () => {
+  cardPopup.open();
+  disableSubmitButton(elements.addCardPopup);
+});
