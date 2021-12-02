@@ -30,7 +30,8 @@ export class Card {
     this._cardLikesCount = this._cardElement.querySelector(
       config.cards.likesCountSelector
     );
-    this._cardLikesCount.textContent = count;
+
+    this._cardLikesCount.textContent = count > 0 ? count : '';
   }
 
   _handleLikeClick(evt) {
@@ -120,9 +121,12 @@ export class Card {
         .classList.add(config.cards.hasLikedClass);
     }
 
-    this._cardElement.querySelector(
-      config.cards.likesCountSelector
-    ).textContent = this._data.likes.length;
+    if(this._data.likes.length > 0) {
+      this._cardElement.querySelector(
+        config.cards.likesCountSelector
+      ).textContent = this._data.likes.length;
+    }
+
   }
 
   createCard() {

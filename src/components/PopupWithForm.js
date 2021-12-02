@@ -1,5 +1,6 @@
 import { config } from "./config.js";
 import { Popup } from "./Popup.js";
+import { showError } from "./utils.js";
 
 export class PopupWithForm extends Popup {
   constructor(selector, submitFormHandler) {
@@ -37,9 +38,20 @@ export class PopupWithForm extends Popup {
 
     this._submitFormHandler(body)
       .then(() => this.close())
+      .catch((err) => showError(err, evt.target))
       .finally(() => {
         this._setButtonState(false);
       });
+  }
+
+  _hideErrorText() {
+    const errorElement = Array.from(this._form.querySelectorAll(config.form.errorMsgSelector));
+
+    errorElement.forEach((item) => {
+      if(item.classList.contains(config.form.errorMsgVisibleClass)) {
+        item.classList.remove(config.form.errorMsgVisibleClass);
+      }
+    });
   }
 
   setEventListeners() {
@@ -55,5 +67,6 @@ export class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset();
+    this._hideErrorText();
   }
 }
