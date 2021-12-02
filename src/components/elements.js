@@ -13,6 +13,7 @@ export const elements = {
   editAvatarButton: document.querySelector(config.profile.editAvatarSelector),
   editProfileButton: document.querySelector(config.profile.editButtonSelector),
   addCardButton: document.querySelector(config.profile.addCardSelector),
+  deleteCardButton: document.querySelector(config.cards.deleteButtonSelector),
 
   editAvatarPopup: document.querySelector(
     config.popup.functionSelector.editAvatar
@@ -21,6 +22,9 @@ export const elements = {
     config.popup.functionSelector.editProfile
   ),
   addCardPopup: document.querySelector(config.popup.functionSelector.addCard),
+  confirmationPopup: document.querySelector(
+    config.popup.functionSelector.confirmation
+  ),
 
   modalShowPhoto: document.querySelector(
     config.popup.functionSelector.viewPhoto
@@ -41,6 +45,10 @@ export const popupButtons = {
   editProfile: forms.editProfile.querySelector(config.form.buttonSelector),
   addCard: forms.addCard.querySelector(config.form.buttonSelector),
   editAvatar: forms.editAvatar.querySelector(config.form.buttonSelector),
+
+  confirmation: elements.confirmationPopup.querySelector(
+    config.popup.buttonSelector
+  ),
 };
 
 export const inputs = {

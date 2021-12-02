@@ -27,3 +27,10 @@ export const completeFormInputs = (name, about) => {
   inputs.inputProfileName.value = name;
   inputs.inputProfileAbout.value = about;
 };
+
+export const disableSubmitButton = (popupElement) => {
+  const buttonElement = popupElement.querySelector(config.form.buttonSelector);
+
+  buttonElement.classList.add(config.form.inactiveButtonClass);
+  buttonElement.disabled = true;
+};

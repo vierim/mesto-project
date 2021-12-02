@@ -48,6 +48,7 @@
 @import url(../blocks/popup/__figcaption/popup__figcaption.css);
 @import url(../blocks/popup/__header/popup__header.css);
 @import url(../blocks/popup/__form/popup__form.css);
+@import url(../blocks/popup/__button/popup__button.css);
 @import url(../blocks/popup/_function/popup_function_view-photo.css);
 
 @import url(../blocks/form/form.css);

@@ -11,9 +11,11 @@ export const config = {
   popup: {
     selector: ".popup",
     formSelector: ".popup__form",
+    buttonSelector: ".popup__button",
     imageSelector: ".popup__image",
     figcaptionSelector: ".popup__figcaption",
     functionSelector: {
+      confirmation: ".popup_function_confirmation",
       editProfile: ".popup_function_edit-profile",
       addCard: ".popup_function_add-card",
       viewPhoto: ".popup_function_view-photo",

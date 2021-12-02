@@ -1,22 +1,21 @@
 import { config } from "./config.js";
 import { showError } from "./utils.js";
-
-import placeHolder from "../images/placeholder.jpg";
-
 import { api } from "../pages/index.js";
-
+import placeHolder from "../images/placeholder.jpg";
 export class Card {
-  constructor({ data, handleCardClick, userId }, selector) {
+  constructor(
+    { data, handleCardClick, handleDeleteButtonClicked, userId },
+    selector
+  ) {
     this._data = data;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteButtonClicked = handleDeleteButtonClicked;
     this._selector = selector;
-    // Дабавляем и передаем наш UserId
     this._userId = userId;
 
     this._handleImageClick = this._handleImageClick.bind(this);
     this._handleErrorImageLoad = this._handleErrorImageLoad.bind(this);
     this._handleLikeClick = this._handleLikeClick.bind(this);
-    this._handleDeleteCard = this._handleDeleteCard.bind(this);
   }
 
   _getElement() {
@@ -31,7 +30,7 @@ export class Card {
       config.cards.likesCountSelector
     );
 
-    this._cardLikesCount.textContent = count > 0 ? count : '';
+    this._cardLikesCount.textContent = count > 0 ? count : "";
   }
 
   _handleLikeClick(evt) {
@@ -61,16 +60,7 @@ export class Card {
   _handleErrorImageLoad() {
     this._cardImage.src = placeHolder;
     this._cardImage.classList.add(config.cards.placeholderClass);
-    this._cardImage.removeEventListener('click', this._handleImageClick);
-  }
-
-  _handleDeleteCard(evt) {
-    api
-      .deleteCard(this._data._id)
-      .then(() => {
-        evt.target.parentNode.remove();
-      })
-      .catch((err) => showError(err));
+    this._cardImage.removeEventListener("click", this._handleImageClick);
   }
 
   // Метод для добавления слушателей событий на карточку
@@ -82,7 +72,7 @@ export class Card {
       config.cards.likeButtonSelector
     );
 
-    this._cardRemoveButton = this._cardElement.querySelector(
+    this._deleteButton = this._cardElement.querySelector(
       config.cards.deleteButtonSelector
     );
 
@@ -92,11 +82,12 @@ export class Card {
     // Клик по иконке лайка
     this._cardLikeButton.addEventListener("click", this._handleLikeClick);
 
-    // Иконка удаления карточки
     if (this._data.owner._id === this._userId) {
-
-      this._cardRemoveButton.classList.add(config.cards.deleteButtonVisibleClass);
-      this._cardRemoveButton.addEventListener("click", this._handleDeleteCard);
+      this._deleteButton.classList.add(config.cards.deleteButtonVisibleClass);
+      this._deleteButton.addEventListener(
+        "click",
+        this._handleDeleteButtonClicked
+      );
     }
   }
 
@@ -114,10 +105,13 @@ export class Card {
 
   _generate() {
     //заполняем html-теги новой карточки
-    this._cardElement.querySelector(config.cards.imageSelector).src = this._data.link;
-    this._cardElement.querySelector(config.cards.imageSelector).alt = this._data.name;
-    this._cardElement.querySelector(config.cards.imageSelector).id = this._data.id;
-    this._cardElement.querySelector(config.cards.nameSelector).textContent = this._data.name;
+    this._cardElement.querySelector(config.cards.imageSelector).src =
+      this._data.link;
+    this._cardElement.querySelector(config.cards.imageSelector).alt =
+      this._data.name;
+    this._cardElement.id = this._data._id;
+    this._cardElement.querySelector(config.cards.nameSelector).textContent =
+      this._data.name;
 
     // Отмечаем карточку лайком, если id текущего пользователя есть в массиве всех лайков
     if (this._hasMyLike()) {
@@ -126,12 +120,11 @@ export class Card {
         .classList.add(config.cards.hasLikedClass);
     }
 
-    if(this._data.likes.length > 0) {
+    if (this._data.likes.length > 0) {
       this._cardElement.querySelector(
         config.cards.likesCountSelector
       ).textContent = this._data.likes.length;
     }
-
   }
 
   createCard() {
