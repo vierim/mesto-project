@@ -46,10 +46,17 @@ export class PopupWithForm extends Popup {
 
   _hideErrorText() {
     const errorElement = Array.from(this._form.querySelectorAll(config.form.errorMsgSelector));
+    const inputList = Array.from(this._form.querySelectorAll(config.form.inputSelector));
 
     errorElement.forEach((item) => {
       if(item.classList.contains(config.form.errorMsgVisibleClass)) {
         item.classList.remove(config.form.errorMsgVisibleClass);
+      }
+    });
+
+    inputList.forEach((item) => {
+      if(item.classList.contains(config.form.inputErrorClass)) {
+        item.classList.remove(config.form.inputErrorClass);
       }
     });
   }
