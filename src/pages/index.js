@@ -44,6 +44,7 @@ const user = new UserInfo(
   api
 );
 
+
 const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editProfile, (body) =>
   api
     .changeUserInfo(body)
@@ -54,7 +55,6 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
 const avatarPopup = new PopupWithForm(
   config.popup.functionSelector.editAvatar,
   (body) => api.editAvatar(body).then((res) => user.renderUserAvatar(res))
-  // .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
