@@ -1,15 +1,18 @@
 import './index.css';
 
-import { config } from '../components/config.js';
-import { elements, inputs, forms } from '../components/elements.js';
-import { disableSubmitButton } from '../components/utils.js';
-
-import { hidePreloader, showError, completeFormInputs } from '../components/utils.js';
+import { config } from '../utils/config.js';
+import { elements, inputs, forms } from '../utils/elements.js';
+import {
+  hidePreloader,
+  showError,
+  completeFormInputs,
+  disableSubmitButton,
+  createCard,
+} from '../utils/utils.js';
 
 import { Api } from '../components/Api.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Section } from '../components/Section.js';
-import { Card } from '../components/Card.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { FormValidator } from '../components/FormValidator.js';
@@ -30,7 +33,7 @@ const validationConfig = {
 export const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-3',
   headers: {
-    authorization: '27fae40c-b0f9-46c9-bf33-d2f2bfaeebe1',
+    authorization: 'd32353b7-29c6-4530-8908-5ae56ac735f5',
     'Content-Type': 'application/json',
   },
 });
@@ -44,7 +47,6 @@ const user = new UserInfo(
   api
 );
 
-
 const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editProfile, (body) =>
   api
     .changeUserInfo(body)
@@ -52,9 +54,8 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
     .catch((err) => showError(err))
 );
 
-const avatarPopup = new PopupWithForm(
-  config.popup.functionSelector.editAvatar,
-  (body) => api.editAvatar(body).then((res) => user.renderUserAvatar(res))
+const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
+  api.editAvatar(body).then((res) => user.renderUserAvatar(res))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -64,38 +65,8 @@ const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body
     .postCard(body)
     .then((res) => {
       const userId = user.getUserInfo()._id;
-      const card = new Card(
-        {
-          data: res,
-          userId,
-          handleCardClick: (image) => {
-            imagePopup.open(image);
-          },
-          handleDeleteButtonClicked: () => {
-            confirmationPopup.open(res._id);
-          },
-          handleLikeButtonClick: (likeElement, likeCounter) => {
-            if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
-              api
-                .addLike(res._id)
-                .then((res) => {
-                  likeElement.classList.add(config.cards.hasLikedClass);
-                  likeCounter.textContent = res.likes.length > 0 ? res.likes.length : '';
-                })
-                .catch((err) => showError(err, 'console'));
-            } else {
-              api
-                .removeLike(res._id)
-                .then((res) => {
-                  likeElement.classList.remove(config.cards.hasLikedClass);
-                  likeCounter.textContent = res.likes.length > 0 ? res.likes.length : '';
-                })
-                .catch((err) => showError(err, 'console'));
-            }
-          },
-        },
-        config.cards.template
-      );
+
+      const card = createCard(res, userId);
 
       const cardElement = card.createCard();
       cardList.addItem(cardElement);
@@ -135,38 +106,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
       {
         items: res[1],
         renderer: (item) => {
-          const card = new Card(
-            {
-              data: item,
-              userId,
-              handleCardClick: (item) => {
-                imagePopup.open(item);
-              },
-              handleDeleteButtonClicked: () => {
-                confirmationPopup.open(item._id);
-              },
-              handleLikeButtonClick: (likeElement, likeCounter) => {
-                if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
-                  api
-                    .addLike(item._id)
-                    .then((res) => {
-                      likeElement.classList.add(config.cards.hasLikedClass);
-                      likeCounter.textContent = res.likes.length > 0 ? res.likes.length : '';
-                    })
-                    .catch((err) => showError(err, 'console'));
-                } else {
-                  api
-                    .removeLike(item._id)
-                    .then((res) => {
-                      likeElement.classList.remove(config.cards.hasLikedClass);
-                      likeCounter.textContent = res.likes.length > 0 ? res.likes.length : '';
-                    })
-                    .catch((err) => showError(err, 'console'));
-                }
-              },
-            },
-            config.cards.template
-          );
+          const card = createCard(item, userId);
 
           const cardElement = card.createCard();
           cardList.addItem(cardElement);

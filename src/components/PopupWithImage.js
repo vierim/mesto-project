@@ -1,14 +1,12 @@
-import { Popup } from "./Popup.js";
-import { config } from "./config.js";
+import { Popup } from './Popup.js';
+import { config } from '../utils/config.js';
 
 export class PopupWithImage extends Popup {
   constructor(selector) {
     super(selector);
 
     this._image = this.popupElement.querySelector(config.popup.imageSelector);
-    this._text = this.popupElement.querySelector(
-      config.popup.figcaptionSelector
-    );
+    this._text = this.popupElement.querySelector(config.popup.figcaptionSelector);
   }
 
   open(item) {

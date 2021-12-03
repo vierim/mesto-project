@@ -1,4 +1,4 @@
-import { config } from './config.js';
+import { config } from '../utils/config.js';
 import placeHolder from '../images/placeholder.jpg';
 
 export class Card {
@@ -75,13 +75,11 @@ export class Card {
   }
 
   _generate() {
-    //заполняем html-теги новой карточки
     this._cardElement.querySelector(config.cards.imageSelector).src = this._data.link;
     this._cardElement.querySelector(config.cards.imageSelector).alt = this._data.name;
     this._cardElement.id = this._data._id;
     this._cardElement.querySelector(config.cards.nameSelector).textContent = this._data.name;
 
-    // Отмечаем карточку лайком, если id текущего пользователя есть в массиве всех лайков
     if (this._hasMyLike()) {
       this._cardElement
         .querySelector(config.cards.likeButtonSelector)

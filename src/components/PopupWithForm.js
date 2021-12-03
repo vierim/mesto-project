@@ -1,6 +1,6 @@
-import { config } from './config.js';
+import { config } from '../utils/config.js';
 import { Popup } from './Popup.js';
-import { showError } from './utils.js';
+import { showError } from '../utils/utils.js';
 
 export class PopupWithForm extends Popup {
   constructor(selector, submitFormHandler) {
@@ -13,8 +13,10 @@ export class PopupWithForm extends Popup {
   }
 
   _setButtonState(isSending) {
+    const text = this._submitButton.textContent;
+
     this._submitButton.disabled = isSending;
-    this._submitButton.textContent = isSending ? 'Сохранение...' : 'Сохранить';
+    this._submitButton.textContent = isSending ? 'Загрузка...' : text;
   }
 
   _getInputValues() {

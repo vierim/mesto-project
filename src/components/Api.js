@@ -20,7 +20,7 @@ export class Api {
 
   changeUserInfo({ name, about }) {
     return fetch(`${this.options.baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this.options.headers,
       body: JSON.stringify({
         name,
@@ -31,7 +31,7 @@ export class Api {
 
   editAvatar({ avatar }) {
     return fetch(`${this.options.baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this.options.headers,
       body: JSON.stringify({
         avatar,
@@ -47,7 +47,7 @@ export class Api {
 
   postCard({ name, link }) {
     return fetch(`${this.options.baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this.options.headers,
       body: JSON.stringify({
         name,
@@ -58,21 +58,21 @@ export class Api {
 
   deleteCard(cardId) {
     return fetch(`${this.options.baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this.options.headers,
     }).then(this._checkResponse);
   }
 
   addLike(cardId) {
     return fetch(`${this.options.baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: this.options.headers,
     }).then(this._checkResponse);
   }
 
   removeLike(cardId) {
     return fetch(`${this.options.baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this.options.headers,
     }).then(this._checkResponse);
   }

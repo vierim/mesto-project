@@ -1,5 +1,5 @@
 export class FormValidator {
-  constructor (selectors, form) {
+  constructor(selectors, form) {
     this._validityConfig = selectors;
     this._formElement = form;
   }
@@ -9,11 +9,14 @@ export class FormValidator {
   }
 
   _setEventListeners() {
+    const inputList = Array.from(
+      this._formElement.querySelectorAll(this._validityConfig.inputSelector)
+    );
+    const buttonElement = this._formElement.querySelector(
+      this._validityConfig.submitButtonSelector
+    );
 
-    const inputList = Array.from(this._formElement.querySelectorAll(this._validityConfig.inputSelector));
-    const buttonElement = this._formElement.querySelector(this._validityConfig.submitButtonSelector);
-
-    inputList.forEach(item => {
+    inputList.forEach((item) => {
       item.addEventListener('input', () => {
         this._checkInputValidity(item);
         this._toggleButtonActivity(inputList, buttonElement);
@@ -22,8 +25,7 @@ export class FormValidator {
   }
 
   _checkInputValidity(inputElement) {
-
-    if(!inputElement.validity.valid) {
+    if (!inputElement.validity.valid) {
       this._showErrorText(inputElement);
     } else {
       this._hideErrorText(inputElement);
@@ -31,8 +33,7 @@ export class FormValidator {
   }
 
   _toggleButtonActivity(inputList, buttonElement) {
-
-    if(this._hasInvalidInput(inputList)) {
+    if (this._hasInvalidInput(inputList)) {
       buttonElement.classList.add(this._validityConfig.inactiveButtonClass);
       buttonElement.disabled = true;
     } else {
@@ -42,12 +43,13 @@ export class FormValidator {
   }
 
   _hasInvalidInput(inputList) {
-    return !inputList.every(item => item.validity.valid);
+    return !inputList.every((item) => item.validity.valid);
   }
 
   _hideErrorText(inputElement) {
-
-    const errorElement = this._formElement.querySelector(`#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`);
+    const errorElement = this._formElement.querySelector(
+      `#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`
+    );
 
     inputElement.classList.remove(this._validityConfig.inputErrorClass);
     errorElement.textContent = '';
@@ -55,8 +57,9 @@ export class FormValidator {
   }
 
   _showErrorText(inputElement) {
-
-    const errorElement = this._formElement.querySelector(`#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`);
+    const errorElement = this._formElement.querySelector(
+      `#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`
+    );
 
     inputElement.classList.add(this._validityConfig.inputErrorClass);
     errorElement.textContent = inputElement.validationMessage;

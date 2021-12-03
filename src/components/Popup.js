@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import { config } from '../utils/config.js';
 
 export class Popup {
   constructor(selector) {
@@ -20,12 +20,8 @@ export class Popup {
   }
 
   _clickPopupHandler(evt) {
-    const isCloseButtonClicked = evt.target.classList.contains(
-      config.popup.closePopupBtnClass
-    );
-    const isOverlayClicked = evt.target.classList.contains(
-      config.popup.popupClass
-    );
+    const isCloseButtonClicked = evt.target.classList.contains(config.popup.closePopupBtnClass);
+    const isOverlayClicked = evt.target.classList.contains(config.popup.popupClass);
 
     if (isOverlayClicked || isCloseButtonClicked) {
       this.close(evt.currentTarget);
@@ -33,22 +29,20 @@ export class Popup {
   }
 
   _handleEscClose(evt) {
-    if (evt.code === "Escape") {
-      const openedPopupElement = document.querySelector(
-        `.${config.popup.openedClass}`
-      );
+    if (evt.code === 'Escape') {
+      const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);
 
       this.close(openedPopupElement);
     }
   }
 
   setEventListeners() {
-    this.popupElement.addEventListener("click", this._clickPopupHandler);
-    document.addEventListener("keydown", this._handleEscClose);
+    this.popupElement.addEventListener('click', this._clickPopupHandler);
+    document.addEventListener('keydown', this._handleEscClose);
   }
 
   removeEventListeners() {
-    this.popupElement.removeEventListener("click", this._clickPopupHandler);
-    document.removeEventListener("keydown", this._handleEscClose);
+    this.popupElement.removeEventListener('click', this._clickPopupHandler);
+    document.removeEventListener('keydown', this._handleEscClose);
   }
 }

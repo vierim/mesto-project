@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import { config } from './config.js';
 
 export const elements = {
   preloaderElement: document.querySelector(config.preloader.selector),
@@ -15,28 +15,18 @@ export const elements = {
   addCardButton: document.querySelector(config.profile.addCardSelector),
   deleteCardButton: document.querySelector(config.cards.deleteButtonSelector),
 
-  editAvatarPopup: document.querySelector(
-    config.popup.functionSelector.editAvatar
-  ),
-  editProfilePopup: document.querySelector(
-    config.popup.functionSelector.editProfile
-  ),
+  editAvatarPopup: document.querySelector(config.popup.functionSelector.editAvatar),
+  editProfilePopup: document.querySelector(config.popup.functionSelector.editProfile),
   addCardPopup: document.querySelector(config.popup.functionSelector.addCard),
-  confirmationPopup: document.querySelector(
-    config.popup.functionSelector.confirmation
-  ),
+  confirmationPopup: document.querySelector(config.popup.functionSelector.confirmation),
 
-  modalShowPhoto: document.querySelector(
-    config.popup.functionSelector.viewPhoto
-  ),
+  modalShowPhoto: document.querySelector(config.popup.functionSelector.viewPhoto),
   modalImageElement: document.querySelector(config.popup.imageSelector),
   modalTextElement: document.querySelector(config.popup.figcaptionSelector),
 };
 
 export const forms = {
-  editProfile: elements.editProfilePopup.querySelector(
-    config.popup.formSelector
-  ),
+  editProfile: elements.editProfilePopup.querySelector(config.popup.formSelector),
   addCard: elements.addCardPopup.querySelector(config.popup.formSelector),
   editAvatar: elements.editAvatarPopup.querySelector(config.popup.formSelector),
 };
@@ -46,9 +36,7 @@ export const popupButtons = {
   addCard: forms.addCard.querySelector(config.form.buttonSelector),
   editAvatar: forms.editAvatar.querySelector(config.form.buttonSelector),
 
-  confirmation: elements.confirmationPopup.querySelector(
-    config.popup.buttonSelector
-  ),
+  confirmation: elements.confirmationPopup.querySelector(config.popup.buttonSelector),
 };
 
 export const inputs = {
