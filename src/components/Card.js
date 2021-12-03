@@ -1,18 +1,20 @@
 import { config } from './config.js';
-import { showError } from './utils.js';
-import { api } from '../pages/index.js';
 import placeHolder from '../images/placeholder.jpg';
+
 export class Card {
-  constructor({ data, handleCardClick, handleDeleteButtonClicked, userId }, selector) {
+  constructor(
+    { data, handleCardClick, handleDeleteButtonClicked, handleLikeButtonClick, userId },
+    selector
+  ) {
     this._data = data;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClicked = handleDeleteButtonClicked;
+    this._handleLikeButtonClick = handleLikeButtonClick;
     this._selector = selector;
     this._userId = userId;
 
     this._handleImageClick = this._handleImageClick.bind(this);
     this._handleErrorImageLoad = this._handleErrorImageLoad.bind(this);
-    this._handleLikeClick = this._handleLikeClick.bind(this);
   }
 
   _getElement() {
@@ -24,28 +26,7 @@ export class Card {
 
   _updateLikesCount(count) {
     this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
-
     this._cardLikesCount.textContent = count > 0 ? count : '';
-  }
-
-  _handleLikeClick(evt) {
-    if (!evt.target.classList.contains(config.cards.hasLikedClass)) {
-      api
-        .addLike(this._data._id)
-        .then((res) => {
-          evt.target.classList.add(config.cards.hasLikedClass);
-          this._updateLikesCount(res.likes.length);
-        })
-        .catch((err) => showError(err));
-    } else {
-      api
-        .removeLike(this._data._id)
-        .then((res) => {
-          evt.target.classList.remove(config.cards.hasLikedClass);
-          this._updateLikesCount(res.likes.length);
-        })
-        .catch((err) => showError(err));
-    }
   }
 
   _handleImageClick() {
@@ -61,15 +42,19 @@ export class Card {
   // Метод для добавления слушателей событий на карточку
   _setEventListeners() {
     this._cardImage = this._cardElement.querySelector(config.cards.imageSelector);
-    this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
 
+    this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
+    this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
     this._deleteButton = this._cardElement.querySelector(config.cards.deleteButtonSelector);
 
     this._cardImage.addEventListener('click', this._handleImageClick);
     this._cardImage.addEventListener('error', this._handleErrorImageLoad);
 
     // Клик по иконке лайка
-    this._cardLikeButton.addEventListener('click', this._handleLikeClick);
+
+    this._cardLikeButton.addEventListener('click', () => {
+      this._handleLikeButtonClick(this._cardLikeButton, this._cardLikesCount);
+    });
 
     if (this._data.owner._id === this._userId) {
       this._deleteButton.classList.add(config.cards.deleteButtonVisibleClass);
