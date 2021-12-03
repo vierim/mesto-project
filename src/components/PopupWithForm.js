@@ -1,6 +1,6 @@
-import { config } from "./config.js";
-import { Popup } from "./Popup.js";
-import { showError } from "./utils.js";
+import { config } from './config.js';
+import { Popup } from './Popup.js';
+import { showError } from './utils.js';
 
 export class PopupWithForm extends Popup {
   constructor(selector, submitFormHandler) {
@@ -14,7 +14,7 @@ export class PopupWithForm extends Popup {
 
   _setButtonState(isSending) {
     this._submitButton.disabled = isSending;
-    this._submitButton.textContent = isSending ? "Сохранение..." : "Сохранить";
+    this._submitButton.textContent = isSending ? 'Сохранение...' : 'Сохранить';
   }
 
   _getInputValues() {
@@ -49,13 +49,13 @@ export class PopupWithForm extends Popup {
     const inputList = Array.from(this._form.querySelectorAll(config.form.inputSelector));
 
     errorElement.forEach((item) => {
-      if(item.classList.contains(config.form.errorMsgVisibleClass)) {
+      if (item.classList.contains(config.form.errorMsgVisibleClass)) {
         item.classList.remove(config.form.errorMsgVisibleClass);
       }
     });
 
     inputList.forEach((item) => {
-      if(item.classList.contains(config.form.inputErrorClass)) {
+      if (item.classList.contains(config.form.inputErrorClass)) {
         item.classList.remove(config.form.inputErrorClass);
       }
     });
@@ -63,12 +63,12 @@ export class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener("submit", this._handleSubmit);
+    this._form.addEventListener('submit', this._handleSubmit);
   }
 
   removeEventListeners() {
     super.removeEventListeners();
-    this._form.removeEventListener("submit", this._handleSubmit);
+    this._form.removeEventListener('submit', this._handleSubmit);
   }
 
   close() {
