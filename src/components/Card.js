@@ -26,7 +26,6 @@ export class Card {
 
   _updateLikesCount(count) {
     this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
-
     this._cardLikesCount.textContent = count > 0 ? count : '';
   }
 
@@ -46,13 +45,13 @@ export class Card {
 
     this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
     this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
-
     this._deleteButton = this._cardElement.querySelector(config.cards.deleteButtonSelector);
 
     this._cardImage.addEventListener('click', this._handleImageClick);
     this._cardImage.addEventListener('error', this._handleErrorImageLoad);
 
     // Клик по иконке лайка
+
     this._cardLikeButton.addEventListener('click', () => {
       this._handleLikeButtonClick(this._cardLikeButton, this._cardLikesCount);
     });

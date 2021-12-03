@@ -1,13 +1,11 @@
-import { config } from "./config.js";
-import { Popup } from "./Popup.js";
+import { config } from './config.js';
+import { Popup } from './Popup.js';
 
 export class PopupConfirmation extends Popup {
   constructor(selector, submitConfirmHandler) {
     super(selector);
-    this._cardId = "";
-    this._submitButton = this.popupElement.querySelector(
-      config.popup.buttonSelector
-    );
+    this._cardId = '';
+    this._submitButton = this.popupElement.querySelector(config.popup.buttonSelector);
     this._submitConfirmHandler = submitConfirmHandler;
     this._handleSubmit = this._handleSubmit.bind(this);
   }
@@ -24,11 +22,11 @@ export class PopupConfirmation extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._submitButton.addEventListener("click", this._handleSubmit);
+    this._submitButton.addEventListener('click', this._handleSubmit);
   }
 
   removeEventListeners() {
     super.removeEventListeners();
-    this._submitButton.removeEventListener("click", this._handleSubmit);
+    this._submitButton.removeEventListener('click', this._handleSubmit);
   }
 }
