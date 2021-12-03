@@ -54,13 +54,11 @@ const editProfilePopup = new PopupWithForm(
     api
       .changeUserInfo(body)
       .then((res) => user.setUserInfo(res))
-      .catch((err) => showError(err))
 );
 
 const avatarPopup = new PopupWithForm(
   config.popup.functionSelector.editAvatar,
   (body) => api.editAvatar(body).then((res) => user.renderUserAvatar(res))
-  // .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -90,7 +88,6 @@ const cardPopup = new PopupWithForm(
 
         cardList.addItem(cardElement);
       })
-      .catch((err) => showError(err))
 );
 
 const confirmationPopup = new PopupConfirmation(
