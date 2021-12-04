@@ -1,5 +1,6 @@
 import { config } from './config.js';
 import { elements, inputs } from './elements.js';
+import { Card } from '../components/Card.js';
 
 export const showPreloader = () => {
   elements.preloaderElement.classList.add('preloader_active');
@@ -39,7 +40,7 @@ export const disableSubmitButton = (popupElement) => {
   buttonElement.disabled = true;
 };
 
-export const createCard = (card, userId) => {
+export const createCard = (card, userId, confirmationPopup, imagePopup) => {
   return new Card(
     {
       data: card,
