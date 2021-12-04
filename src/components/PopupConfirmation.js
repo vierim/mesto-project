@@ -20,25 +20,14 @@ export class PopupConfirmation extends Popup {
     this._submitConfirmHandler(this._cardId).then(() => this.close());
   }
 
-  _handleEnterPress(evt) {
-    if (evt.code === 'Enter') {
-      const openedPopupElement = document.querySelector(`.${config.popup.openedClass}`);
-
-      this._handleSubmit();
-
-      this.close(openedPopupElement);
-    }
-  }
-
   setEventListeners() {
     super.setEventListeners();
+
     this._submitButton.addEventListener('click', this._handleSubmit);
-    this._submitButton.addEventListener('keydown', this._handleEnterPress);
   }
 
   removeEventListeners() {
     super.removeEventListeners();
     this._submitButton.removeEventListener('click', this._handleSubmit);
-    this._submitButton.removeEventListener('keydown', this._handleEnterPress);
   }
 }

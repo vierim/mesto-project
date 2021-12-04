@@ -27,6 +27,8 @@
 - Webpack
 - Babel
 - PostCSS
+- OOP
+- Асинхронный JS
 
 **Исходный макет в Figma**
 
