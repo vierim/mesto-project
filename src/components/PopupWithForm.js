@@ -7,16 +7,15 @@ export class PopupWithForm extends Popup {
     super(selector);
     this._form = this.popupElement.querySelector(config.popup.formSelector);
     this._submitButton = this._form.querySelector(config.form.buttonSelector);
+    this._defualtSubmitButtonText = this._submitButton.textContent;
     this._submitFormHandler = submitFormHandler;
     this._handleSubmit = this._handleSubmit.bind(this);
     this._setButtonState = this._setButtonState.bind(this);
   }
 
   _setButtonState(isSending) {
-    const text = this._submitButton.textContent;
-
     this._submitButton.disabled = isSending;
-    this._submitButton.textContent = isSending ? 'Загрузка...' : text;
+    this._submitButton.textContent = isSending ? 'Загрузка...' : this._defualtSubmitButtonText;
   }
 
   _getInputValues() {
