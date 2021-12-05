@@ -18,6 +18,8 @@ export const showError = (err, container) => {
       errorElement[errorElement.length - 1].textContent =
         'Что-то пошло не так... :( Попробуйте еще раз.';
       errorElement[errorElement.length - 1].classList.add(config.form.errorMsgVisibleClass);
+
+      return Promise.reject(err);
     } else {
       console.error('Что-то пошло не так... :( Попробуйте еще раз.');
     }

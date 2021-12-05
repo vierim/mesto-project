@@ -51,11 +51,12 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
   api
     .changeUserInfo(body)
     .then((res) => user.setUserInfo(res))
-    .catch((err) => showError(err))
+    .catch((err) => showError(err, forms.editProfile))
 );
 
 const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
   api.editAvatar(body).then((res) => user.renderUserAvatar(res))
+  .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -70,7 +71,7 @@ const confirmationPopup = new PopupConfirmation(
 
         card.remove();
       })
-      .catch((err) => showError(err));
+      .catch((err) => showError(err, 'console'));
   }
 );
 
@@ -85,7 +86,7 @@ const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body
       const cardElement = card.createCard();
       cardList.addItem(cardElement);
     })
-    .catch((err) => showError(err))
+    .catch((err) => showError(err, forms.addCard))
 );
 
 const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
