@@ -9,15 +9,16 @@ export class Section {
     this._container.innerHTML = '';
   }
 
-  addItem(element) {
-    this._container.prepend(element);
+  addItem(item) {
+    const cardElement = this._renderer(item);
+    this._container.prepend(cardElement);
   }
 
   renderItems() {
     this._clear();
 
     this._data.reverse().forEach((item) => {
-      this._renderer(item);
+      this.addItem(item);
     });
   }
 }
