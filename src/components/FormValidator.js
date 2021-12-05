@@ -15,6 +15,15 @@ export class FormValidator {
     this._setEventListeners();
   }
 
+  resetValidation() {
+    this._toggleButtonActivity();
+
+    this._inputList.forEach((item) => {
+      this._hideError(item);
+    });
+
+  }
+
   _setEventListeners() {
     this._inputList.forEach((item) => {
       item.addEventListener('input', () => {
@@ -26,9 +35,9 @@ export class FormValidator {
 
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
-      this._showErrorText(inputElement);
+      this._showError(inputElement);
     } else {
-      this._hideErrorText(inputElement);
+      this._hideError(inputElement);
     }
   }
 
@@ -46,7 +55,7 @@ export class FormValidator {
     return !this._inputList.every((item) => item.validity.valid);
   }
 
-  _hideErrorText(inputElement) {
+  _hideError(inputElement) {
     const errorElement = this._formElement.querySelector(
       `#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`
     );
@@ -57,7 +66,7 @@ export class FormValidator {
     errorElement.classList.remove(this._validityConfig.errorClass);
   }
 
-  _showErrorText(inputElement) {
+  _showError(inputElement) {
     const errorElement = this._formElement.querySelector(
       `#${inputElement.name}-${this._validityConfig.errorMsgPrefix}`
     );
