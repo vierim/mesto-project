@@ -82,7 +82,7 @@ addCardValidity.enableValidation();
 Promise.all([api.getUserInfo(), api.getCards()])
   .then((res) => {
     user.setUserInfo(res[0]);
-    const userId = user.getUserInfo().id;
+    const userId = user.getUserInfo()._id;
 
     cardList = new Section(
       {

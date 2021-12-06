@@ -1,6 +1,5 @@
 import { config } from '../utils/config.js';
 import { Popup } from './Popup.js';
-import { showError } from '../utils/utils.js';
 
 export class PopupWithForm extends Popup {
   constructor(selector, submitFormHandler) {

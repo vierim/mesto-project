@@ -34,12 +34,10 @@ export class Card {
     this._cardImage.removeEventListener('click', this._handleImageClick);
   }
 
-  // Метод для добавления слушателей событий на карточку
   _setEventListeners() {
     this._cardImage.addEventListener('click', this._handleImageClick);
     this._cardImage.addEventListener('error', this._handleErrorImageLoad);
 
-    // Клик по иконке лайка
     this._cardLikeButton.addEventListener('click', () => {
       this._handleLikeButtonClick(this._data._id, this._cardLikeButton, this._cardLikesCount);
     });
