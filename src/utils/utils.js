@@ -41,38 +41,3 @@ export const disableSubmitButton = (popupElement) => {
   buttonElement.classList.add(config.form.inactiveButtonClass);
   buttonElement.disabled = true;
 };
-
-export const createCard = (card, userId, confirmationPopup, imagePopup, api) => {
-  return new Card(
-    {
-      data: card,
-      userId,
-      handleCardClick: (image) => {
-        imagePopup.open(image);
-      },
-      handleDeleteButtonClicked: () => {
-        confirmationPopup.open(card._id);
-      },
-      handleLikeButtonClick: (likeElement, likeCounter) => {
-        if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
-          api
-            .addLike(card._id)
-            .then((card) => {
-              likeElement.classList.add(config.cards.hasLikedClass);
-              likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
-            })
-            .catch((err) => showError(err, 'console'));
-        } else {
-          api
-            .removeLike(card._id)
-            .then((card) => {
-              likeElement.classList.remove(config.cards.hasLikedClass);
-              likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
-            })
-            .catch((err) => showError(err, 'console'));
-        }
-      },
-    },
-    config.cards.template
-  );
-};

@@ -7,7 +7,6 @@ import {
   showError,
   completeFormInputs,
   disableSubmitButton,
-  createCard,
 } from '../utils/utils.js';
 
 import { Api } from '../components/Api.js';
@@ -16,7 +15,8 @@ import { Section } from '../components/Section.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { PopupConfirmation } from '../components/PopupConfirmation';
+import { PopupConfirmation } from '../components/PopupConfirmation.js';
+import { Card } from '../components/Card.js';
 
 let cardList;
 
@@ -57,6 +57,7 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
 const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
   api.editAvatar(body).then((res) => user.renderUserAvatar(res))
   .catch((err) => showError(err, forms.editAvatar))
+
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -66,12 +67,13 @@ const confirmationPopup = new PopupConfirmation(
   (cardId) => {
     return api
       .deleteCard(cardId)
-      .then(() => {
-        const card = document.getElementById(cardId);
+        .then(() => {
+          const card = document.getElementById(cardId);
 
         card.remove();
       })
       .catch((err) => showError(err, 'console'));
+
   }
 );
 
@@ -87,6 +89,7 @@ const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body
       cardList.addItem(cardElement);
     })
     .catch((err) => showError(err, forms.addCard))
+
 );
 
 const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
@@ -107,15 +110,44 @@ Promise.all([api.getUserInfo(), api.getCards()])
       {
         items: res[1],
         renderer: (item) => {
-          const card = createCard(item, userId, confirmationPopup, imagePopup, api);
+          const card = new Card(
+            {
+              data: item,
+              userId,
+              handleCardClick: (image) => {
+                imagePopup.open(image);
+              },
+              handleDeleteButtonClicked: (idCard) => {
+                confirmationPopup.open(idCard);
+              },
+              handleLikeButtonClick: (idCard, likeElement, likeCounter) => {
+                if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
+                  api
+                    .addLike(idCard)
+                      .then((card) => {
+                        likeElement.classList.add(config.cards.hasLikedClass);
+                        likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                      })
+                      .catch((err) => showError(err, 'console'));
+                } else {
+                  api
+                    .removeLike(idCard)
+                      .then((card) => {
+                        likeElement.classList.remove(config.cards.hasLikedClass);
+                        likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                      })
+                      .catch((err) => showError(err, 'console'));
+                }
+              }
+            },
+            config.cards.template
+          );
 
-          const cardElement = card.createCard();
-          cardList.addItem(cardElement);
+          return card.createCard();
         },
       },
       config.cards.containerSelector
     );
-
     cardList.renderItems();
   })
   .then(hidePreloader)
@@ -123,22 +155,19 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
 elements.editProfileButton.addEventListener('click', () => {
   editProfilePopup.open();
-  const { name, about } = user.getUserInfo();
 
+  const { name, about } = user.getUserInfo();
   completeFormInputs(name, about);
+  
+  editProfileValidity.resetValidation();
 });
 
 elements.editAvatarButton.addEventListener('click', () => {
   avatarPopup.open();
-
-  const avatarInput = inputs.inputAvatar;
-
-  if (avatarInput.value.length === 0) {
-    disableSubmitButton(elements.editAvatarPopup);
-  }
+  editAvatarValidity.resetValidation();
 });
 
 elements.addCardButton.addEventListener('click', () => {
   cardPopup.open();
-  disableSubmitButton(elements.addCardPopup);
+  addCardValidity.resetValidation();
 });
