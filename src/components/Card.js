@@ -41,12 +41,15 @@ export class Card {
 
     // Клик по иконке лайка
     this._cardLikeButton.addEventListener('click', () => {
-      this._handleLikeButtonClick(this._cardLikeButton, this._cardLikesCount);
+      this._handleLikeButtonClick(this._data._id, this._cardLikeButton, this._cardLikesCount);
     });
 
     if (this._data.owner._id === this._userId) {
       this._deleteButton.classList.add(config.cards.deleteButtonVisibleClass);
-      this._deleteButton.addEventListener('click', this._handleDeleteButtonClicked);
+
+      this._deleteButton.addEventListener('click', () => {
+        this._handleDeleteButtonClicked(this._data._id);
+      });
     }
   }
 
