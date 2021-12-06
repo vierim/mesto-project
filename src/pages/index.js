@@ -122,22 +122,19 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
 elements.editProfileButton.addEventListener('click', () => {
   editProfilePopup.open();
-  const { name, about } = user.getUserInfo();
 
+  const { name, about } = user.getUserInfo();
   completeFormInputs(name, about);
+  
+  editProfileValidity.resetValidation();
 });
 
 elements.editAvatarButton.addEventListener('click', () => {
   avatarPopup.open();
-
-  const avatarInput = inputs.inputAvatar;
-
-  if (avatarInput.value.length === 0) {
-    disableSubmitButton(elements.editAvatarPopup);
-  }
+  editAvatarValidity.resetValidation();
 });
 
 elements.addCardButton.addEventListener('click', () => {
   cardPopup.open();
-  disableSubmitButton(elements.addCardPopup);
+  addCardValidity.resetValidation();
 });
