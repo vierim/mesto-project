@@ -11,6 +11,7 @@ export class PopupWithForm extends Popup {
     this._submitFormHandler = submitFormHandler;
     this._handleSubmit = this._handleSubmit.bind(this);
     this._setButtonState = this._setButtonState.bind(this);
+    this._inputs = this._form.querySelectorAll(config.form.inputSelector);
   }
 
   _setButtonState(isSending) {
@@ -19,15 +20,13 @@ export class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    const inputs = this._form.querySelectorAll(config.form.inputSelector);
+    const inputValues = {};
 
-    const body = {};
-
-    for (let input of inputs) {
-      body[input.name] = input.value;
+    for (let input of this._inputs) {
+      inputValues[input.name] = input.value;
     }
 
-    return body;
+    return inputValues;
   }
 
   _handleSubmit(evt) {

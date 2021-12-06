@@ -1,30 +1,31 @@
 export class UserInfo {
   constructor({ nameSelector, aboutSelector, avatarSelector }) {
-    this._nameSelector = document.querySelector(nameSelector);
-    this._aboutSelector = document.querySelector(aboutSelector);
-    this._avatarSelector = document.querySelector(avatarSelector);
-    this._user = null;
+    this._nameEl = document.querySelector(nameSelector);
+    this._aboutEl = document.querySelector(aboutSelector);
+    this._avatarEl = document.querySelector(avatarSelector);
   }
 
   getUserInfo() {
-    return this._user;
+    return { name: this._name, about: this._about, avatar: this._avatar, _id: this._id };
   }
 
-  setUserInfo(user) {
-    this._user = user;
+  setUserInfo({ name, about, avatar, _id }) {
+    this._name = name;
+    this._about = about;
+    this._id = _id;
+    this._avatar = avatar;
 
-    this._renderUserInfo(user);
-    this.renderUserAvatar(user);
+    this._renderUserInfo();
+    this.renderUserAvatar();
   }
 
-  _renderUserInfo({ name, about }) {
-    this._nameSelector.textContent = name;
-    this._aboutSelector.textContent = about;
-    document.title = name;
+  _renderUserInfo() {
+    this._nameEl.textContent = this._name;
+    this._aboutEl.textContent = this._about;
   }
 
-  renderUserAvatar = ({ name, avatar }) => {
-    this._avatarSelector.src = avatar;
-    this._avatarSelector.alt = `Аватар пользователя ${name}`;
+  renderUserAvatar = () => {
+    this._avatarEl.src = this._avatar;
+    this._avatarEl.alt = `Аватар пользователя ${this._name}`;
   };
 }

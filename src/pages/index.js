@@ -1,13 +1,9 @@
 import './index.css';
 
+import { validationConfig } from '../utils/constants.js';
 import { config } from '../utils/config.js';
-import { elements, inputs, forms } from '../utils/elements.js';
-import {
-  hidePreloader,
-  showError,
-  completeFormInputs,
-  disableSubmitButton,
-} from '../utils/utils.js';
+import { elements, forms } from '../utils/elements.js';
+import { hidePreloader, showError, completeFormInputs } from '../utils/utils.js';
 
 import { Api } from '../components/Api.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -19,16 +15,6 @@ import { PopupConfirmation } from '../components/PopupConfirmation.js';
 import { Card } from '../components/Card.js';
 
 let cardList;
-
-const validationConfig = {
-  formSelector: config.popup.formSelector,
-  inputSelector: config.form.inputSelector,
-  submitButtonSelector: config.form.buttonSelector,
-  inactiveButtonClass: config.form.inactiveButtonClass,
-  inputErrorClass: config.form.inputErrorClass,
-  errorClass: config.form.errorMsgVisibleClass,
-  errorMsgPrefix: config.form.errorMsgPrefix,
-};
 
 export const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-3',
@@ -55,9 +41,10 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
 );
 
 const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
-  api.editAvatar(body).then((res) => user.renderUserAvatar(res))
-  .catch((err) => showError(err, forms.editAvatar))
-
+  api
+    .editAvatar(body)
+    .then((res) => user.renderUserAvatar(res))
+    .catch((err) => showError(err, forms.editAvatar))
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -67,29 +54,20 @@ const confirmationPopup = new PopupConfirmation(
   (cardId) => {
     return api
       .deleteCard(cardId)
-        .then(() => {
-          const card = document.getElementById(cardId);
+      .then(() => {
+        const card = document.getElementById(cardId);
 
         card.remove();
       })
       .catch((err) => showError(err, 'console'));
-
   }
 );
 
 const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body) =>
   api
     .postCard(body)
-    .then((res) => {
-      const userId = user.getUserInfo()._id;
-
-      const card = createCard(res, userId, confirmationPopup, imagePopup, api);
-
-      const cardElement = card.createCard();
-      cardList.addItem(cardElement);
-    })
+    .then((res) => cardList.addItem(res))
     .catch((err) => showError(err, forms.addCard))
-
 );
 
 const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
@@ -104,7 +82,7 @@ addCardValidity.enableValidation();
 Promise.all([api.getUserInfo(), api.getCards()])
   .then((res) => {
     user.setUserInfo(res[0]);
-    const userId = user.getUserInfo()._id;
+    const userId = user.getUserInfo().id;
 
     cardList = new Section(
       {
@@ -124,21 +102,21 @@ Promise.all([api.getUserInfo(), api.getCards()])
                 if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
                   api
                     .addLike(idCard)
-                      .then((card) => {
-                        likeElement.classList.add(config.cards.hasLikedClass);
-                        likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
-                      })
-                      .catch((err) => showError(err, 'console'));
+                    .then((card) => {
+                      likeElement.classList.add(config.cards.hasLikedClass);
+                      likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                    })
+                    .catch((err) => showError(err, 'console'));
                 } else {
                   api
                     .removeLike(idCard)
-                      .then((card) => {
-                        likeElement.classList.remove(config.cards.hasLikedClass);
-                        likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
-                      })
-                      .catch((err) => showError(err, 'console'));
+                    .then((card) => {
+                      likeElement.classList.remove(config.cards.hasLikedClass);
+                      likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                    })
+                    .catch((err) => showError(err, 'console'));
                 }
-              }
+              },
             },
             config.cards.template
           );
@@ -158,7 +136,7 @@ elements.editProfileButton.addEventListener('click', () => {
 
   const { name, about } = user.getUserInfo();
   completeFormInputs(name, about);
-  
+
   editProfileValidity.resetValidation();
 });
 
