@@ -40,7 +40,7 @@ export const disableSubmitButton = (popupElement) => {
   buttonElement.disabled = true;
 };
 
-export const createCard = (card, userId, confirmationPopup, imagePopup) => {
+export const createCard = (card, userId, confirmationPopup, imagePopup, api) => {
   return new Card(
     {
       data: card,

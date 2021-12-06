@@ -80,7 +80,7 @@ const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body
     .then((res) => {
       const userId = user.getUserInfo()._id;
 
-      const card = createCard(res, userId, confirmationPopup, imagePopup);
+      const card = createCard(res, userId, confirmationPopup, imagePopup, api);
 
       const cardElement = card.createCard();
       cardList.addItem(cardElement);
@@ -106,7 +106,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
       {
         items: res[1],
         renderer: (item) => {
-          const card = createCard(item, userId, confirmationPopup, imagePopup);
+          const card = createCard(item, userId, confirmationPopup, imagePopup, api);
 
           const cardElement = card.createCard();
           cardList.addItem(cardElement);

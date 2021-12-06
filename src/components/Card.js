@@ -24,11 +24,6 @@ export class Card {
       .cloneNode(true);
   }
 
-  _updateLikesCount(count) {
-    this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
-    this._cardLikesCount.textContent = count > 0 ? count : '';
-  }
-
   _handleImageClick() {
     this._handleCardClick(this._data);
   }
@@ -41,17 +36,10 @@ export class Card {
 
   // Метод для добавления слушателей событий на карточку
   _setEventListeners() {
-    this._cardImage = this._cardElement.querySelector(config.cards.imageSelector);
-
-    this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
-    this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
-    this._deleteButton = this._cardElement.querySelector(config.cards.deleteButtonSelector);
-
     this._cardImage.addEventListener('click', this._handleImageClick);
     this._cardImage.addEventListener('error', this._handleErrorImageLoad);
 
     // Клик по иконке лайка
-
     this._cardLikeButton.addEventListener('click', () => {
       this._handleLikeButtonClick(this._cardLikeButton, this._cardLikesCount);
     });
@@ -75,20 +63,23 @@ export class Card {
   }
 
   _generate() {
-    this._cardElement.querySelector(config.cards.imageSelector).src = this._data.link;
-    this._cardElement.querySelector(config.cards.imageSelector).alt = this._data.name;
+    this._cardImage = this._cardElement.querySelector(config.cards.imageSelector);
+    this._cardLikeButton = this._cardElement.querySelector(config.cards.likeButtonSelector);
+    this._cardLikesCount = this._cardElement.querySelector(config.cards.likesCountSelector);
+    this._deleteButton = this._cardElement.querySelector(config.cards.deleteButtonSelector);
+
+    this._cardImage.src = this._data.link;
+    this._cardImage.alt = this._data.name;
+
     this._cardElement.id = this._data._id;
     this._cardElement.querySelector(config.cards.nameSelector).textContent = this._data.name;
 
     if (this._hasMyLike()) {
-      this._cardElement
-        .querySelector(config.cards.likeButtonSelector)
-        .classList.add(config.cards.hasLikedClass);
+      this._cardLikeButton.classList.add(config.cards.hasLikedClass);
     }
 
     if (this._data.likes.length > 0) {
-      this._cardElement.querySelector(config.cards.likesCountSelector).textContent =
-        this._data.likes.length;
+      this._cardLikesCount.textContent = this._data.likes.length;
     }
   }
 
