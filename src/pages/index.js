@@ -50,14 +50,14 @@ const user = new UserInfo(
 const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editProfile, (body) =>
   api
     .changeUserInfo(body)
-      .then((res) => user.setUserInfo(res))
-      .catch((err) => showError(err))
+    .then((res) => user.setUserInfo(res))
+    .catch((err) => showError(err, forms.editProfile))
 );
 
 const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
-  api
-    .editAvatar(body)
-      .then((res) => user.renderUserAvatar(res))
+  api.editAvatar(body).then((res) => user.renderUserAvatar(res))
+  .catch((err) => showError(err, forms.editAvatar))
+
 );
 
 const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
@@ -70,19 +70,26 @@ const confirmationPopup = new PopupConfirmation(
         .then(() => {
           const card = document.getElementById(cardId);
 
-          card.remove();
-        })
-        .catch((err) => showError(err));
+        card.remove();
+      })
+      .catch((err) => showError(err, 'console'));
+
   }
 );
 
 const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body) =>
   api
     .postCard(body)
-      .then((res) => {
-        cardList.addItem(res);
-      })
-      .catch((err) => showError(err))
+    .then((res) => {
+      const userId = user.getUserInfo()._id;
+
+      const card = createCard(res, userId, confirmationPopup, imagePopup, api);
+
+      const cardElement = card.createCard();
+      cardList.addItem(cardElement);
+    })
+    .catch((err) => showError(err, forms.addCard))
+
 );
 
 const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);

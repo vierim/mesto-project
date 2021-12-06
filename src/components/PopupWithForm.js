@@ -39,7 +39,6 @@ export class PopupWithForm extends Popup {
 
     this._submitFormHandler(body)
       .then(() => this.close())
-      .catch((err) => showError(err, evt.target))
       .finally(() => {
         this._setButtonState(false);
       });
