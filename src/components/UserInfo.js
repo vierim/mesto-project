@@ -16,7 +16,7 @@ export class UserInfo {
     this._avatar = avatar;
 
     this._renderUserInfo();
-    this.renderUserAvatar();
+    this._renderUserAvatar();
   }
 
   _renderUserInfo() {
@@ -24,7 +24,7 @@ export class UserInfo {
     this._aboutEl.textContent = this._about;
   }
 
-  renderUserAvatar = () => {
+  _renderUserAvatar = () => {
     this._avatarEl.src = this._avatar;
     this._avatarEl.alt = `Аватар пользователя ${this._name}`;
   };

@@ -19,7 +19,7 @@ let cardList;
 export const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-3',
   headers: {
-    authorization: 'd32353b7-29c6-4530-8908-5ae56ac735f5',
+    authorization: '27fae40c-b0f9-46c9-bf33-d2f2bfaeebe1',
     'Content-Type': 'application/json',
   },
 });
@@ -43,7 +43,7 @@ const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editPro
 const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
   api
     .editAvatar(body)
-    .then((res) => user.renderUserAvatar(res))
+    .then((res) => user.setUserInfo(res))
     .catch((err) => showError(err, forms.editAvatar))
 );
 
