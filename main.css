@@ -3,6 +3,11 @@
 .page{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;text-rendering:optimizeLegibility;background-color:#000;color:#fff;font-family:Inter,Arial,sans-serif;min-width:320px}
 .page__section{box-sizing:border-box;margin-left:auto;margin-right:auto;max-width:320px;padding:0 19px}@media screen and (min-width:619px){.page__section{max-width:619px}}@media screen and (min-width:918px){.page__section{max-width:918px}}
 .page__section_size_l{max-width:619px;padding-left:0;padding-right:0}@media screen and (min-width:619px){.page__section_size_l{padding-left:19px;padding-right:19px}}@media screen and (min-width:918px){.page__section_size_l{max-width:918px}}
+.preloader{align-items:center;background-color:#000;display:none;flex-direction:column;height:calc(100vh - 85px);justify-content:center;left:0;margin-top:85px;position:fixed;top:0;width:100vw;z-index:999}@media screen and (min-width:918px){.preloader{height:calc(100vh - 120px);margin-top:120px}}
+.preloader_active{display:flex}
+.preloader__container{display:inline-block;height:80px;position:relative;width:80px}@-webkit-keyframes preloader-animation{0%{height:64px;top:8px}50%,to{height:32px;top:24px}}@keyframes preloader-animation{0%{height:64px;top:8px}50%,to{height:32px;top:24px}}
+.preloader__element{-webkit-animation:preloader-animation 1.2s cubic-bezier(0,.5,.5,1) infinite;animation:preloader-animation 1.2s cubic-bezier(0,.5,.5,1) infinite;background:#fff;display:inline-block;left:8px;position:absolute;width:16px}.preloader__element:first-child{-webkit-animation-delay:-.24s;animation-delay:-.24s;left:8px}.preloader__element:nth-child(2){-webkit-animation-delay:-.12s;animation-delay:-.12s;left:32px}.preloader__element:nth-child(3){-webkit-animation-delay:0;animation-delay:0;left:56px}
+.preloader__information{font-size:18px;font-weight:400;letter-spacing:.2em;line-height:22px}
 .header,.header:after{margin-top:28px}.header:after{border-bottom:1px solid #545454;content:"";display:block;opacity:.7;width:100%}@media screen and (min-width:918px){.header{margin-top:45px}.header:after{margin-top:36px}}
 .header__logo{color:#fff;margin:0 0 0 27px;width:104px}@media screen and (min-width:619px){.header__logo{margin-left:0}}@media screen and (min-width:918px){.header__logo{width:142px}}
 .profile{display:grid;grid-template-areas:". avatar avatar ." "title title title title" "subtitle subtitle subtitle subtitle" "add add add add";grid-template-columns:1fr 1fr 1fr 1fr;grid-template-rows:120px auto auto auto;justify-items:center;margin-top:38px;width:100%}@media screen and (min-width:619px){.profile{grid-template-areas:"avatar title edit-button add" "avatar subtitle subtitle add";grid-template-columns:120px minmax(-webkit-min-content,-webkit-max-content) auto 150px;grid-template-columns:120px minmax(min-content,max-content) auto 150px;grid-template-rows:auto auto}}
@@ -36,6 +41,8 @@
 .popup__figcaption{font-size:12px;font-weight:400;line-height:15px}
 .popup__header{color:#000;font-size:18px;font-weight:900;line-height:22px;margin:0}@media screen and (min-width:619px){.popup__header{font-size:24px;line-height:29px}}
 .popup__form{margin-top:76px}@media screen and (min-width:619px){.popup__form{margin-top:50px}}
+.popup__button{all:unset;background:#000;border-radius:2px;color:#fff;cursor:pointer;display:block;font-size:14px;line-height:0;line-height:1.21;margin-top:28px;padding:14px 0;text-align:center;transition:opacity .2s ease;width:100%}@media (min-width:568px){.popup__button{font-size:18px;line-height:1.22;margin-top:31px;padding-bottom:18px}}@media (hover:hover) and (pointer:fine){.popup__button:hover{opacity:.8}}
+.popup_function_view-photo{background:rgba(0,0,0,.9)}
 
 .form__field{display:flex;flex-direction:column;margin-top:32px;position:relative}.form__field:first-of-type{margin-top:0}
 .form__input{border:0;border-bottom:1px solid rgba(0,0,0,.2);box-sizing:border-box;color:#000;font-size:14px;font-weight:400;height:26px;line-height:17px;padding:0 0 11px;transition:.3s;width:100%}.form__input:focus{outline:none}
