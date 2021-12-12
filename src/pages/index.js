@@ -1,47 +1,151 @@
 import './index.css';
 
-import { config } from '../components/config.js';
-import { elements } from '../components/elements.js';
-import { setBasicListeners } from '../components/listeners.js';
-import { enableValidation } from '../components/validate.js';
-import { createCard, addCard } from '../components/cards.js';
-import { getUserInfo, getCards } from '../components/api.js';
-import { renderUserInfo, renderUserAvatar, showError } from '../components/utils.js';
+import { validationConfig } from '../utils/constants.js';
+import { config } from '../utils/config.js';
+import { elements, forms } from '../utils/elements.js';
+import { hidePreloader, showError, completeFormInputs } from '../utils/utils.js';
 
-export const userInfo = {};
+import { Api } from '../components/Api.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { Section } from '../components/Section.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { PopupConfirmation } from '../components/PopupConfirmation.js';
+import { Card } from '../components/Card.js';
 
-const userPromise = getUserInfo();
-const cardPromise = getCards();
+let cardList;
 
-Promise.all([userPromise, cardPromise])
-  .then(res => {
-    userInfo._id = res[0]._id;
-    renderUserInfo(res[0].name, res[0].about);
-    renderUserAvatar(res[0].name, res[0].avatar);
+export const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-3',
+  headers: {
+    authorization: '27fae40c-b0f9-46c9-bf33-d2f2bfaeebe1',
+    'Content-Type': 'application/json',
+  },
+});
 
-    res[1].forEach((item) => {
-      addCard(elements.cardsContainer, createCard({
-        name: item.name,
-        link: item.link,
-        id: item._id,
-        owner: item.owner._id,
-        likes: item.likes
-      }))
-    });
+const user = new UserInfo(
+  {
+    nameSelector: config.profile.nameSelector,
+    aboutSelector: config.profile.proffesionSelector,
+    avatarSelector: config.profile.avatarSelector,
+  },
+  api
+);
+
+const editProfilePopup = new PopupWithForm(config.popup.functionSelector.editProfile, (body) =>
+  api
+    .changeUserInfo(body)
+    .then((res) => user.setUserInfo(res))
+    .catch((err) => showError(err, forms.editProfile))
+);
+
+const avatarPopup = new PopupWithForm(config.popup.functionSelector.editAvatar, (body) =>
+  api
+    .editAvatar(body)
+    .then((res) => user.setUserInfo(res))
+    .catch((err) => showError(err, forms.editAvatar))
+);
+
+const imagePopup = new PopupWithImage(config.popup.functionSelector.viewPhoto);
+
+const confirmationPopup = new PopupConfirmation(
+  config.popup.functionSelector.confirmation,
+  (cardId) => {
+    return api
+      .deleteCard(cardId)
+      .then(() => {
+        const card = document.getElementById(cardId);
+
+        card.remove();
+      })
+      .catch((err) => showError(err, 'console'));
+  }
+);
+
+const cardPopup = new PopupWithForm(config.popup.functionSelector.addCard, (body) =>
+  api
+    .postCard(body)
+    .then((res) => cardList.addItem(res))
+    .catch((err) => showError(err, forms.addCard))
+);
+
+const editProfileValidity = new FormValidator(validationConfig, forms.editProfile);
+editProfileValidity.enableValidation();
+
+const editAvatarValidity = new FormValidator(validationConfig, forms.editAvatar);
+editAvatarValidity.enableValidation();
+
+const addCardValidity = new FormValidator(validationConfig, forms.addCard);
+addCardValidity.enableValidation();
+
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then((res) => {
+    user.setUserInfo(res[0]);
+    const userId = user.getUserInfo()._id;
+
+    cardList = new Section(
+      {
+        items: res[1],
+        renderer: (item) => {
+          const card = new Card(
+            {
+              data: item,
+              userId,
+              handleCardClick: (image) => {
+                imagePopup.open(image);
+              },
+              handleDeleteButtonClicked: (idCard) => {
+                confirmationPopup.open(idCard);
+              },
+              handleLikeButtonClick: (idCard, likeElement, likeCounter) => {
+                if (!likeElement.classList.contains(config.cards.hasLikedClass)) {
+                  api
+                    .addLike(idCard)
+                    .then((card) => {
+                      likeElement.classList.add(config.cards.hasLikedClass);
+                      likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                    })
+                    .catch((err) => showError(err, 'console'));
+                } else {
+                  api
+                    .removeLike(idCard)
+                    .then((card) => {
+                      likeElement.classList.remove(config.cards.hasLikedClass);
+                      likeCounter.textContent = card.likes.length > 0 ? card.likes.length : '';
+                    })
+                    .catch((err) => showError(err, 'console'));
+                }
+              },
+            },
+            config.cards.template
+          );
+
+          return card.createCard();
+        },
+      },
+      config.cards.containerSelector
+    );
+    cardList.renderItems();
   })
-  .catch(err => showError(err));
+  .then(hidePreloader)
+  .catch((err) => showError(err, 'console'));
 
-// Инициализация базовых слушателей на странице
-// (для видимого функционала, без слушателей на отдельных карточках)
-setBasicListeners();
+elements.editProfileButton.addEventListener('click', () => {
+  editProfilePopup.open();
 
-// Активируем валидацию на все формы в проекте
-enableValidation({
-  formSelector: config.popup.formSelector,
-  inputSelector: config.form.inputSelector,
-  submitButtonSelector: config.form.buttonSelector,
-  inactiveButtonClass: config.form.inactiveButtonClass,
-  inputErrorClass: config.form.inputErrorClass,
-  errorClass: config.form.errorMsgVisibleClass,
-  errorMsgPrefix: config.form.errorMsgPrefix
+  const { name, about } = user.getUserInfo();
+  completeFormInputs(name, about);
+
+  editProfileValidity.resetValidation();
+});
+
+elements.editAvatarButton.addEventListener('click', () => {
+  avatarPopup.open();
+  editAvatarValidity.resetValidation();
+});
+
+elements.addCardButton.addEventListener('click', () => {
+  cardPopup.open();
+  addCardValidity.resetValidation();
 });
